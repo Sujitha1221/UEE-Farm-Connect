@@ -77,5 +77,19 @@ export const ProductController = {
           res.status(400).send("failed");
         }
       },
+
+      getProductbyId: async (req, res) => {
+        let id = req.params.id; //get the id from the request(parameter)
+      
+        await Product.findOne({ _id: `${id}` }) //compare the id with the got id and return the details
+          .then((product) => {
+            res.status(200).send({ status: "Product Details fetched", product }); //send response as a json object and a status
+          })
+          .catch((err) => {
+            console.log(err.message);
+      
+            res.status(500).send({ status: "Error with fetching Product details", error: err.message }); //send error message
+          });
+      },
       
   }

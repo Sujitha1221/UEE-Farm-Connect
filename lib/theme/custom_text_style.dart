@@ -12,7 +12,7 @@ class CustomTextStyles {
         fontWeight: FontWeight.w700,
       );
   static get titleLargeGray200ab => theme.textTheme.titleLarge!.copyWith(
-        color: appTheme.gray200Ab,
+        color: appTheme.whiteA700,
         fontWeight: FontWeight.w700,
       );
 }

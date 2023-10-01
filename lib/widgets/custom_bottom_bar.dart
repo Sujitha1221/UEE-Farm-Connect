@@ -38,7 +38,7 @@ class CustomBottomBarState extends State<CustomBottomBar> {
       decoration: BoxDecoration(
         color: theme.colorScheme.primaryContainer.withOpacity(0.2),
         border: Border.all(
-          color: appTheme.gray800,
+          color: appTheme.whiteA700,
           width: 1.h,
         ),
       ),
@@ -91,6 +91,7 @@ class CustomBottomBarState extends State<CustomBottomBar> {
         break;
       case BottomBarEnum.User:
         // Handle User button action
+        Navigator.of(context).pushReplacementNamed('/add_product_page_screen');
         break;
       case BottomBarEnum.Arrowright:
         // Handle Arrowright button action

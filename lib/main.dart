@@ -19,9 +19,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: theme,
-      title: 'form_structure',
+      title: 'Farm Connect',
       debugShowCheckedModeBanner: false,
-      initialRoute: AppRoutes.loginPageScreen,
+      initialRoute: AppRoutes.addProductPageScreen,
       routes: AppRoutes.routes,
     );
   }

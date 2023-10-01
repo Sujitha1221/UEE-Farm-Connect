@@ -4,6 +4,7 @@ import dotenv from 'dotenv';
 import cors from "cors";
 import databaseConnection from "./config/database.mjs";
 import logger from "./utils/logger.mjs";
+import ProductRouter from "./routes/ProductRoute.mjs";
 
 
 const app = express();
@@ -28,3 +29,5 @@ app.listen(PORT, () => {
     databaseConnection();
 })
 
+//routes
+app.use('/product', ProductRouter);

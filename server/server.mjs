@@ -6,7 +6,9 @@ import databaseConnection from "./config/database.mjs";
 import logger from "./utils/logger.mjs";
 import PaymentRoute from "./routes/PaymentRoute.mjs";
 import BiddingRoute from "./routes/BiddingRoute.mjs";
+import cron from "node-cron";
 import Bidding from "./models/Bidding.mjs";
+import axios from "axios";
 
 const app = express();
 const PORT = process.env.PORT || "8080";
@@ -26,6 +28,26 @@ app.use(bodyParser.json());
 
 app.use("/payment", PaymentRoute);
 app.use("/bidding", BiddingRoute);
+
+function myScheduledTask() {
+  const currentTime = new Date();
+  console.log('Task executed in Sri Lankan time' + currentTime);
+
+  axios.get('http://localhost:8080/bidding/expire-bidding')
+  .then((bid) => {
+    return res.json(bid);
+  })
+  .catch((err) => {
+    console.error('Error', error);
+    return res.json({ status: "Error", err });
+  });
+  
+}
+
+cron.schedule('0 1 * * *', myScheduledTask, {
+  scheduled: true,
+  timezone: 'Asia/Colombo'
+});
 
 app.listen(PORT, () => {
   logger.info(`Server is up and running on port ${PORT}`);

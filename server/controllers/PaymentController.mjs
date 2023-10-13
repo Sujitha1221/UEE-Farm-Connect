@@ -11,7 +11,7 @@ export const newPayment = async (req, res) => {
   })
     .then((Payment) => {
       console.log({ status: "Success", Payment });
-      return res.json(Payment);
+      //return res.json(Payment);
     })
     .catch((err) => {
       console.log({ status: "Error", err });
@@ -48,25 +48,40 @@ export const getAllPaymentByUser = async (req, res) => {
 };
 
 export const updatePayment = async (req, res) => {
-  const { userName, amount, type } = req.body;
+  const { userNameTo, userNameFrom, amount } = req.body;
   var paymentTemp;
 
-  Payment.findOne({ userName: userName })
+  Payment.findOne({ userName: userNameTo })
     .then((Payment) => {
-
-      if (type == "credit") {
-        paymentTemp = parseInt(Payment.amount);
-        paymentTemp = paymentTemp + parseInt(amount);
-      } else if (type == "debit") {
-        paymentTemp = parseInt(Payment.amount);
-        paymentTemp = paymentTemp - parseInt(amount);
-      }
+      paymentTemp = parseInt(Payment.amount);
+      paymentTemp = paymentTemp + parseInt(amount);
 
       Payment.amount = paymentTemp;
 
       Payment.save()
         .then((Payment) => {
-          return res.json(Payment);
+          //return res.json(Payment);
+        })
+        .catch((err) => {
+          console.log({ status: "Error", err });
+          return res.json({ status: "Error", err });
+        });
+    })
+    .catch((err) => {
+      console.log({ status: "Error", err });
+      return res.json({ status: "Error", err });
+    });
+
+    Payment.findOne({ userName: userNameFrom })
+    .then((Payment) => {
+      paymentTemp = parseInt(Payment.amount);
+      paymentTemp = paymentTemp - parseInt(amount);
+
+      Payment.amount = paymentTemp;
+
+      Payment.save()
+        .then((Payment) => {
+          return res.json({ status: "Success" });
         })
         .catch((err) => {
           console.log({ status: "Error", err });

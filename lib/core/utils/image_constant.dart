@@ -38,4 +38,11 @@ class ImageConstant {
 
   static String imgCalendar = '$imagePath/img_calendar.png';
 
+  static String imgSearch = '$imagePath/img_search.svg';
+
+  static String imgClose = '$imagePath/img_close.svg';
+
+    static String imgBillmiller1 = '$imagePath/img_billmiller1.png';
+
+
 }

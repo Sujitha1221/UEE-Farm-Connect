@@ -1,59 +1,64 @@
 import 'dart:convert';
-import 'package:flutter_image_compress/flutter_image_compress.dart';
+
 import 'package:flutter/material.dart';
 import 'package:form_structure/core/app_export.dart';
 import 'package:form_structure/widgets/custom_bottom_bar.dart';
 import 'package:form_structure/widgets/custom_elevated_button.dart';
+import 'dart:io';
 import 'package:http/http.dart' as http;
+
 import 'package:form_structure/widgets/custom_text_form_field.dart';
-import 'package:file_picker/file_picker.dart';
-import 'package:image_picker/image_picker.dart';
 
-// ignore: must_be_immutable
-class Product {
+
+
+class Bidding {
+  String farmerUserName;
+  String userName;
   String productName;
-  String farmerName;
-  String quantity;
-  double amountPerkg;
-  String expiryDate;
-  String photo;
+  String weight;
+  String amountPerKg;
+  String totalAmount;
 
-  Product(
-      {required this.productName,
-      required this.farmerName,
-      required this.quantity,
-      required this.amountPerkg,
-      required this.expiryDate,
-      required this.photo});
+  Bidding({
+    required this.farmerUserName,
+    required this.userName,
+    required this.productName,
+    required this.weight,
+    required this.amountPerKg,
+    required this.totalAmount
+  });
 
   Map<String, dynamic> toJson() {
     return {
+      'farmerUserName': farmerUserName,
+      'userName': userName,
       'productName': productName,
-      'farmerName': farmerName,
-      'quantity': quantity,
-      'amountPerkg': amountPerkg,
-      'expiryDate': expiryDate,
-      'photo': photo
+      'weight': weight,
+      'amountPerKg': amountPerKg, 
+      'totalAmount': totalAmount
     };
   }
 }
 
-// ignore: must_be_immutable
-class AddProductPageScreen extends StatelessWidget {
-  AddProductPageScreen({Key? key})
+class RequestBiddingPage extends StatelessWidget {
+  
+  RequestBiddingPage({Key? key})
       : super(
           key: key,
         );
 
   GlobalKey<NavigatorState> navigatorKey = GlobalKey();
 
+  TextEditingController farmerUserNameController = TextEditingController();
+  TextEditingController userNameController = TextEditingController();
   TextEditingController productNameController = TextEditingController();
-  TextEditingController quantityController = TextEditingController();
-  TextEditingController amountPerkgController = TextEditingController();
-  TextEditingController expiryDateController = TextEditingController();
-  TextEditingController photoController = TextEditingController();
+  TextEditingController weightController = TextEditingController();
+  TextEditingController amountPerKgController = TextEditingController();
+  TextEditingController totalAmountController = TextEditingController();
 
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+  
 
   @override
   Widget build(BuildContext context) {
@@ -117,8 +122,7 @@ class AddProductPageScreen extends StatelessWidget {
                             Opacity(
                               opacity: 0.9,
                               child: CustomImageView(
-                                imagePath:
-                                    ImageConstant.imgJagokisanremovebgpreview,
+                                imagePath: ImageConstant.imgJagokisanremovebgpreview,
                                 height: 97.v,
                                 width: 104.h,
                                 radius: BorderRadius.circular(
@@ -148,10 +152,6 @@ class AddProductPageScreen extends StatelessWidget {
                                 top: 13.v,
                                 bottom: 7.v,
                               ),
-                              onTap: (){
-                                Navigator.of(context)
-            .pushReplacementNamed('/home_page_screen');
-                              },
                             ),
                             Opacity(
                               opacity: 0.9,
@@ -161,7 +161,7 @@ class AddProductPageScreen extends StatelessWidget {
                                   top: 10.v,
                                 ),
                                 child: Text(
-                                  "Product Details",
+                                  "Request Bidding",
                                   style: theme.textTheme.headlineSmall,
                                 ),
                               ),
@@ -187,11 +187,11 @@ class AddProductPageScreen extends StatelessWidget {
                         ),
                         hintText: "Product Name",
                         textInputAction: TextInputAction.done,
-                        textInputType: TextInputType.text,
+                        textInputType: TextInputType.emailAddress,
                         prefix: Container(
                           margin: EdgeInsets.fromLTRB(27.h, 15.v, 17.h, 15.v),
                           child: CustomImageView(
-                            imagePath: ImageConstant.imgIrrigation,
+                            svgPath: ImageConstant.imgCalculator,
                           ),
                         ),
                         prefixConstraints: BoxConstraints(
@@ -199,39 +199,19 @@ class AddProductPageScreen extends StatelessWidget {
                         ),
                       ),
                       CustomTextFormField(
-                        controller: quantityController,
+                        controller: weightController,
                         margin: EdgeInsets.only(
                           left: 25.h,
                           top: 52.v,
                           right: 25.h,
                         ),
-                        hintText: "Quantity",
-                        textInputAction: TextInputAction.done,
-                        textInputType: TextInputType.text,
-                        prefix: Container(
-                          margin: EdgeInsets.fromLTRB(27.h, 15.v, 17.h, 15.v),
-                          child: CustomImageView(
-                            imagePath: ImageConstant.imgKitchenscales,
-                          ),
-                        ),
-                        prefixConstraints: BoxConstraints(
-                          maxHeight: 54.v,
-                        ),
-                      ),
-                      CustomTextFormField(
-                        controller: amountPerkgController,
-                        margin: EdgeInsets.only(
-                          left: 25.h,
-                          top: 52.v,
-                          right: 25.h,
-                        ),
-                        hintText: "Amount Per kg",
+                        hintText: "Weight",
                         textInputAction: TextInputAction.done,
                         textInputType: TextInputType.number,
                         prefix: Container(
                           margin: EdgeInsets.fromLTRB(27.h, 15.v, 17.h, 15.v),
                           child: CustomImageView(
-                            imagePath: ImageConstant.imgUsDollarCircled,
+                            svgPath: ImageConstant.imgCalculator,
                           ),
                         ),
                         prefixConstraints: BoxConstraints(
@@ -239,56 +219,58 @@ class AddProductPageScreen extends StatelessWidget {
                         ),
                       ),
                       CustomTextFormField(
-                        controller: expiryDateController,
+                        controller: amountPerKgController,
                         margin: EdgeInsets.only(
                           left: 25.h,
                           top: 52.v,
                           right: 25.h,
                         ),
-                        hintText: "Expiry Date",
+                        hintText: "Amount Per KG",
                         textInputAction: TextInputAction.done,
                         textInputType: TextInputType.number,
                         prefix: Container(
                           margin: EdgeInsets.fromLTRB(27.h, 15.v, 17.h, 15.v),
                           child: CustomImageView(
-                            imagePath: ImageConstant.imgCalendar,
+                            svgPath: ImageConstant.imgCalculator,
                           ),
                         ),
                         prefixConstraints: BoxConstraints(
                           maxHeight: 54.v,
                         ),
                       ),
-
+                      CustomTextFormField(
+                        controller: totalAmountController,
+                        margin: EdgeInsets.only(
+                          left: 25.h,
+                          top: 52.v,
+                          right: 25.h,
+                        ),
+                        hintText: "Total Amount",
+                        textInputAction: TextInputAction.done,
+                        textInputType: TextInputType.number,
+                        prefix: Container(
+                          margin: EdgeInsets.fromLTRB(27.h, 15.v, 17.h, 15.v),
+                          child: CustomImageView(
+                            svgPath: ImageConstant.imgCalculator,
+                          ),
+                        ),
+                        prefixConstraints: BoxConstraints(
+                          maxHeight: 54.v,
+                        ),
+                      ),
+           
+           
+             
+          
                       CustomElevatedButton(
-                          onTap: () async {
-    String? photo =await pickAndConvertImage();
-    if (photo != null) {
-      photoController.text = photo;
-      
-      // Handle the base64-encoded image string, e.g., send it to a server or display it in your UI
-      // You can use Image.memory to display the image in your UI
-      // Image.memory(base64Decode(base64Image))
-    }
-  },
-
-                          text: 'Pick an Image',
-                          margin: EdgeInsets.fromLTRB(100.h, 30.v, 100.h, 5.v)),
-
-                      CustomElevatedButton(
-                        text: "ADD",
-                        margin: EdgeInsets.fromLTRB(37.h, 20.v, 23.h, 5.v),
-                        onTap: () {
-    final product = Product(
-      productName: productNameController.text,
-      farmerName: "Sajeevan Siva",
-      quantity: quantityController.text, 
-      amountPerkg: double.parse(amountPerkgController.text),
-      expiryDate: expiryDateController.text,
-      photo: photoController.text
-    );
-
-   createProduct(product);
-  },
+                        text: "Request Bidding ",
+                        margin: EdgeInsets.fromLTRB(37.h, 79.v, 23.h, 5.v),
+                        onTap: (){
+                                Navigator.of(context)
+            .pushReplacementNamed('/test');
+                              },
+                        
+                     
                       ),
                     ],
                   ),
@@ -304,52 +286,25 @@ class AddProductPageScreen extends StatelessWidget {
     );
   }
 
-Future<String?> pickAndConvertImage() async {
-  final picker = ImagePicker();
-  final pickedImage = await picker.pickImage(source: ImageSource.gallery);
-
-  if (pickedImage != null) {
-    // Compress the selected image
-    final compressedImageBytes = await FlutterImageCompress.compressWithFile(
-      pickedImage.path,
-      quality: 70, // Set the desired image quality (0 to 100)
-    );
-
-    // Encode the compressed image bytes to a Base64-encoded string
-    final base64String = base64Encode(compressedImageBytes!);
-    print(base64String);
-
-    return base64String;
-  }
-
-  return null; // Return null if no image is selected
-}
-
-
-
-
-Future createProduct(Product product) async {
+Future requestBidding(Bidding bidding) async {
 
   try {
     final response = await http.post(
-      Uri.parse('http://192.168.56.1:8080/product/add'),
+      Uri.parse('http://192.168.56.1:8080/user/add'),
       headers: {'Content-Type': 'application/json'},
-      body: jsonEncode(product.toJson()), // Convert User object to JSON
+      body: jsonEncode(bidding.toJson()), 
     );
 
-    if (response.statusCode == 200) {
-      // Successful request
+    if (response.body != null) {
       return response.body;
     } else {
-      // Handle error responses here
       print('Request failed with status: ${response.statusCode}');
       print('Response body: ${response.body}');
-      throw Exception('Failed to create product');
+      throw Exception('Failed to create bidding');
     }
   } catch (e) {
-    // Handle network errors or other exceptions here
     print('Error: $e');
-    throw Exception('Failed to create product (out)');
+    throw Exception('Failed to request bidding', );
   }
 }
 }

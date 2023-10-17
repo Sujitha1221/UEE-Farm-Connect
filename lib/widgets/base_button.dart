@@ -13,6 +13,7 @@ class BaseButton extends StatelessWidget {
     this.width,
     this.margin,
     this.alignment,
+    
   }) : super(
           key: key,
         );

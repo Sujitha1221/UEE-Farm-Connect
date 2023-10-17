@@ -6,7 +6,7 @@ export const newPayment = async (req, res) => {
   Payment.create({
     userName: userNameFrom,
     amount,
-    type: "credit",
+    type: "Send",
     transactionDateTime: new Date(),
   })
     .then((Payment) => {
@@ -21,7 +21,7 @@ export const newPayment = async (req, res) => {
     Payment.create({
       userName: userNameTo,
       amount,
-      type: "debit",
+      type: "Receive",
       transactionDateTime: new Date(),
     })
       .then((Payment) => {

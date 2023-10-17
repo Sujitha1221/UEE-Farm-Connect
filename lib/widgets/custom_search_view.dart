@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:form_structure/core/app_export.dart';
+import 'package:flutter/material.dart';
+import 'package:form_structure/core/utils/size_utils.dart';
+import 'package:form_structure/theme/theme_helper.dart';
 
-class CustomTextFormField extends StatelessWidget {
-  CustomTextFormField({
+
+class CustomSearchView extends StatelessWidget {
+  CustomSearchView({
     Key? key,
     this.alignment,
     this.width,
@@ -11,8 +14,6 @@ class CustomTextFormField extends StatelessWidget {
     this.focusNode,
     this.autofocus = true,
     this.textStyle,
-    this.obscureText = false,
-    this.textInputAction = TextInputAction.next,
     this.textInputType = TextInputType.text,
     this.maxLines,
     this.hintText,
@@ -25,7 +26,7 @@ class CustomTextFormField extends StatelessWidget {
     this.borderDecoration,
     this.fillColor,
     this.filled = true,
-    this.validator, Null Function()? onTap, Null Function()? onPressed, Null Function()? onChange,
+    this.validator,
   }) : super(
           key: key,
         );
@@ -43,10 +44,6 @@ class CustomTextFormField extends StatelessWidget {
   final bool? autofocus;
 
   final TextStyle? textStyle;
-
-  final bool? obscureText;
-
-  final TextInputAction? textInputAction;
 
   final TextInputType? textInputType;
 
@@ -79,12 +76,12 @@ class CustomTextFormField extends StatelessWidget {
     return alignment != null
         ? Align(
             alignment: alignment ?? Alignment.center,
-            child: textFormFieldWidget,
+            child: searchViewWidget,
           )
-        : textFormFieldWidget;
+        : searchViewWidget;
   }
 
-  Widget get textFormFieldWidget => Container(
+  Widget get searchViewWidget => Container(
         width: width ?? double.maxFinite,
         margin: margin,
         child: TextFormField(
@@ -92,8 +89,6 @@ class CustomTextFormField extends StatelessWidget {
           focusNode: focusNode ?? FocusNode(),
           autofocus: autofocus!,
           style: textStyle ?? theme.textTheme.titleLarge,
-          obscureText: obscureText!,
-          textInputAction: textInputAction,
           keyboardType: textInputType,
           maxLines: maxLines ?? 1,
           decoration: decoration,
@@ -105,38 +100,45 @@ class CustomTextFormField extends StatelessWidget {
         hintStyle: hintStyle ?? theme.textTheme.titleLarge,
         prefixIcon: prefix,
         prefixIconConstraints: prefixConstraints,
-        suffixIcon: suffix,
+        suffixIcon: suffix ??
+            Padding(
+              padding: EdgeInsets.only(
+                right: 15.h,
+              ),
+              child: IconButton(
+                onPressed: () => controller!.clear(),
+                icon: Icon(
+                  Icons.clear,
+                  color: Colors.black,
+                ),
+              ),
+            ),
         suffixIconConstraints: suffixConstraints,
         isDense: true,
-        contentPadding: contentPadding ??
-            EdgeInsets.only(
-              top: 12.v,
-              right: 12.h,
-              bottom: 12.v,
-            ),
-        fillColor: fillColor ?? appTheme.whiteA700,
+        contentPadding: contentPadding ?? EdgeInsets.symmetric(vertical: 5.v),
+        fillColor: fillColor ?? appTheme.blueGray100,
         filled: filled,
         border: borderDecoration ??
             OutlineInputBorder(
-              borderRadius: BorderRadius.circular(26.h),
+              borderRadius: BorderRadius.circular(20.h),
               borderSide: BorderSide(
-                color: appTheme.green900,
+                color: appTheme.blueGray100,
                 width: 1,
               ),
             ),
         enabledBorder: borderDecoration ??
             OutlineInputBorder(
-              borderRadius: BorderRadius.circular(26.h),
+              borderRadius: BorderRadius.circular(20.h),
               borderSide: BorderSide(
-                color: appTheme.green900,
+                color: appTheme.blueGray100,
                 width: 1,
               ),
             ),
         focusedBorder: borderDecoration ??
             OutlineInputBorder(
-              borderRadius: BorderRadius.circular(26.h),
+              borderRadius: BorderRadius.circular(20.h),
               borderSide: BorderSide(
-                color: appTheme.green900,
+                color: appTheme.blueGray100,
                 width: 1,
               ),
             ),

@@ -26,6 +26,22 @@ class AppDecoration {
           ),
         ],
       );
+
+      static BoxDecoration get outlineSecondaryContainer1 => BoxDecoration(
+        color: appTheme.blueGray100,
+        border: Border.all(
+          color: theme.colorScheme.secondaryContainer,
+          width: 1.h,
+        ),
+      );
+
+      static BoxDecoration get outlineGray => BoxDecoration(
+        color: appTheme.blueGray10082,
+        border: Border.all(
+          color: appTheme.gray600,
+          width: 1.h,
+        ),
+      );
 }
 
 class BorderRadiusStyle {
@@ -35,6 +51,9 @@ class BorderRadiusStyle {
       );
   static BorderRadius get roundedBorder48 => BorderRadius.circular(
         48.h,
+      );
+      static BorderRadius get roundedBorder18 => BorderRadius.circular(
+        18.h,
       );
 }
 

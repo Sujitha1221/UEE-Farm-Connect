@@ -44,7 +44,7 @@ function myScheduledTask() {
   
 }
 
-cron.schedule('0 1 * * *', myScheduledTask, {
+cron.schedule('55 23 * * *', myScheduledTask, {
   scheduled: true,
   timezone: 'Asia/Colombo'
 });

@@ -96,7 +96,7 @@ export const newBidding = async (req, res) => {
   export const acceptBidding = async (req, res) => {
     const { id } = req.body;
   
-    Bidding.findById(_id)
+    Bidding.findById(id)
     .then((Bidding) => {
       if (!Bidding) return res.json({ status: "No bidding found" });
       else {

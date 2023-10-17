@@ -4,53 +4,78 @@ import 'package:flutter/material.dart';
 import 'package:form_structure/core/app_export.dart';
 import 'package:form_structure/widgets/custom_bottom_bar.dart';
 import 'package:form_structure/widgets/custom_elevated_button.dart';
+import 'dart:io';
 import 'package:http/http.dart' as http;
+
 import 'package:form_structure/widgets/custom_text_form_field.dart';
 
+import '../../widgets/custom_search_view.dart';
 
+class Bidding {
+  String farmerUserName;
+  String userName;
+  String productName;
+  String weight;
+  String amountPerKg;
+  String totalAmount;
 
-
-// ignore: must_be_immutable
-class User {
-  String firstname;
-  String lastname;
-  String email;
-  String password;
-
-  User({
-    required this.firstname,
-    required this.lastname,
-    required this.email,
-    required this.password,
-  });
+  Bidding(
+      {required this.farmerUserName,
+      required this.userName,
+      required this.productName,
+      required this.weight,
+      required this.amountPerKg,
+      required this.totalAmount});
 
   Map<String, dynamic> toJson() {
     return {
-      'firstname': firstname,
-      'lastname': lastname,
-      'email': email,
-      'password': password,
+      'farmerUserName': farmerUserName,
+      'userName': userName,
+      'productName': productName,
+      'weight': weight,
+      'amountPerKg': amountPerKg,
+      'totalAmount': totalAmount
     };
   }
 }
 
-class HomePageScreen extends StatelessWidget {
-  
-  HomePageScreen({Key? key})
+class RequestBiddingPage extends StatefulWidget {
+  RequestBiddingPage({Key? key})
       : super(
           key: key,
         );
 
+  @override
+  _RBScreenState createState() => _RBScreenState();
+}
+
+class _RBScreenState extends State<RequestBiddingPage> {
+  List<Map<String, dynamic>> biddingList = [];
+  late http.Client client;
+
+  @override
+  void initState() {
+    super.initState();
+    client = http.Client();
+
+    @override
+    void initState() {
+      super.initState();
+      client = http.Client();
+    }
+  }
+
   GlobalKey<NavigatorState> navigatorKey = GlobalKey();
 
-  TextEditingController emailController = TextEditingController();
-  TextEditingController firstnameController = TextEditingController();
-  TextEditingController lastnameController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
+  TextEditingController farmerUserNameController = TextEditingController();
+  TextEditingController userNameController = TextEditingController();
+  TextEditingController productNameController =
+      TextEditingController(text: "productName");
+  TextEditingController weightController = TextEditingController(text: "32");
+  TextEditingController amountPerKgController = TextEditingController();
+  TextEditingController totalAmountController = TextEditingController();
 
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-
-  
 
   @override
   Widget build(BuildContext context) {
@@ -114,7 +139,8 @@ class HomePageScreen extends StatelessWidget {
                             Opacity(
                               opacity: 0.9,
                               child: CustomImageView(
-                                imagePath: ImageConstant.imgJagokisanremovebgpreview,
+                                imagePath:
+                                    ImageConstant.imgJagokisanremovebgpreview,
                                 height: 97.v,
                                 width: 104.h,
                                 radius: BorderRadius.circular(
@@ -153,7 +179,7 @@ class HomePageScreen extends StatelessWidget {
                                   top: 10.v,
                                 ),
                                 child: Text(
-                                  "Login Your Account",
+                                  "Request Bidding",
                                   style: theme.textTheme.headlineSmall,
                                 ),
                               ),
@@ -171,19 +197,19 @@ class HomePageScreen extends StatelessWidget {
                         ),
                       ),
                       CustomTextFormField(
-                        controller: firstnameController,
+                        controller: productNameController,
                         margin: EdgeInsets.only(
                           left: 25.h,
                           top: 52.v,
                           right: 25.h,
                         ),
-                        hintText: "First name",
+                        hintText: "Product Name",
                         textInputAction: TextInputAction.done,
                         textInputType: TextInputType.emailAddress,
                         prefix: Container(
                           margin: EdgeInsets.fromLTRB(27.h, 15.v, 17.h, 15.v),
                           child: CustomImageView(
-                            svgPath: ImageConstant.imgCalculator,
+                            imagePath: ImageConstant.imgIrrigation,
                           ),
                         ),
                         prefixConstraints: BoxConstraints(
@@ -191,19 +217,19 @@ class HomePageScreen extends StatelessWidget {
                         ),
                       ),
                       CustomTextFormField(
-                        controller: lastnameController,
+                        controller: weightController,
                         margin: EdgeInsets.only(
                           left: 25.h,
                           top: 52.v,
                           right: 25.h,
                         ),
-                        hintText: "Last name",
+                        hintText: "Weight",
                         textInputAction: TextInputAction.done,
-                        textInputType: TextInputType.emailAddress,
+                        textInputType: TextInputType.number,
                         prefix: Container(
                           margin: EdgeInsets.fromLTRB(27.h, 15.v, 17.h, 15.v),
                           child: CustomImageView(
-                            svgPath: ImageConstant.imgCalculator,
+                            imagePath: ImageConstant.imgKitchenscales,
                           ),
                         ),
                         prefixConstraints: BoxConstraints(
@@ -211,64 +237,73 @@ class HomePageScreen extends StatelessWidget {
                         ),
                       ),
                       CustomTextFormField(
-                        controller: emailController,
+                        controller: amountPerKgController,
                         margin: EdgeInsets.only(
                           left: 25.h,
                           top: 52.v,
                           right: 25.h,
                         ),
-                        hintText: "Email Address",
+                        hintText: "Amount Per KG",
                         textInputAction: TextInputAction.done,
-                        textInputType: TextInputType.emailAddress,
+                        textInputType: TextInputType.number,
                         prefix: Container(
                           margin: EdgeInsets.fromLTRB(27.h, 15.v, 17.h, 15.v),
                           child: CustomImageView(
-                            svgPath: ImageConstant.imgCalculator,
+                            imagePath: ImageConstant.imgUsDollarCircled,
                           ),
                         ),
                         prefixConstraints: BoxConstraints(
                           maxHeight: 54.v,
                         ),
                       ),
-                      CustomTextFormField(
-                        controller: passwordController,
+                      CustomSearchView(
                         margin: EdgeInsets.only(
                           left: 25.h,
                           top: 52.v,
                           right: 25.h,
                         ),
-                        hintText: "Password",
-                        textInputAction: TextInputAction.done,
-                        textInputType: TextInputType.emailAddress,
+                        controller: totalAmountController,
+                        hintText: "Total Amount",
+                        hintStyle: CustomTextStyles.titleBlack,
                         prefix: Container(
-                          margin: EdgeInsets.fromLTRB(27.h, 15.v, 17.h, 15.v),
+                          margin: EdgeInsets.fromLTRB(14.h, 10.v, 5.h, 10.v),
                           child: CustomImageView(
-                            svgPath: ImageConstant.imgCalculator,
+                            imagePath: ImageConstant.imgUsDollarCircled,
+                            color: Colors.black,
                           ),
                         ),
                         prefixConstraints: BoxConstraints(
-                          maxHeight: 54.v,
+                          maxHeight: 41.v,
+                        ),
+                        suffix: Container(
+                          margin: EdgeInsets.fromLTRB(30.h, 8.v, 15.h, 8.v),
+                          child: CustomImageView(
+                            svgPath: ImageConstant.imgCalculator,
+                            color: Colors.black,
+                            onTap: () => {
+                              calculateTotalAmount()
+                            },
+                          ),
+                        ),
+                        suffixConstraints: BoxConstraints(
+                          maxHeight: 41.v,
                         ),
                       ),
-           
-           
-             
-          
                       CustomElevatedButton(
-  text: "LOGIN",
-  margin: EdgeInsets.fromLTRB(37.h, 79.v, 23.h, 5.v),
-  onTap: () {
-    final user = User(
-      firstname: firstnameController.text,
-      lastname: lastnameController.text, 
-      email: emailController.text,
-      password: passwordController.text,
-    );
-
-   createUser(user);
-  },
-),
-
+                        text: "Request Bidding ",
+                        margin: EdgeInsets.fromLTRB(37.h, 79.v, 23.h, 5.v),
+                        onTap: () {
+                          final bidding = Bidding(
+                              farmerUserName: "productNameController.text",
+                              userName: "Sajeevan Siva",
+                              productName: productNameController.text,
+                              amountPerKg: amountPerKgController.text,
+                              totalAmount: totalAmountController.text,
+                              weight: weightController.text);
+                          requestBidding(bidding);
+                          makePayment(bidding);
+                        },
+                      ),
                     ],
                   ),
                 ),
@@ -283,55 +318,80 @@ class HomePageScreen extends StatelessWidget {
     );
   }
 
-Future createUser(User user) async {
-
-  try {
-    final response = await http.post(
-      Uri.parse('http://192.168.56.1:8080/user/add'),
-      headers: {'Content-Type': 'application/json'},
-      body: jsonEncode(user.toJson()), // Convert User object to JSON
-    );
-
-    if (response.statusCode == 200) {
-      // Successful request
-      return response.body;
-    } else {
-      // Handle error responses here
-      print('Request failed with status: ${response.statusCode}');
-      print('Response body: ${response.body}');
-      throw Exception('Failed to create user');
-    }
-  } catch (e) {
-    // Handle network errors or other exceptions here
-    print('Error: $e');
-    throw Exception('Failed to create user1111111');
+  void calculateTotalAmount() {
+    double amountPerKg = double.tryParse(amountPerKgController.text) ?? 0;
+    double weight = double.tryParse(weightController.text) ?? 0;
+    double totalAmount = weight * amountPerKg;
+    totalAmountController.text = totalAmount.toString();
+    print('Total Amount: $totalAmount');
   }
-}
 
-// Future getUser(User user) async {
+  Future requestBidding(Bidding bidding) async {
+    try {
+      final response = await http.post(
+        Uri.parse('http://192.168.56.1:8080/payment/new-payment'),
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode({
+        "userNameTo" : bidding.farmerUserName,
+        "userNameFrom": bidding.userName,
+        "amount": bidding.totalAmount}),
+      );
 
-//   try {
-//     final response = await http.get(
-//       Uri.parse('http://192.168.56.1:8080/user/'),
-//       headers: {'Content-Type': 'application/json'}
-      
-//       // Convert User object to JSON
-//     );
-//     print(response.body);
+      if (response.body != null) {
+        return response.body;
+      } else {
+        print('Request failed with status: ${response.statusCode}');
+        print('Response body: ${response.body}');
+        throw Exception('Failed to create bidding');
+      }
+    } catch (e) {
+      print('Error: $e');
+      throw Exception(
+        'Failed to request bidding',
+      );
+    }
+  }
 
-//     if (response.statusCode == 200) {
-//       // Successful request
-//       return response.body;
-//     } else {
-//       // Handle error responses here
-//       print('Request failed with status: ${response.statusCode}');
-//       print('Response body: ${response.body}');
-//       throw Exception('Failed to create user');
-//     }
-//   } catch (e) {
-//     // Handle network errors or other exceptions here
-//     print('Error: $e');
-//     throw Exception('Failed to create user1111111');
-//   }
-// }
+  Future makePayment(Bidding bidding) async {
+    try {
+      final response = await http.post(
+        Uri.parse('http://192.168.56.1:8080/bidding/new-bidding'),
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode(bidding.toJson()),
+      );
+
+      if (response.body != null) {
+        return response.body;
+      } else {
+        print('Request failed with status: ${response.statusCode}');
+        print('Response body: ${response.body}');
+        throw Exception('Failed to create bidding');
+      }
+    } catch (e) {
+      print('Error: $e');
+      throw Exception(
+        'Failed to request bidding',
+      );
+    }
+  }
+
+  void _showAlertDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Alert Dialog'),
+          content: Text("bidding.toJson().toString()"),
+          actions: <Widget>[
+            TextButton(
+              child: Text('OK'),
+              onPressed: () {
+                Navigator.of(context).pop(); // Close the alert dialog
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
 }

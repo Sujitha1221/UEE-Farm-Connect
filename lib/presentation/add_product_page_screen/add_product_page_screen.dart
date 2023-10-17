@@ -1,56 +1,59 @@
 import 'dart:convert';
-
+import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:flutter/material.dart';
 import 'package:form_structure/core/app_export.dart';
 import 'package:form_structure/widgets/custom_bottom_bar.dart';
 import 'package:form_structure/widgets/custom_elevated_button.dart';
 import 'package:http/http.dart' as http;
 import 'package:form_structure/widgets/custom_text_form_field.dart';
-
-
-
+import 'package:file_picker/file_picker.dart';
+import 'package:image_picker/image_picker.dart';
 
 // ignore: must_be_immutable
-class User {
-  String firstname;
-  String lastname;
-  String email;
-  String password;
+class Product {
+  String productName;
+  String farmerName;
+  String quantity;
+  double amountPerkg;
+  String expiryDate;
+  String photo;
 
-  User({
-    required this.firstname,
-    required this.lastname,
-    required this.email,
-    required this.password,
-  });
+  Product(
+      {required this.productName,
+      required this.farmerName,
+      required this.quantity,
+      required this.amountPerkg,
+      required this.expiryDate,
+      required this.photo});
 
   Map<String, dynamic> toJson() {
     return {
-      'firstname': firstname,
-      'lastname': lastname,
-      'email': email,
-      'password': password,
+      'productName': productName,
+      'farmerName': farmerName,
+      'quantity': quantity,
+      'amountPerkg': amountPerkg,
+      'expiryDate': expiryDate,
+      'photo': photo
     };
   }
 }
 
-class HomePageScreen extends StatelessWidget {
-  
-  HomePageScreen({Key? key})
+// ignore: must_be_immutable
+class AddProductPageScreen extends StatelessWidget {
+  AddProductPageScreen({Key? key})
       : super(
           key: key,
         );
 
   GlobalKey<NavigatorState> navigatorKey = GlobalKey();
 
-  TextEditingController emailController = TextEditingController();
-  TextEditingController firstnameController = TextEditingController();
-  TextEditingController lastnameController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
+  TextEditingController productNameController = TextEditingController();
+  TextEditingController quantityController = TextEditingController();
+  TextEditingController amountPerkgController = TextEditingController();
+  TextEditingController expiryDateController = TextEditingController();
+  TextEditingController photoController = TextEditingController();
 
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-
-  
 
   @override
   Widget build(BuildContext context) {
@@ -114,7 +117,8 @@ class HomePageScreen extends StatelessWidget {
                             Opacity(
                               opacity: 0.9,
                               child: CustomImageView(
-                                imagePath: ImageConstant.imgJagokisanremovebgpreview,
+                                imagePath:
+                                    ImageConstant.imgJagokisanremovebgpreview,
                                 height: 97.v,
                                 width: 104.h,
                                 radius: BorderRadius.circular(
@@ -144,6 +148,10 @@ class HomePageScreen extends StatelessWidget {
                                 top: 13.v,
                                 bottom: 7.v,
                               ),
+                              onTap: (){
+                                Navigator.of(context)
+            .pushReplacementNamed('/home_page_screen');
+                              },
                             ),
                             Opacity(
                               opacity: 0.9,
@@ -153,7 +161,7 @@ class HomePageScreen extends StatelessWidget {
                                   top: 10.v,
                                 ),
                                 child: Text(
-                                  "Login Your Account",
+                                  "Product Details",
                                   style: theme.textTheme.headlineSmall,
                                 ),
                               ),
@@ -171,19 +179,19 @@ class HomePageScreen extends StatelessWidget {
                         ),
                       ),
                       CustomTextFormField(
-                        controller: firstnameController,
+                        controller: productNameController,
                         margin: EdgeInsets.only(
                           left: 25.h,
                           top: 52.v,
                           right: 25.h,
                         ),
-                        hintText: "First name",
+                        hintText: "Product Name",
                         textInputAction: TextInputAction.done,
-                        textInputType: TextInputType.emailAddress,
+                        textInputType: TextInputType.text,
                         prefix: Container(
                           margin: EdgeInsets.fromLTRB(27.h, 15.v, 17.h, 15.v),
                           child: CustomImageView(
-                            svgPath: ImageConstant.imgCalculator,
+                            imagePath: ImageConstant.imgIrrigation,
                           ),
                         ),
                         prefixConstraints: BoxConstraints(
@@ -191,19 +199,19 @@ class HomePageScreen extends StatelessWidget {
                         ),
                       ),
                       CustomTextFormField(
-                        controller: lastnameController,
+                        controller: quantityController,
                         margin: EdgeInsets.only(
                           left: 25.h,
                           top: 52.v,
                           right: 25.h,
                         ),
-                        hintText: "Last name",
+                        hintText: "Quantity",
                         textInputAction: TextInputAction.done,
-                        textInputType: TextInputType.emailAddress,
+                        textInputType: TextInputType.text,
                         prefix: Container(
                           margin: EdgeInsets.fromLTRB(27.h, 15.v, 17.h, 15.v),
                           child: CustomImageView(
-                            svgPath: ImageConstant.imgCalculator,
+                            imagePath: ImageConstant.imgKitchenscales,
                           ),
                         ),
                         prefixConstraints: BoxConstraints(
@@ -211,19 +219,19 @@ class HomePageScreen extends StatelessWidget {
                         ),
                       ),
                       CustomTextFormField(
-                        controller: emailController,
+                        controller: amountPerkgController,
                         margin: EdgeInsets.only(
                           left: 25.h,
                           top: 52.v,
                           right: 25.h,
                         ),
-                        hintText: "Email Address",
+                        hintText: "Amount Per kg",
                         textInputAction: TextInputAction.done,
-                        textInputType: TextInputType.emailAddress,
+                        textInputType: TextInputType.number,
                         prefix: Container(
                           margin: EdgeInsets.fromLTRB(27.h, 15.v, 17.h, 15.v),
                           child: CustomImageView(
-                            svgPath: ImageConstant.imgCalculator,
+                            imagePath: ImageConstant.imgUsDollarCircled,
                           ),
                         ),
                         prefixConstraints: BoxConstraints(
@@ -231,44 +239,57 @@ class HomePageScreen extends StatelessWidget {
                         ),
                       ),
                       CustomTextFormField(
-                        controller: passwordController,
+                        controller: expiryDateController,
                         margin: EdgeInsets.only(
                           left: 25.h,
                           top: 52.v,
                           right: 25.h,
                         ),
-                        hintText: "Password",
+                        hintText: "Expiry Date",
                         textInputAction: TextInputAction.done,
-                        textInputType: TextInputType.emailAddress,
+                        textInputType: TextInputType.number,
                         prefix: Container(
                           margin: EdgeInsets.fromLTRB(27.h, 15.v, 17.h, 15.v),
                           child: CustomImageView(
-                            svgPath: ImageConstant.imgCalculator,
+                            imagePath: ImageConstant.imgCalendar,
                           ),
                         ),
                         prefixConstraints: BoxConstraints(
                           maxHeight: 54.v,
                         ),
                       ),
-           
-           
-             
-          
+
                       CustomElevatedButton(
-  text: "LOGIN",
-  margin: EdgeInsets.fromLTRB(37.h, 79.v, 23.h, 5.v),
-  onTap: () {
-    final user = User(
-      firstname: firstnameController.text,
-      lastname: lastnameController.text, 
-      email: emailController.text,
-      password: passwordController.text,
+                          onTap: () async {
+    String? photo =await pickAndConvertImage();
+    if (photo != null) {
+      photoController.text = photo;
+      
+      // Handle the base64-encoded image string, e.g., send it to a server or display it in your UI
+      // You can use Image.memory to display the image in your UI
+      // Image.memory(base64Decode(base64Image))
+    }
+  },
+
+                          text: 'Pick an Image',
+                          margin: EdgeInsets.fromLTRB(100.h, 30.v, 100.h, 5.v)),
+
+                      CustomElevatedButton(
+                        text: "ADD",
+                        margin: EdgeInsets.fromLTRB(37.h, 20.v, 23.h, 5.v),
+                        onTap: () {
+    final product = Product(
+      productName: productNameController.text,
+      farmerName: "Sajeevan Siva",
+      quantity: quantityController.text, 
+      amountPerkg: double.parse(amountPerkgController.text),
+      expiryDate: expiryDateController.text,
+      photo: photoController.text
     );
 
-   createUser(user);
+   createProduct(product);
   },
-),
-
+                      ),
                     ],
                   ),
                 ),
@@ -283,13 +304,37 @@ class HomePageScreen extends StatelessWidget {
     );
   }
 
-Future createUser(User user) async {
+Future<String?> pickAndConvertImage() async {
+  final picker = ImagePicker();
+  final pickedImage = await picker.pickImage(source: ImageSource.gallery);
+
+  if (pickedImage != null) {
+    // Compress the selected image
+    final compressedImageBytes = await FlutterImageCompress.compressWithFile(
+      pickedImage.path,
+      quality: 70, // Set the desired image quality (0 to 100)
+    );
+
+    // Encode the compressed image bytes to a Base64-encoded string
+    final base64String = base64Encode(compressedImageBytes!);
+    print(base64String);
+
+    return base64String;
+  }
+
+  return null; // Return null if no image is selected
+}
+
+
+
+
+Future createProduct(Product product) async {
 
   try {
     final response = await http.post(
-      Uri.parse('http://192.168.56.1:8080/user/add'),
+      Uri.parse('http://192.168.56.1:8080/product/add'),
       headers: {'Content-Type': 'application/json'},
-      body: jsonEncode(user.toJson()), // Convert User object to JSON
+      body: jsonEncode(product.toJson()), // Convert User object to JSON
     );
 
     if (response.statusCode == 200) {
@@ -299,39 +344,12 @@ Future createUser(User user) async {
       // Handle error responses here
       print('Request failed with status: ${response.statusCode}');
       print('Response body: ${response.body}');
-      throw Exception('Failed to create user');
+      throw Exception('Failed to create product');
     }
   } catch (e) {
     // Handle network errors or other exceptions here
     print('Error: $e');
-    throw Exception('Failed to create user1111111');
+    throw Exception('Failed to create product (out)');
   }
 }
-
-// Future getUser(User user) async {
-
-//   try {
-//     final response = await http.get(
-//       Uri.parse('http://192.168.56.1:8080/user/'),
-//       headers: {'Content-Type': 'application/json'}
-      
-//       // Convert User object to JSON
-//     );
-//     print(response.body);
-
-//     if (response.statusCode == 200) {
-//       // Successful request
-//       return response.body;
-//     } else {
-//       // Handle error responses here
-//       print('Request failed with status: ${response.statusCode}');
-//       print('Response body: ${response.body}');
-//       throw Exception('Failed to create user');
-//     }
-//   } catch (e) {
-//     // Handle network errors or other exceptions here
-//     print('Error: $e');
-//     throw Exception('Failed to create user1111111');
-//   }
-// }
 }

@@ -7,13 +7,15 @@ import {
     getHistoryByFarmerId,
     getHistoryByUserId,
     rejectBidding,
-    expireBidding
+    expireBidding,
+    acceptBidding
 
  } from "../controllers/BiddingController.mjs";
 
 const route = Router();
 
 route.post("/new-bidding", newBidding);
+route.put("/accept-bidding", acceptBidding);
 route.get("/get-pending-farmer/:farmerUserName", getPendingByFarmerId);
 route.get("/get-pending-user/:userName", getPendingByUserId);
 route.get("/get-history-farmer/:farmerUserName", getHistoryByFarmerId);

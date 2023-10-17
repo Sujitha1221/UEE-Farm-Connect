@@ -188,6 +188,7 @@ class _RBScreenState extends State<RequestBiddingPage> {
                               imagePath: ImageConstant.imgUnverifiedaccount,
                               height: 46.v,
                               width: 52.h,
+                              onTap: () => _showAlertDialog(context),
                               margin: EdgeInsets.only(
                                 left: 2.h,
                                 bottom: 2.v,
@@ -380,8 +381,8 @@ class _RBScreenState extends State<RequestBiddingPage> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Alert Dialog'),
-          content: Text("bidding.toJson().toString()"),
+          title: Text(''),
+          content: Image.asset('./././assets/images/RequstBiddingInfo.png'),
           actions: <Widget>[
             TextButton(
               child: Text('OK'),

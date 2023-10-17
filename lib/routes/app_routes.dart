@@ -33,7 +33,7 @@ class AppRoutes {
     loginPageScreen: (context) => LoginPageScreen(),
     homePageScreen: (context) => HomePageScreen(),
     addProductPageScreen:(context) => AddProductPageScreen(),
-    viewProductPageUserScreen:(context) => ViewCurrentBiddingFarmerPage(),
+    viewProductPageUserScreen:(context) => RequestBiddingPage(),
     RequestBiddingScreen:(context) =>RequestBiddingPage(),
     ViewCurrentBiddingFarmerScreen:(context) => ViewCurrentBiddingFarmerPage(),
     ViewBiddingFarmerScreen: (context) => ViewBiddingFarmerPage(),

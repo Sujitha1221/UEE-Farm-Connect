@@ -227,7 +227,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                         prefix: Container(
                           margin: EdgeInsets.fromLTRB(27.h, 15.v, 17.h, 15.v),
                           child: CustomImageView(
-                            svgPath: ImageConstant.imgCalculator,
+                            svgPath: ImageConstant.email,
                           ),
                         ),
                         prefixConstraints: BoxConstraints(
@@ -247,7 +247,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                         prefix: Container(
                           margin: EdgeInsets.fromLTRB(27.h, 15.v, 17.h, 15.v),
                           child: CustomImageView(
-                            svgPath: ImageConstant.imgCalculator,
+                            svgPath: ImageConstant.password,
                           ),
                         ),
                         prefixConstraints: BoxConstraints(

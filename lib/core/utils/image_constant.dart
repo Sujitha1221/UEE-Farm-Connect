@@ -29,4 +29,20 @@ class ImageConstant {
   static String imageNotFound = 'assets/images/image_not_found.png';
 
   static String email = '$imagePath/email.svg';
+
+  static String password = '$imagePath/password.svg';
+
+  static String phone = '$imagePath/phone.svg';
+
+  static String username = '$imagePath/username.svg';
+
+  static String accountNumber = '$imagePath/accountNumber.svg';
+
+  static String bankName = '$imagePath/bankName.svg';
+
+  static String branchName = '$imagePath/branchName.svg';
+
+  static String branchNumber = '$imagePath/branchNumber.svg';
+
+  static String role = '$imagePath/branchNumber.svg';
 }

@@ -271,7 +271,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
                         prefix: Container(
                           margin: EdgeInsets.fromLTRB(27, 15, 17, 15),
                           child: CustomImageView(
-                            svgPath: ImageConstant.imgCalculator,
+                            svgPath: ImageConstant.username,
                           ),
                         ),
                         prefixConstraints: BoxConstraints(maxHeight: 54),
@@ -285,7 +285,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
                         prefix: Container(
                           margin: EdgeInsets.fromLTRB(27, 15, 17, 15),
                           child: CustomImageView(
-                            svgPath: ImageConstant.imgCalculator,
+                            svgPath: ImageConstant.email,
                           ),
                         ),
                         prefixConstraints: BoxConstraints(maxHeight: 54),
@@ -299,7 +299,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
                         prefix: Container(
                           margin: EdgeInsets.fromLTRB(27, 15, 17, 15),
                           child: CustomImageView(
-                            svgPath: ImageConstant.imgCalculator,
+                            svgPath: ImageConstant.role,
                           ),
                         ),
                         prefixConstraints: BoxConstraints(maxHeight: 54),
@@ -327,7 +327,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
                         prefix: Container(
                           margin: EdgeInsets.fromLTRB(27, 15, 17, 15),
                           child: CustomImageView(
-                            svgPath: ImageConstant.imgCalculator,
+                            svgPath: ImageConstant.password,
                           ),
                         ),
                         prefixConstraints: BoxConstraints(maxHeight: 54),

@@ -184,7 +184,7 @@ class _BankAccountPageScreenState extends State<BankAccountPageScreen> {
                         prefix: Container(
                           margin: EdgeInsets.fromLTRB(27.h, 15.v, 17.h, 15.v),
                           child: CustomImageView(
-                            svgPath: ImageConstant.imgCalculator,
+                            svgPath: ImageConstant.email,
                           ),
                         ),
                         prefixConstraints: BoxConstraints(
@@ -204,7 +204,7 @@ class _BankAccountPageScreenState extends State<BankAccountPageScreen> {
                         prefix: Container(
                           margin: EdgeInsets.fromLTRB(27.h, 15.v, 17.h, 15.v),
                           child: CustomImageView(
-                            svgPath: ImageConstant.imgCalculator,
+                            svgPath: ImageConstant.bankName,
                           ),
                         ),
                         prefixConstraints: BoxConstraints(
@@ -224,7 +224,7 @@ class _BankAccountPageScreenState extends State<BankAccountPageScreen> {
                         prefix: Container(
                           margin: EdgeInsets.fromLTRB(27.h, 15.v, 17.h, 15.v),
                           child: CustomImageView(
-                            svgPath: ImageConstant.imgCalculator,
+                            svgPath: ImageConstant.branchName,
                           ),
                         ),
                         prefixConstraints: BoxConstraints(
@@ -244,7 +244,7 @@ class _BankAccountPageScreenState extends State<BankAccountPageScreen> {
                         prefix: Container(
                           margin: EdgeInsets.fromLTRB(27.h, 15.v, 17.h, 15.v),
                           child: CustomImageView(
-                            svgPath: ImageConstant.imgCalculator,
+                            svgPath: ImageConstant.branchNumber,
                           ),
                         ),
                         prefixConstraints: BoxConstraints(
@@ -264,7 +264,7 @@ class _BankAccountPageScreenState extends State<BankAccountPageScreen> {
                         prefix: Container(
                           margin: EdgeInsets.fromLTRB(27.h, 15.v, 17.h, 15.v),
                           child: CustomImageView(
-                            svgPath: ImageConstant.imgCalculator,
+                            svgPath: ImageConstant.accountNumber,
                           ),
                         ),
                         prefixConstraints: BoxConstraints(

@@ -46,5 +46,10 @@ class ImageConstant {
 
     static String imgDelete =  '$imagePath/delete.jpg';
 
+        static String imgQuestion =  '$imagePath/img_askquestion.jpg';
+
+
+
+
 
 }

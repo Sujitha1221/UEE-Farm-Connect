@@ -13,6 +13,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 // ignore: must_be_immutable
+
 class Product {
   String productName;
   String farmerName;
@@ -44,8 +45,6 @@ class Product {
   }
 }
 
-
-
 // ignore: must_be_immutable
 class AddProductPageScreen extends StatefulWidget {
   AddProductPageScreen({Key? key})
@@ -53,16 +52,11 @@ class AddProductPageScreen extends StatefulWidget {
           key: key,
         );
 
-        @override
-  _AddProductState createState()=> _AddProductState();
-
+  @override
+  _AddProductState createState() => _AddProductState();
 }
 
-
 class _AddProductState extends State<AddProductPageScreen> {
-  
-   
-
   GlobalKey<NavigatorState> navigatorKey = GlobalKey();
 
   TextEditingController productNameController = TextEditingController();
@@ -71,28 +65,7 @@ class _AddProductState extends State<AddProductPageScreen> {
   TextEditingController expiryDateController = TextEditingController();
   TextEditingController photoController = TextEditingController();
 
-  
-
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-
-  DateTime selectedDate = DateTime.now();
-
-
-  Future<void> _selectDate(BuildContext context) async {
-    print("called");
-    final DateTime? picked = await showDatePicker(
-      context: context,
-      initialDate: selectedDate,
-      firstDate: DateTime(2000),
-      lastDate: DateTime(2101),
-    );
-    if (picked != selectedDate)
-      setState(() {
-        selectedDate = picked!;
-      });
-  }
-
-  
 
   @override
   Widget build(BuildContext context) {
@@ -205,29 +178,66 @@ class _AddProductState extends State<AddProductPageScreen> {
                                 ),
                               ),
                             ),
-                            GestureDetector(
-                              onTap: () {
-                                // Show a dialog with the image
-                                showDialog(
-                                  context: context,
-                                  builder: (BuildContext context) {
-                                    return Dialog(
-                                      child: Image.asset(
-                                          'assets/images/img_calendar.png'), // Adjust the path to match your project structure
-                                    );
-                                  },
-                                );
-                              },
-                              child: CustomImageView(
-                                imagePath: ImageConstant.imgUnverifiedaccount,
-                                height: 46.v,
-                                width: 52.h,
-                                margin: EdgeInsets.only(
-                                  left: 2.h,
-                                  bottom: 2.v,
-                                ),
-                              ),
-                            )
+                           GestureDetector(
+  onTap: () {
+    // Show a dialog with the image
+    showDialog(
+  context: context,
+  builder: (BuildContext context) {
+    return Dialog(
+      child: Stack(
+        children: [
+          Positioned(
+            top: 5.0, // Adjust the top position as needed
+            right: 5.0, // Adjust the right position as needed
+            child: GestureDetector(
+              onTap: () {
+                Navigator.of(context).pop(); // Close the dialog
+              },
+              child: Icon(
+                Icons.close, 
+                size: 30.0, 
+                color: Colors.black,
+              ),
+            ),
+          ),
+          Positioned( // Adjust the top position as needed to position the translation image below the close icon
+            right:0.1, 
+            left: 0.1,// Adjust the right position as needed to place the translation image to the right
+            child: Transform.scale(
+              scale: 0.5, // Adjust the scale factor as needed
+              child: Image.asset('assets/images/img_askquestion.png'), // Adjust the path to match your project structure
+            ),
+          ),
+          
+          Positioned(
+            top: 300.0, // Adjust the top position as needed to position the translation image below the close icon
+            right:0.1, 
+            left: 0.1,// Adjust the right position as needed to place the translation image to the right
+            child: Transform.scale(
+              scale: 1.0, // Adjust the scale factor as needed
+              child: Image.asset('assets/images/img_translation.png'), // Adjust the path to match your project structure
+            ),
+          ),
+        ],
+      ),
+    );
+  },
+);
+
+
+  },
+  child: CustomImageView(
+    imagePath: ImageConstant.imgUnverifiedaccount,
+    height: 46.v,
+    width: 52.h,
+    margin: EdgeInsets.only(
+      left: 2.h,
+      bottom: 2.v,
+    ),
+  ),
+)
+
                           ],
                         ),
                       ),
@@ -292,30 +302,28 @@ class _AddProductState extends State<AddProductPageScreen> {
                         ),
                       ),
                       CustomTextFormField(
-  controller: expiryDateController,
-  margin: EdgeInsets.only(
-    left: 25.h,
-    top: 52.v,
-    right: 25.h,
-  ),
-  hintText: "Expiry Date",
-  textInputAction: TextInputAction.done,
-  // textInputType: TextInputType.datetime, // Use TextInputType.datetime for the keyboard
-  readOnly: true, // Make the field read-only
-  onPressed: () {
-    _selectDate(context); // Call the date picker function
-  },
-  prefix: Container(
-    margin: EdgeInsets.fromLTRB(27.h, 15.v, 17.h, 15.v),
-    child: CustomImageView(
-      imagePath: ImageConstant.imgCalendar,
-    ),
-  ),
-  prefixConstraints: BoxConstraints(
-    maxHeight: 54.v,
-  ),
-),
+                        controller: expiryDateController,
+                        margin: EdgeInsets.only(
+                          left: 25.h,
+                          top: 52.v,
+                          right: 25.h,
+                        ),
+                        hintText: "Expiry Date",
+                        textInputAction: TextInputAction.done,
+                        textInputType: TextInputType.datetime,
+                        // Use TextInputType.datetime for the keyboard
+                        
 
+                        prefix: Container(
+                          margin: EdgeInsets.fromLTRB(27.h, 15.v, 17.h, 15.v),
+                          child: CustomImageView(
+                            imagePath: ImageConstant.imgCalendar,
+                          ),
+                        ),
+                        prefixConstraints: BoxConstraints(
+                          maxHeight: 54.v,
+                        ),
+                      ),
                       CustomElevatedButton(
                           onTap: () async {
                             String? photo = await pickAndConvertImage();
@@ -448,6 +456,4 @@ class _AddProductState extends State<AddProductPageScreen> {
     return prefs.getString('empName') ??
         ''; // Provide a default value if 'empId' is not found
   }
-  
-  
 }

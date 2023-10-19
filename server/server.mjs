@@ -5,6 +5,7 @@ import cors from "cors";
 import databaseConnection from "./config/database.mjs";
 import logger from "./utils/logger.mjs";
 import ProductRouter from "./routes/ProductRoute.mjs";
+import UserRouter from "./routes/UserRoute.mjs";
 
 
 const app = express();
@@ -30,3 +31,4 @@ app.listen(PORT, () => {
 
 //routes
 app.use('/product', ProductRouter);
+app.use("/user", UserRouter);

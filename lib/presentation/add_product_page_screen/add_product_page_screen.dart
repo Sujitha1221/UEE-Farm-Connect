@@ -9,6 +9,8 @@ import 'package:form_structure/widgets/custom_text_form_field.dart';
 import 'package:intl/intl.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 // ignore: must_be_immutable
 class Product {
@@ -58,6 +60,7 @@ class AddProductPageScreen extends StatefulWidget {
 
 
 class _AddProductState extends State<AddProductPageScreen> {
+  
    
 
   GlobalKey<NavigatorState> navigatorKey = GlobalKey();
@@ -68,9 +71,26 @@ class _AddProductState extends State<AddProductPageScreen> {
   TextEditingController expiryDateController = TextEditingController();
   TextEditingController photoController = TextEditingController();
 
-  DateTime selectedDate = DateTime.now(); 
+  
 
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+  DateTime selectedDate = DateTime.now();
+
+
+  Future<void> _selectDate(BuildContext context) async {
+    print("called");
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: selectedDate,
+      firstDate: DateTime(2000),
+      lastDate: DateTime(2101),
+    );
+    if (picked != selectedDate)
+      setState(() {
+        selectedDate = picked!;
+      });
+  }
 
   
 
@@ -280,9 +300,9 @@ class _AddProductState extends State<AddProductPageScreen> {
   ),
   hintText: "Expiry Date",
   textInputAction: TextInputAction.done,
-  textInputType: TextInputType.datetime, // Use TextInputType.datetime for the keyboard
+  // textInputType: TextInputType.datetime, // Use TextInputType.datetime for the keyboard
   readOnly: true, // Make the field read-only
-  onTap: () {
+  onPressed: () {
     _selectDate(context); // Call the date picker function
   },
   prefix: Container(
@@ -430,20 +450,4 @@ class _AddProductState extends State<AddProductPageScreen> {
   }
   
   
-
-  // Function to show the date picker
-Future<void> _selectDate(BuildContext context) async {
-  final DateTime? picked = await showDatePicker(
-    context: context,
-    initialDate: selectedDate, // Use the selectedDate as the initial date
-    firstDate: DateTime(2000),
-    lastDate: DateTime(2101),
-  );
-  if (picked != null) {
-    setState(() {
-      selectedDate = picked; // Update the selectedDate
-      expiryDateController.text = selectedDate.toString(); // Format as needed
-    });
-  }
-}
 }

@@ -42,18 +42,12 @@ class ImageConstant {
 
   static String imgClose = '$imagePath/img_close.svg';
 
-    static String imgBillmiller1 = '$imagePath/img_billmiller1.png';
+  static String imgBillmiller1 = '$imagePath/img_billmiller1.png';
 
-    static String imgDelete =  '$imagePath/delete.jpg';
+  static String imgDelete = '$imagePath/delete.jpg';
 
-        static String imgQuestion =  '$imagePath/img_askquestion.jpg';
+  static String imgQuestion = '$imagePath/img_askquestion.jpg';
 
-        
-static String imgCall=  '$imagePath/img_ringervolume.png';
-
-
-
-
-
+  static String imgCall = '$imagePath/img_ringervolume.png';
 
 }

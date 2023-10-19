@@ -26,7 +26,7 @@ class CustomSearchView extends StatelessWidget {
     this.borderDecoration,
     this.fillColor,
     this.filled = true,
-    this.validator,  onChanged,
+    this.validator,  onChanged, void onTextChanged,Row? child,
   }) : super(
           key: key,
         );

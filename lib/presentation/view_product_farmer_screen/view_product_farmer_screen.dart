@@ -198,36 +198,38 @@ class _ViewFarmerState extends State<ViewPageFarmerScreen> {
                         ),
                       ),
                       CustomSearchView(
-                        margin: EdgeInsets.only(
-                          left: 40.h,
-                          top: 15.v,
-                          right: 33.h,
-                          bottom: 15.h
-                        ),
-                        controller: searchController,
-                        hintText: "Search here",
-                        hintStyle: CustomTextStyles.titleBlack,
-                        prefix: Container(
-                          margin: EdgeInsets.fromLTRB(14.h, 10.v, 5.h, 10.v),
-                          child: CustomImageView(
-                            svgPath: ImageConstant.imgSearch,
-                            color: Colors.black,
-                          ),
-                        ),
-                        prefixConstraints: BoxConstraints(
-                          maxHeight: 41.v,
-                        ),
-                        suffix: Container(
-                          margin: EdgeInsets.fromLTRB(30.h, 8.v, 15.h, 8.v),
-                          child: CustomImageView(
-                            svgPath: ImageConstant.imgClose,
-                            color: Colors.black,
-                          ),
-                        ),
-                        suffixConstraints: BoxConstraints(
-                          maxHeight: 41.v,
-                        ),
-                      ),
+  margin: EdgeInsets.only(left: 40.h, top: 15.v, right: 33.h, bottom: 15.h),
+  controller: searchController,
+  
+  hintText: "Search here",
+  hintStyle: CustomTextStyles.titleBlack,
+  prefix: Container(
+    margin: EdgeInsets.fromLTRB(14.h, 10.v, 5.h, 10.v),
+    child: CustomImageView(
+      svgPath: ImageConstant.imgSearch,
+      color: Colors.black,
+    ),
+  ),
+  prefixConstraints: BoxConstraints(
+    maxHeight: 41.v,
+  ),
+  suffix: Container(
+    margin: EdgeInsets.fromLTRB(30.h, 8.v, 15.h, 8.v),
+    child: GestureDetector(
+      onTap: () {
+        searchController.clear(); // Clear the search text
+      },
+      child: CustomImageView(
+        svgPath: ImageConstant.imgClose,
+        color: Colors.black,
+      ),
+    ),
+  ),
+  suffixConstraints: BoxConstraints(
+    maxHeight: 41.v,
+  ),
+),
+
                       
                       Container(
                         width: double.maxFinite,
@@ -247,10 +249,10 @@ class _ViewFarmerState extends State<ViewPageFarmerScreen> {
                   itemExtent: 220,
                   // itemCount: prodList.length,
                   itemBuilder: (context, index) {
-                    Map<String, dynamic> prod = prodList[index];
+                    Map<String, dynamic> prod = filteredProducts[index];
                     String productName = prod['productName'] ?? "Unknown Product";
                     String quantity = prod['quantity'].toString();
-                    print(quantity);
+                   
                     String amountPerkg = prod['amountPerkg'].toString() ?? "Pending";
                     String expiryDate = prod['expiryDate'].toString().substring(0,10) ?? "Null";
                     String photo = prod['photo'];
@@ -517,4 +519,3 @@ Future<void> confirmDeleteProduct(BuildContext context, String id) async {
 
 
 }
-

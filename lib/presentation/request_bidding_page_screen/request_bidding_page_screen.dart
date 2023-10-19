@@ -295,7 +295,7 @@ class _RBScreenState extends State<RequestBiddingPage> {
                         margin: EdgeInsets.fromLTRB(37.h, 79.v, 23.h, 5.v),
                         onTap: () {
                           final bidding = Bidding(
-                              farmerUserName: "productNameController.text",
+                              farmerUserName: "sajeesiva12@gmail.com",
                               userName: "Sajeevan Siva",
                               productName: productNameController.text,
                               amountPerKg: amountPerKgController.text,

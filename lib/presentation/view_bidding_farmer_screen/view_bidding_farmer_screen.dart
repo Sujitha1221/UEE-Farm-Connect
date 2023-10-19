@@ -217,6 +217,7 @@ class _VBPScreenState extends State<ViewBiddingFarmerPage> {
                             String farmerUserName =
                                 bid['farmerUserName'] ?? "Unknown";
                             String userName = bid['userName'] ?? "Unknown";
+                            String userName1 = userName.split('@')[0] ?? "Unknown";
                             String weight = bid['weight'] ?? "Unknown";
                             String totalAmount = bid['totalAmount'] ?? "0.0";
                             double ppkg = (int.parse(bid['weight']) /
@@ -253,7 +254,7 @@ class _VBPScreenState extends State<ViewBiddingFarmerPage> {
                                               Opacity(
                                                 opacity: 0.9,
                                                 child: Text(
-                                                  "$userName",
+                                                  "$userName1",
                                                   style: theme
                                                       .textTheme.labelLarge
                                                       ?.copyWith(

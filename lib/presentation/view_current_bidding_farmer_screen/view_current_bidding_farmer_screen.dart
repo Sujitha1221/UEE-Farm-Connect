@@ -59,7 +59,7 @@ class _VCBFPScreenState extends State<ViewCurrentBiddingFarmerPage> {
   Future<List<Map<String, dynamic>>?> getAllBidding(
       BuildContext context) async {
     try {
-      final farmerUserName = "adsTo";
+      final farmerUserName = "sajeevansivapalan35@gmail.com";
       final response = await client.get(
         Uri.parse(
             'http://192.168.1.6:8080/bidding/get-pending-farmer/$farmerUserName'),
@@ -205,6 +205,7 @@ class _VCBFPScreenState extends State<ViewCurrentBiddingFarmerPage> {
                             String farmerUserName =
                                 bid['farmerUserName'] ?? "Unknown";
                             String userName = bid['userName'] ?? "Unknown";
+                            String userName1 = userName.split('@')[0] ?? "Unknown";
                             String id = bid['_id'] ?? "Unknown";
                             String weight = bid['weight'] ?? "Unknown";
                             String totalAmount = bid['totalAmount'] ?? "0.0";
@@ -244,13 +245,15 @@ class _VCBFPScreenState extends State<ViewCurrentBiddingFarmerPage> {
                                               Opacity(
                                                 opacity: 0.9,
                                                 child: Text(
-                                                  "$userName",
+                                                  "$userName1",
                                                   style: theme
                                                       .textTheme.labelLarge
                                                       ?.copyWith(
                                                     fontWeight: FontWeight.bold,
                                                     fontSize: 18.0,
+                                                    overflow: TextOverflow.ellipsis,
                                                   ),
+                                                  maxLines: 2,
                                                 ),
                                               ),
                                               SizedBox(height: 12.v),
@@ -314,7 +317,6 @@ class _VCBFPScreenState extends State<ViewCurrentBiddingFarmerPage> {
                                                 farmerUserName: farmerUserName,
                                                 productName: productName);
                                             acceptBidding(bidding);
-                                            rejectBidding(bidding);
                                           },
                                         ),
                                       ],
@@ -366,6 +368,7 @@ class _VCBFPScreenState extends State<ViewCurrentBiddingFarmerPage> {
       );
 
       if (response.body != null) {
+        rejectBidding(bidding);
         return response.body;
       } else {
         print('Request failed with status: ${response.statusCode}');

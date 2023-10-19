@@ -184,6 +184,8 @@ class _VCBPScreenState extends State<ViewCurrentBiddingPage> {
                             Map<String, dynamic> bid = biddingList[index];
                             String farmerUserName =
                                 bid['farmerUserName'] ?? "Unknown";
+                            String farmerUserName1 =
+                                farmerUserName.split('@')[0] ?? "Unknown";
                             String weight = bid['weight'] ?? "Unknown";
                             String totalAmount = bid['totalAmount'] ?? "0.0";
                             double ppkg = (int.parse(bid['weight']) /
@@ -220,7 +222,7 @@ class _VCBPScreenState extends State<ViewCurrentBiddingPage> {
                                               Opacity(
                                                 opacity: 0.9,
                                                 child: Text(
-                                                  "$farmerUserName",
+                                                  "$farmerUserName1",
                                                   style: theme
                                                       .textTheme.labelLarge
                                                       ?.copyWith(

@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
       theme: theme,
       title: 'form_structure',
       debugShowCheckedModeBanner: false,
-      initialRoute: AppRoutes.loginPageScreen,
+      initialRoute: AppRoutes.registerPageScreen,
       routes: AppRoutes.routes,
     );
   }

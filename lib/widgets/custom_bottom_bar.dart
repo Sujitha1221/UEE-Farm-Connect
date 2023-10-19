@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:form_structure/core/app_export.dart';
 
+// ignore: must_be_immutable
 class CustomBottomBar extends StatefulWidget {
   CustomBottomBar({this.onChanged});
 
@@ -91,9 +92,11 @@ class CustomBottomBarState extends State<CustomBottomBar> {
         break;
       case BottomBarEnum.User:
         // Handle User button action
+        Navigator.of(context).pushReplacementNamed('/user_login_page_screen');
         break;
       case BottomBarEnum.Arrowright:
         // Handle Arrowright button action
+        Navigator.of(context).pushReplacementNamed('/forgot_password_screen');
         break;
     }
     widget.onChanged?.call(type);

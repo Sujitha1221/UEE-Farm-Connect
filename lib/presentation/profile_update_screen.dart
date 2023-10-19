@@ -1,36 +1,162 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:form_structure/core/app_export.dart';
-import 'package:form_structure/widgets/custom_bottom_bar.dart';
-import 'package:form_structure/widgets/custom_elevated_button.dart';
 import 'package:form_structure/widgets/custom_text_form_field.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:http/http.dart' as http;
 
-// ignore: must_be_immutable
-class LoginPageScreen extends StatelessWidget {
-  LoginPageScreen({Key? key})
-      : super(
-          key: key,
-        );
+class UserProfilePage extends StatefulWidget {
+  @override
+  _UserProfilePageState createState() => _UserProfilePageState();
+}
 
-  GlobalKey<NavigatorState> navigatorKey = GlobalKey();
-
+class _UserProfilePageState extends State<UserProfilePage> {
+  TextEditingController usernameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
+  TextEditingController roleController = TextEditingController();
+  TextEditingController contactController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
 
-  GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  @override
+  void initState() {
+    super.initState();
+    loadUserData();
+  }
+
+  Future<void> loadUserData() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      usernameController.text = prefs.getString('userName') ?? '';
+      emailController.text = prefs.getString('email') ?? '';
+      roleController.text = prefs.getString('role') ?? '';
+      contactController.text = prefs.getString('contact') ?? '';
+      passwordController.text = prefs.getString('password') ?? '';
+    });
+  }
+
+  Future<void> updateUserProfile() async {
+    final newUsername = usernameController.text;
+    final newEmail = emailController.text;
+    final newRole = roleController.text;
+    final newContact = contactController.text;
+    final newPassword = passwordController.text;
+
+    final prefs = await SharedPreferences.getInstance();
+    prefs.setString('userName', newUsername);
+    prefs.setString('email', newEmail);
+    prefs.setString('role', newRole);
+    prefs.setString('contact', newContact);
+    prefs.setString('password', newPassword);
+
+    try {
+      final response = await http.put(
+        Uri.parse(
+            'YOUR_UPDATE_PROFILE_API_ENDPOINT'), // Replace with your API endpoint
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode({
+          'username': newUsername,
+          'email': newEmail,
+          'role': newRole,
+          'contact': newContact,
+          'password': newPassword,
+        }),
+      );
+
+      if (response.statusCode == 200) {
+        // Show a success dialog
+        showSuccessDialog('Profile updated successfully');
+      } else {
+        // Show an error dialog
+        showErrorDialog('Failed to update profile: ${response.statusCode}');
+      }
+    } catch (e) {
+      // Handle network errors or other exceptions and show an error dialog
+      showErrorDialog('An error occurred: $e');
+    }
+  }
+
+  Future<void> deleteUserProfile() async {
+    final prefs = await SharedPreferences.getInstance();
+    prefs.clear(); // Clear all user data from shared preferences
+
+    try {
+      final response = await http.delete(
+        Uri.parse('YOUR_UPDATE_PROFILE_API_ENDPOINT'),
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode({
+          'email': emailController.text, // Pass the user's email as a parameter
+        }),
+      );
+
+      if (response.statusCode == 200) {
+        // Show a success dialog
+        showSuccessDialog('Profile deleted successfully');
+        // After successful deletion, navigate to a different screen, e.g., the login screen.
+        Navigator.of(context).pushReplacementNamed(AppRoutes.loginPageScreen);
+      } else {
+        // Show an error dialog
+        showErrorDialog('Failed to delete profile: ${response.statusCode}');
+      }
+    } catch (e) {
+      // Handle network errors or other exceptions and show an error dialog
+      showErrorDialog('An error occurred: $e');
+    }
+  }
+
+  void showSuccessDialog(String message) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text('Success'),
+          content: Text(message),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text('OK'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void showErrorDialog(String message) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text('Error'),
+          content: Text(message),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text('OK'),
+            ),
+          ],
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
-    mediaQueryData = MediaQuery.of(context);
-
     return SafeArea(
       child: Scaffold(
-        resizeToAvoidBottomInset: false,
+        appBar: AppBar(
+          title: Text('User Profile'),
+        ),
         body: CustomScrollView(
           slivers: [
             SliverToBoxAdapter(
               child: Form(
-                key: _formKey,
                 child: SizedBox(
-                  width: double.maxFinite,
+                  width: double.infinity,
                   child: Column(
                     children: [
                       SizedBox(
@@ -79,7 +205,8 @@ class LoginPageScreen extends StatelessWidget {
                             Opacity(
                               opacity: 0.9,
                               child: CustomImageView(
-                                imagePath: ImageConstant.imgJagokisanremovebgpreview,
+                                imagePath:
+                                    ImageConstant.imgJagokisanremovebgpreview,
                                 height: 97.v,
                                 width: 104.h,
                                 radius: BorderRadius.circular(
@@ -103,7 +230,6 @@ class LoginPageScreen extends StatelessWidget {
                           children: [
                             CustomImageView(
                               svgPath: ImageConstant.imgVolume,
-                              onTap:() => { Navigator.of(context).pushReplacementNamed('/home_page_screen')},
                               height: 28.v,
                               width: 35.h,
                               margin: EdgeInsets.only(
@@ -119,7 +245,7 @@ class LoginPageScreen extends StatelessWidget {
                                   top: 10.v,
                                 ),
                                 child: Text(
-                                  "Login Your Account",
+                                  "Create Account",
                                   style: theme.textTheme.headlineSmall,
                                 ),
                               ),
@@ -137,128 +263,83 @@ class LoginPageScreen extends StatelessWidget {
                         ),
                       ),
                       CustomTextFormField(
-                        controller: emailController,
-                        margin: EdgeInsets.only(
-                          left: 25.h,
-                          top: 52.v,
-                          right: 25.h,
-                        ),
-                        hintText: "Email Address",
+                        controller: usernameController,
+                        margin: EdgeInsets.fromLTRB(25, 52, 25, 0),
+                        hintText: 'Username',
                         textInputAction: TextInputAction.done,
-                        textInputType: TextInputType.emailAddress,
+                        textInputType: TextInputType.text,
                         prefix: Container(
-                          margin: EdgeInsets.fromLTRB(27.h, 15.v, 17.h, 15.v),
+                          margin: EdgeInsets.fromLTRB(27, 15, 17, 15),
                           child: CustomImageView(
                             svgPath: ImageConstant.imgCalculator,
                           ),
                         ),
-                        prefixConstraints: BoxConstraints(
-                          maxHeight: 54.v,
-                        ),
+                        prefixConstraints: BoxConstraints(maxHeight: 54),
                       ),
                       CustomTextFormField(
                         controller: emailController,
-                        margin: EdgeInsets.only(
-                          left: 25.h,
-                          top: 52.v,
-                          right: 25.h,
-                        ),
-                        hintText: "Email Address",
+                        margin: EdgeInsets.fromLTRB(25, 15, 25, 0),
+                        hintText: 'Email',
                         textInputAction: TextInputAction.done,
                         textInputType: TextInputType.emailAddress,
                         prefix: Container(
-                          margin: EdgeInsets.fromLTRB(27.h, 15.v, 17.h, 15.v),
+                          margin: EdgeInsets.fromLTRB(27, 15, 17, 15),
                           child: CustomImageView(
                             svgPath: ImageConstant.imgCalculator,
                           ),
                         ),
-                        prefixConstraints: BoxConstraints(
-                          maxHeight: 54.v,
-                        ),
+                        prefixConstraints: BoxConstraints(maxHeight: 54),
                       ),
                       CustomTextFormField(
-                        controller: emailController,
-                        margin: EdgeInsets.only(
-                          left: 25.h,
-                          top: 52.v,
-                          right: 25.h,
-                        ),
-                        hintText: "Email Address",
+                        controller: roleController,
+                        margin: EdgeInsets.fromLTRB(25, 15, 25, 0),
+                        hintText: 'Role',
                         textInputAction: TextInputAction.done,
-                        textInputType: TextInputType.emailAddress,
+                        textInputType: TextInputType.text,
                         prefix: Container(
-                          margin: EdgeInsets.fromLTRB(27.h, 15.v, 17.h, 15.v),
+                          margin: EdgeInsets.fromLTRB(27, 15, 17, 15),
                           child: CustomImageView(
                             svgPath: ImageConstant.imgCalculator,
                           ),
                         ),
-                        prefixConstraints: BoxConstraints(
-                          maxHeight: 54.v,
-                        ),
+                        prefixConstraints: BoxConstraints(maxHeight: 54),
                       ),
                       CustomTextFormField(
-                        controller: emailController,
-                        margin: EdgeInsets.only(
-                          left: 25.h,
-                          top: 52.v,
-                          right: 25.h,
-                        ),
-                        hintText: "Email Address",
+                        controller: contactController,
+                        margin: EdgeInsets.fromLTRB(25, 15, 25, 0),
+                        hintText: 'Contact',
                         textInputAction: TextInputAction.done,
-                        textInputType: TextInputType.emailAddress,
+                        textInputType: TextInputType.phone,
                         prefix: Container(
-                          margin: EdgeInsets.fromLTRB(27.h, 15.v, 17.h, 15.v),
+                          margin: EdgeInsets.fromLTRB(27, 15, 17, 15),
                           child: CustomImageView(
                             svgPath: ImageConstant.imgCalculator,
                           ),
                         ),
-                        prefixConstraints: BoxConstraints(
-                          maxHeight: 54.v,
-                        ),
+                        prefixConstraints: BoxConstraints(maxHeight: 54),
                       ),
                       CustomTextFormField(
-                        controller: emailController,
-                        margin: EdgeInsets.only(
-                          left: 25.h,
-                          top: 52.v,
-                          right: 25.h,
-                        ),
-                        hintText: "Email Address",
+                        controller: passwordController,
+                        margin: EdgeInsets.fromLTRB(25, 15, 25, 0),
+                        hintText: 'Password',
                         textInputAction: TextInputAction.done,
-                        textInputType: TextInputType.emailAddress,
+                        textInputType: TextInputType.visiblePassword,
                         prefix: Container(
-                          margin: EdgeInsets.fromLTRB(27.h, 15.v, 17.h, 15.v),
+                          margin: EdgeInsets.fromLTRB(27, 15, 17, 15),
                           child: CustomImageView(
                             svgPath: ImageConstant.imgCalculator,
                           ),
                         ),
-                        prefixConstraints: BoxConstraints(
-                          maxHeight: 54.v,
-                        ),
+                        prefixConstraints: BoxConstraints(maxHeight: 54),
                       ),
-                      CustomTextFormField(
-                        controller: emailController,
-                        margin: EdgeInsets.only(
-                          left: 25.h,
-                          top: 52.v,
-                          right: 25.h,
-                        ),
-                        hintText: "Email Address",
-                        textInputAction: TextInputAction.done,
-                        textInputType: TextInputType.emailAddress,
-                        prefix: Container(
-                          margin: EdgeInsets.fromLTRB(27.h, 15.v, 17.h, 15.v),
-                          child: CustomImageView(
-                            svgPath: ImageConstant.imgCalculator,
-                          ),
-                        ),
-                        prefixConstraints: BoxConstraints(
-                          maxHeight: 54.v,
-                        ),
+                      SizedBox(height: 20),
+                      ElevatedButton(
+                        onPressed: updateUserProfile,
+                        child: Text('Update Profile'),
                       ),
-                      CustomElevatedButton(
-                        text: "LOGIN",
-                        margin: EdgeInsets.fromLTRB(37.h, 79.v, 23.h, 5.v),
+                      ElevatedButton(
+                        onPressed: deleteUserProfile,
+                        child: Text('Delete Profile'),
                       ),
                     ],
                   ),
@@ -266,9 +347,6 @@ class LoginPageScreen extends StatelessWidget {
               ),
             ),
           ],
-        ),
-        bottomNavigationBar: CustomBottomBar(
-          onChanged: (BottomBarEnum type) {},
         ),
       ),
     );

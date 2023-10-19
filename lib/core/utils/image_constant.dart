@@ -27,4 +27,6 @@ class ImageConstant {
   static String imgArrowright = '$imagePath/img_arrowright.svg';
 
   static String imageNotFound = 'assets/images/image_not_found.png';
+
+  static String email = '$imagePath/email.svg';
 }

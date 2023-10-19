@@ -5,6 +5,7 @@ import cors from "cors";
 import databaseConnection from "./config/database.mjs";
 import logger from "./utils/logger.mjs";
 import UserRouter from "./routes/UserRoute.mjs";
+import BankDetailsRouter from "./routes/BankDetails.mjs";
 
 const app = express();
 const PORT = process.env.PORT || "8080";
@@ -23,6 +24,7 @@ app.use("/uploads", express.static("uploads"));
 app.use(bodyParser.json());
 
 app.use("/user", UserRouter);
+app.use("/bank", BankDetailsRouter);
 
 app.listen(PORT, () => {
   logger.info(`Server is up and running on port ${PORT}`);

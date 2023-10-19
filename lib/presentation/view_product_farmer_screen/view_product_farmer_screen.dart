@@ -7,16 +7,17 @@ import 'package:form_structure/widgets/custom_bottom_bar.dart';
 import 'package:form_structure/widgets/custom_elevated_button.dart';
 import 'package:form_structure/widgets/custom_search_view.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
-class ViewPageUserScreen extends StatefulWidget {
-  ViewPageUserScreen({Key? key}) : super(key: key);
+class ViewPageFarmerScreen extends StatefulWidget {
+  ViewPageFarmerScreen({Key? key}) : super(key: key);
 
   @override
-  _ViewUserState createState()=> _ViewUserState();
+  _ViewFarmerState createState()=> _ViewFarmerState();
 
 }
 
-class _ViewUserState extends State<ViewPageUserScreen> {
+class _ViewFarmerState extends State<ViewPageFarmerScreen> {
   List<Map<String, dynamic>> prodList = [];
   late http.Client client;
 
@@ -28,12 +29,24 @@ class _ViewUserState extends State<ViewPageUserScreen> {
   }
 
   Future<void> fetchProducts() async {
-    final List<Map<String, dynamic>>? fetchedProdList = await getAllProducts(context);
-    if (fetchedProdList != null) {
-      setState(() {
-        prodList = fetchedProdList;
-      });
-    }
+  final Map<String, dynamic>? fetchedProdData = await getAllProducts(context);
+  if (fetchedProdData != null) {
+    setState(() {
+      // Check the structure of your response and access the product list accordingly.
+      if (fetchedProdData.containsKey("products")) {
+        prodList = List<Map<String, dynamic>>.from(fetchedProdData["products"]);
+      } else {
+        prodList = []; // Empty list if "products" key is not found in response.
+      }
+    });
+  }
+}
+
+
+  Future<String> getFarmerNameFromLocalStorage() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getString('farmerName') ??
+        ''; // Provide a default value if 'empId' is not found
   }
 
   List<Map<String, dynamic>> filterProducts(String searchText) {
@@ -44,35 +57,33 @@ class _ViewUserState extends State<ViewPageUserScreen> {
 }
 
 
-  Future<List<Map<String, dynamic>>?> getAllProducts(BuildContext context) async {
-    try {
-      
-      final response = await client.get(
-        Uri.parse(
-            'http://192.168.56.1:8080/product/'),
-        headers: {'Content-Type': 'application/json'},
-      );
-      print(response);
+  Future<Map<String, dynamic>?> getAllProducts(BuildContext context) async {
+  try {
+    // final farmerName = await getFarmerNameFromLocalStorage();
+    final farmerName = "Sajeevan Siva";
+    final response = await client.get(
+      Uri.parse('http://192.168.56.1:8080/product/get/$farmerName'),
+      headers: {'Content-Type': 'application/json'},
+    );
 
-      if (response.statusCode == 200) {
-        // Explicitly cast the result to the correct type
-        final List<Map<String, dynamic>> prodList =
-            (json.decode(response.body) as List)
-                .map((item) => item as Map<String, dynamic>)
-                .toList();
-        return prodList;
-      } else {
-        // Handle error responses here
-        print('Request failed with status: ${response.statusCode}');
-        print('Response body: ${response.body}');
-        throw Exception('Failed to fetch purchase requisitions');
-      }
-    } catch (e) {
-      // Handle network errors or other exceptions here
-      print('Error: $e');
-      return null;
+    if (response.statusCode == 200) {
+      // Explicitly cast the result to the correct type (Map)
+      final Map<String, dynamic> productData = json.decode(response.body);
+      return productData;
+    } else {
+      // Handle error responses here
+      print('Request failed with status: ${response.statusCode}');
+      print('Response body: ${response.body}');
+      throw Exception('Failed to fetch purchase requisitions');
     }
+  } catch (e) {
+    // Handle network errors or other exceptions here
+    print('Error: $e');
+    return null;
   }
+}
+
+
 
   GlobalKey<NavigatorState> navigatorKey = GlobalKey();
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
@@ -233,17 +244,17 @@ class _ViewUserState extends State<ViewPageUserScreen> {
                               
                                 itemCount: filterProducts(searchController.text).length,
                   shrinkWrap: true,
-                  itemExtent: 250,
+                  itemExtent: 220,
                   // itemCount: prodList.length,
                   itemBuilder: (context, index) {
                     Map<String, dynamic> prod = prodList[index];
                     String productName = prod['productName'] ?? "Unknown Product";
-                    String farmerName = prod['farmerName'] ?? "Unknown";
                     String quantity = prod['quantity'].toString();
                     print(quantity);
                     String amountPerkg = prod['amountPerkg'].toString() ?? "Pending";
-                     String expiryDate = prod['expiryDate'].toString().substring(0,10);
+                    String expiryDate = prod['expiryDate'].toString().substring(0,10) ?? "Null";
                     String photo = prod['photo'];
+                    String id = prod['_id'];
 
                     List<int> bytes = base64Decode(photo);
                     return  Container(
@@ -274,19 +285,10 @@ class _ViewUserState extends State<ViewPageUserScreen> {
           ),
                                   ),
                                   Padding(
-                                    padding: EdgeInsets.only(top: 2.v),
+                                    padding: EdgeInsets.only(top: 2.v,right: 50.v),
                                     child: Column(
                                       children: [
-                                        Opacity(
-                                          opacity: 0.9,
-                                          child: Text(
-                                            "Farmer : $farmerName",
-                                            style: theme.textTheme.labelLarge?.copyWith(
-                        fontWeight: FontWeight.bold, // Make text bold
-                        fontSize: 15.0, // Increase font size
-                      ),
-                                          ),
-                                        ),
+                                        
                                         SizedBox(height: 12.v),
                                         Opacity(
                                           opacity: 0.9,
@@ -375,18 +377,16 @@ class _ViewUserState extends State<ViewPageUserScreen> {
                                             ),
                                             child: Row(
                                               children: [
-                                               CustomElevatedButton(
-                                                  width: 68.h,
-                                                  text: "Bid",
-                                                  margin: EdgeInsets.only(top: 14.v),
-                                                ),
                                                 Opacity(
                                                   opacity: 0.9,
                                                   child: CustomImageView(
-                                                    svgPath: ImageConstant.imgUser,
+                                                    imagePath: ImageConstant.imgDelete,
                                                     height: 34.adaptSize,
                                                     width: 34.adaptSize,
-                                                    margin: EdgeInsets.only(left: 20.h,top: 14.v),
+                                                    margin: EdgeInsets.only(top: 14.v),
+                                                    onTap: () {
+    confirmDeleteProduct(context, id);
+  },
                                                   ),
                                                 ),
                                               ],
@@ -406,6 +406,7 @@ class _ViewUserState extends State<ViewPageUserScreen> {
   },
                             ),
                             
+                            
                     ],
                   ),
                 ),
@@ -419,9 +420,99 @@ class _ViewUserState extends State<ViewPageUserScreen> {
  bottomNavigationBar: CustomBottomBar(
           onChanged: (BottomBarEnum type) {},
         ),
+        floatingActionButton: Positioned(
+      bottom: 16.0, // Adjust the position as needed
+      right: 16.0, // Adjust the position as needed
+      child: FloatingActionButton(
+        backgroundColor: Color(0xFF255B20),
+        onPressed: () {
+          Navigator.of(context).pushReplacementNamed('/add_product_page_screen');
+        },
+        child: Icon(
+          Icons.add,
+          color: Colors.white,
+        ),
       ),
+    ),
+        
+      // Adjust the location as needed
+    ),
     );
+      
   }
+  
+  Future<void> deleteProduct(String id) async {
+  try {
+    final response = await client.delete(
+      Uri.parse('http://192.168.56.1:8080/product/delete/$id'), // Replace with your API endpoint
+      headers: {'Content-Type': 'application/json'},
+    );
+
+    if (response.statusCode == 200) {
+      // Product deletion was successful
+      print('Product with ID $id has been deleted.');
+      // You can also update your product list or perform other actions here.
+    } else {
+      // Handle error responses here
+      print('Failed to delete product with ID $id. Status code: ${response.statusCode}');
+      print('Response body: ${response.body}');
+      throw Exception('Failed to delete the product');
+    }
+  } catch (e) {
+    // Handle network errors or other exceptions here
+    print('Error: $e');
+    // You can choose to rethrow the exception or handle it as needed.
+  }
+}
+
+Future<void> confirmDeleteProduct(BuildContext context, String id) async {
+  return showDialog<void>(
+    context: context,
+    barrierDismissible: false, // User must tap a button to dismiss the dialog
+    builder: (BuildContext dialogContext) {
+      return AlertDialog(
+       
+        title: Text(
+    'Confirm Deletion',
+    style: TextStyle(
+      color: Colors.black, // Change the color to your desired color
+    ),
+  ),
+        content: Text('Are you sure you want to delete this product?',style: TextStyle(
+      color: Colors.black, // Change the color to your desired color
+    ),),
+        
+       
+        actions: <Widget>[
+          TextButton(
+            child: Text(
+    'Cancel',
+    style: TextStyle(
+      color: Colors.black, // Change the color to your desired color
+    ),
+  ),
+            onPressed: () {
+              // Close the dialog without deleting the product
+              Navigator.of(dialogContext).pop();
+            },
+          ),
+          TextButton(
+            child: Text('Delete',style: TextStyle(
+      color: Colors.red, // Change the color to your desired color
+    ),),
+            onPressed: () async {
+              // Close the dialog and delete the product
+              Navigator.of(dialogContext).pop();
+              await deleteProduct(id);
+              // You can add further logic or UI updates here after the product is deleted.
+            },
+          ),
+        ],
+      );
+    },
+  );
+}
+
 
 
 

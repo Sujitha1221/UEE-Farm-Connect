@@ -24,6 +24,7 @@ export const ProductController = {
           }
       
           const product = new Product({ productName, farmerName, quantity, amountPerkg, expiryDate, photo });
+          const expiry = 
       
           await product.save();
       
@@ -55,7 +56,7 @@ export const ProductController = {
           const products = await Product.find({ farmerName: farmerName });
       
           if (products.length === 0) {
-            return res.status(404).json({ status: "No products found for this farmer" });
+            return res.status(200).json( [] );
           }
       
           res.status(200).json({ status: "Products found", products });
@@ -64,6 +65,7 @@ export const ProductController = {
           res.status(500).json({ status: "Error with fetching products", error: err.message });
         }
       },
+      
 
       deleteProductById: async (req, res) => {
         try {

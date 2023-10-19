@@ -44,5 +44,7 @@ class ImageConstant {
 
     static String imgBillmiller1 = '$imagePath/img_billmiller1.png';
 
+    static String imgDelete =  '$imagePath/delete.jpg';
+
 
 }

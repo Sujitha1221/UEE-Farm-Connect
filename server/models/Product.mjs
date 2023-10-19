@@ -11,7 +11,7 @@ const productSchema = new mongoose.Schema(
       required: true,
     },
     quantity: {
-      type: String,
+      type: Number,
       required: true,
     },
     amountPerkg: {
@@ -19,7 +19,7 @@ const productSchema = new mongoose.Schema(
       required: true,
     },
     expiryDate:{
-        type:String,
+        type:Date,
         required:true
     },
     photo: {

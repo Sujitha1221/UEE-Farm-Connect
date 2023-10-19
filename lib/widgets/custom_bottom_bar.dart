@@ -87,11 +87,11 @@ class CustomBottomBarState extends State<CustomBottomBar> {
     switch (type) {
       case BottomBarEnum.Home:
         // Navigate to the home page
-        Navigator.of(context).pushReplacementNamed('/test');
+        Navigator.of(context).pushReplacementNamed('/add_product_page_screen');
         break;
       case BottomBarEnum.User:
         // Handle User button action
-        Navigator.of(context).pushReplacementNamed('/add_product_page_screen');
+        Navigator.of(context).pushReplacementNamed('/view_product_page_farmer_screen');
         break;
       case BottomBarEnum.Arrowright:
         // Handle Arrowright button action

@@ -65,6 +65,8 @@ class _AddProductState extends State<AddProductPageScreen> {
   TextEditingController expiryDateController = TextEditingController();
   TextEditingController photoController = TextEditingController();
 
+  DateTime? selectedDate;
+
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   @override
@@ -178,66 +180,73 @@ class _AddProductState extends State<AddProductPageScreen> {
                                 ),
                               ),
                             ),
-                           GestureDetector(
-  onTap: () {
-    // Show a dialog with the image
-    showDialog(
-  context: context,
-  builder: (BuildContext context) {
-    return Dialog(
-      child: Stack(
-        children: [
-          Positioned(
-            top: 5.0, // Adjust the top position as needed
-            right: 5.0, // Adjust the right position as needed
-            child: GestureDetector(
-              onTap: () {
-                Navigator.of(context).pop(); // Close the dialog
-              },
-              child: Icon(
-                Icons.close, 
-                size: 30.0, 
-                color: Colors.black,
-              ),
-            ),
-          ),
-          Positioned( // Adjust the top position as needed to position the translation image below the close icon
-            right:0.1, 
-            left: 0.1,// Adjust the right position as needed to place the translation image to the right
-            child: Transform.scale(
-              scale: 0.5, // Adjust the scale factor as needed
-              child: Image.asset('assets/images/img_askquestion.png'), // Adjust the path to match your project structure
-            ),
-          ),
-          
-          Positioned(
-            top: 300.0, // Adjust the top position as needed to position the translation image below the close icon
-            right:0.1, 
-            left: 0.1,// Adjust the right position as needed to place the translation image to the right
-            child: Transform.scale(
-              scale: 1.0, // Adjust the scale factor as needed
-              child: Image.asset('assets/images/img_translation.png'), // Adjust the path to match your project structure
-            ),
-          ),
-        ],
-      ),
-    );
-  },
-);
-
-
-  },
-  child: CustomImageView(
-    imagePath: ImageConstant.imgUnverifiedaccount,
-    height: 46.v,
-    width: 52.h,
-    margin: EdgeInsets.only(
-      left: 2.h,
-      bottom: 2.v,
-    ),
-  ),
-)
-
+                            GestureDetector(
+                              onTap: () {
+                                // Show a dialog with the image
+                                showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return Dialog(
+                                      child: Stack(
+                                        children: [
+                                          Positioned(
+                                            top:
+                                                5.0, // Adjust the top position as needed
+                                            right:
+                                                5.0, // Adjust the right position as needed
+                                            child: GestureDetector(
+                                              onTap: () {
+                                                Navigator.of(context)
+                                                    .pop(); // Close the dialog
+                                              },
+                                              child: Icon(
+                                                Icons.close,
+                                                size: 30.0,
+                                                color: Colors.black,
+                                              ),
+                                            ),
+                                          ),
+                                          Positioned(
+                                            // Adjust the top position as needed to position the translation image below the close icon
+                                            right: 0.1,
+                                            left:
+                                                0.1, // Adjust the right position as needed to place the translation image to the right
+                                            child: Transform.scale(
+                                              scale:
+                                                  0.5, // Adjust the scale factor as needed
+                                              child: Image.asset(
+                                                  'assets/images/img_askquestion.png'), // Adjust the path to match your project structure
+                                            ),
+                                          ),
+                                          Positioned(
+                                            top:
+                                                300.0, // Adjust the top position as needed to position the translation image below the close icon
+                                            right: 0.1,
+                                            left:
+                                                0.1, // Adjust the right position as needed to place the translation image to the right
+                                            child: Transform.scale(
+                                              scale:
+                                                  1.0, // Adjust the scale factor as needed
+                                              child: Image.asset(
+                                                  'assets/images/img_translation.png'), // Adjust the path to match your project structure
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    );
+                                  },
+                                );
+                              },
+                              child: CustomImageView(
+                                imagePath: ImageConstant.imgUnverifiedaccount,
+                                height: 46.v,
+                                width: 52.h,
+                                margin: EdgeInsets.only(
+                                  left: 2.h,
+                                  bottom: 2.v,
+                                ),
+                              ),
+                            )
                           ],
                         ),
                       ),
@@ -268,7 +277,7 @@ class _AddProductState extends State<AddProductPageScreen> {
                           top: 52.v,
                           right: 25.h,
                         ),
-                        hintText: "Quantity",
+                        hintText: "Quantity in kg",
                         textInputAction: TextInputAction.done,
                         textInputType: TextInputType.number,
                         prefix: Container(
@@ -309,11 +318,10 @@ class _AddProductState extends State<AddProductPageScreen> {
                           right: 25.h,
                         ),
                         hintText: "Expiry Date",
-                        textInputAction: TextInputAction.done,
-                        textInputType: TextInputType.datetime,
-                        // Use TextInputType.datetime for the keyboard
-                        
-
+                        enabled: false, // Make the text field read-only
+                        onTap: () {
+                          selectDate();
+                        },
                         prefix: Container(
                           margin: EdgeInsets.fromLTRB(27.h, 15.v, 17.h, 15.v),
                           child: CustomImageView(
@@ -366,6 +374,23 @@ class _AddProductState extends State<AddProductPageScreen> {
         ),
       ),
     );
+  }
+
+  Future<Null> selectDate() async {
+    print("object");
+    DateTime? pickedDate = await showDatePicker(
+      context: context,
+      initialDate: selectedDate ?? DateTime.now(),
+      firstDate: DateTime(2000),
+      lastDate: DateTime(2101),
+    );
+
+    if (pickedDate != null) {
+      setState(() {
+        selectedDate = pickedDate;
+        expiryDateController.text = DateFormat('yyyy-MM-dd').format(pickedDate);
+      });
+    }
   }
 
   Future<String?> pickAndConvertImage() async {
@@ -456,5 +481,4 @@ class _AddProductState extends State<AddProductPageScreen> {
     return prefs.getString('empName') ??
         ''; // Provide a default value if 'empId' is not found
   }
-  
 }

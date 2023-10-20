@@ -11,6 +11,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:flutter/cupertino.dart'; // For iOS-style date picker
 
 // ignore: must_be_immutable
 
@@ -280,6 +281,9 @@ class _AddProductState extends State<AddProductPageScreen> {
                         hintText: "Quantity in kg",
                         textInputAction: TextInputAction.done,
                         textInputType: TextInputType.number,
+                        onTap: () {
+                          print("object");
+                        },
                         prefix: Container(
                           margin: EdgeInsets.fromLTRB(27.h, 15.v, 17.h, 15.v),
                           child: CustomImageView(
@@ -319,7 +323,7 @@ class _AddProductState extends State<AddProductPageScreen> {
                         ),
                         hintText: "Expiry Date",
                         enabled: false, // Make the text field read-only
-                        onTap: () {
+                        onPressed: () {
                           selectDate();
                         },
                         prefix: Container(
@@ -377,7 +381,6 @@ class _AddProductState extends State<AddProductPageScreen> {
   }
 
   Future<Null> selectDate() async {
-    print("object");
     DateTime? pickedDate = await showDatePicker(
       context: context,
       initialDate: selectedDate ?? DateTime.now(),

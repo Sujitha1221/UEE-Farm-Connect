@@ -25,12 +25,15 @@ class CustomTextFormField extends StatelessWidget {
     this.borderDecoration,
     this.fillColor,
     this.filled = true,
-    this.validator, Null Function()? onTap, Null Function()? onPressed, bool? readOnly,  bool? enabled,
+    this.onPressed, 
+    this.validator, Null Function()? onTap, bool? readOnly,  bool? enabled,
   }) : super(
           key: key,
         );
 
   final Alignment? alignment;
+
+  final VoidCallback? onPressed;
 
   final double? width;
 
@@ -98,6 +101,7 @@ class CustomTextFormField extends StatelessWidget {
           maxLines: maxLines ?? 1,
           decoration: decoration,
           validator: validator,
+          onTap: onPressed,
         ),
       );
   InputDecoration get decoration => InputDecoration(

@@ -7,6 +7,7 @@ import 'package:form_structure/widgets/custom_bottom_bar.dart';
 import 'package:form_structure/widgets/custom_elevated_button.dart';
 import 'package:form_structure/widgets/custom_search_view.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ViewPageUserScreen extends StatefulWidget {
   ViewPageUserScreen({Key? key}) : super(key: key);
@@ -418,6 +419,10 @@ class _ViewUserState extends State<ViewPageUserScreen> {
                                                         CustomElevatedButton(
                                                           width: 68.h,
                                                           text: "Bid",
+                                                          onTap: (){
+                                                            navigate(farmerName,productName,quantity);
+                                                            
+                                                          },
                                                           margin:
                                                               EdgeInsets.only(
                                                                   top: 14.v),
@@ -552,5 +557,17 @@ showDialog(
     } else {
       throw Exception('Failed to get farmer contact');
     }
+  }
+  
+  Future<void> navigate(String farmerName, String productName, String quantity,) async {
+    final prefs = await SharedPreferences.getInstance();
+        await prefs.setString('farmerName', farmerName);
+        await prefs.setString('productName', productName);
+        await prefs.setString('quantity', quantity);
+
+
+    Navigator.of(context).pushReplacementNamed(
+                        '/request_bidding_screen'
+); 
   }
 }

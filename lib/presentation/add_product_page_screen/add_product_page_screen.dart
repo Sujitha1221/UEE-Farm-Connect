@@ -304,6 +304,7 @@ class _AddProductState extends State<AddProductPageScreen> {
                         hintText: "Amount Per kg",
                         textInputAction: TextInputAction.done,
                         textInputType: TextInputType.number,
+                        readOnly: true,
                         prefix: Container(
                           margin: EdgeInsets.fromLTRB(27.h, 15.v, 17.h, 15.v),
                           child: CustomImageView(

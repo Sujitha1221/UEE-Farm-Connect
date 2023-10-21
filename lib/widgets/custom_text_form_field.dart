@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:form_structure/core/app_export.dart';
 
 class CustomTextFormField extends StatelessWidget {
+  
+
   CustomTextFormField({
     Key? key,
     this.alignment,
@@ -18,6 +20,7 @@ class CustomTextFormField extends StatelessWidget {
     this.hintText,
     this.hintStyle,
     this.prefix,
+    this.readOnly,
     this.prefixConstraints,
     this.suffix,
     this.suffixConstraints,
@@ -26,7 +29,7 @@ class CustomTextFormField extends StatelessWidget {
     this.fillColor,
     this.filled = true,
     this.onPressed, 
-    this.validator, Null Function()? onTap, bool? readOnly,  bool? enabled,
+    this.validator, Null Function()? onTap,  bool? enabled,
   }) : super(
           key: key,
         );
@@ -60,6 +63,8 @@ class CustomTextFormField extends StatelessWidget {
   final TextStyle? hintStyle;
 
   final Widget? prefix;
+
+  final bool?  readOnly;
 
   final BoxConstraints? prefixConstraints;
 

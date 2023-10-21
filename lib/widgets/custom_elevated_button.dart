@@ -3,7 +3,7 @@ import 'package:form_structure/core/app_export.dart';
 import 'package:form_structure/widgets/base_button.dart';
 
 class CustomElevatedButton extends BaseButton {
-  CustomElevatedButton({
+  CustomElevatedButton(  {
     Key? key,
     this.decoration,
     this.leftIcon,

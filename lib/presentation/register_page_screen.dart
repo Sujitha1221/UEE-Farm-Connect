@@ -5,52 +5,55 @@ import 'package:form_structure/core/app_export.dart';
 import 'package:form_structure/widgets/custom_bottom_bar.dart';
 import 'package:form_structure/widgets/custom_elevated_button.dart';
 import 'package:http/http.dart' as http;
+
 import 'package:form_structure/widgets/custom_text_form_field.dart';
-
-
-
 
 // ignore: must_be_immutable
 class User {
-  String firstname;
-  String lastname;
+  String userName;
   String email;
+  int contact;
   String password;
+  String role;
 
   User({
-    required this.firstname,
-    required this.lastname,
+    required this.userName,
     required this.email,
+    required this.contact,
     required this.password,
+    required this.role,
   });
 
   Map<String, dynamic> toJson() {
     return {
-      'firstname': firstname,
-      'lastname': lastname,
+      'userName': userName,
       'email': email,
+      'contact': contact,
       'password': password,
+      'role': role,
     };
   }
 }
 
-class HomePageScreen extends StatelessWidget {
-  
-  HomePageScreen({Key? key})
-      : super(
-          key: key,
-        );
+class RegisterPageScreen extends StatefulWidget {
+  RegisterPageScreen({Key? key}) : super(key: key);
+
+  @override
+  _RegisterPageScreenState createState() => _RegisterPageScreenState();
+}
+
+class _RegisterPageScreenState extends State<RegisterPageScreen> {
+  String selectedRole = "farmer";
+  final List<String> roleOptions = ["farmer", "buyer"];
 
   GlobalKey<NavigatorState> navigatorKey = GlobalKey();
 
+  TextEditingController userNameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
-  TextEditingController firstnameController = TextEditingController();
-  TextEditingController lastnameController = TextEditingController();
+  TextEditingController contactController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
-
+  TextEditingController roleController = TextEditingController();
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-
-  
 
   @override
   Widget build(BuildContext context) {
@@ -114,7 +117,8 @@ class HomePageScreen extends StatelessWidget {
                             Opacity(
                               opacity: 0.9,
                               child: CustomImageView(
-                                imagePath: ImageConstant.imgJagokisanremovebgpreview,
+                                imagePath:
+                                    ImageConstant.imgJagokisanremovebgpreview,
                                 height: 97.v,
                                 width: 104.h,
                                 radius: BorderRadius.circular(
@@ -153,7 +157,7 @@ class HomePageScreen extends StatelessWidget {
                                   top: 10.v,
                                 ),
                                 child: Text(
-                                  "Login Your Account",
+                                  "Create Account",
                                   style: theme.textTheme.headlineSmall,
                                 ),
                               ),
@@ -171,39 +175,19 @@ class HomePageScreen extends StatelessWidget {
                         ),
                       ),
                       CustomTextFormField(
-                        controller: firstnameController,
+                        controller: userNameController,
                         margin: EdgeInsets.only(
                           left: 25.h,
                           top: 52.v,
                           right: 25.h,
                         ),
-                        hintText: "First name",
+                        hintText: "Full name",
                         textInputAction: TextInputAction.done,
-                        textInputType: TextInputType.emailAddress,
+                        textInputType: TextInputType.name,
                         prefix: Container(
                           margin: EdgeInsets.fromLTRB(27.h, 15.v, 17.h, 15.v),
                           child: CustomImageView(
-                            svgPath: ImageConstant.imgCalculator,
-                          ),
-                        ),
-                        prefixConstraints: BoxConstraints(
-                          maxHeight: 54.v,
-                        ),
-                      ),
-                      CustomTextFormField(
-                        controller: lastnameController,
-                        margin: EdgeInsets.only(
-                          left: 25.h,
-                          top: 52.v,
-                          right: 25.h,
-                        ),
-                        hintText: "Last name",
-                        textInputAction: TextInputAction.done,
-                        textInputType: TextInputType.emailAddress,
-                        prefix: Container(
-                          margin: EdgeInsets.fromLTRB(27.h, 15.v, 17.h, 15.v),
-                          child: CustomImageView(
-                            svgPath: ImageConstant.imgCalculator,
+                            svgPath: ImageConstant.username,
                           ),
                         ),
                         prefixConstraints: BoxConstraints(
@@ -223,7 +207,27 @@ class HomePageScreen extends StatelessWidget {
                         prefix: Container(
                           margin: EdgeInsets.fromLTRB(27.h, 15.v, 17.h, 15.v),
                           child: CustomImageView(
-                            svgPath: ImageConstant.imgCalculator,
+                            svgPath: ImageConstant.email,
+                          ),
+                        ),
+                        prefixConstraints: BoxConstraints(
+                          maxHeight: 54.v,
+                        ),
+                      ),
+                      CustomTextFormField(
+                        controller: contactController,
+                        margin: EdgeInsets.only(
+                          left: 25.h,
+                          top: 52.v,
+                          right: 25.h,
+                        ),
+                        hintText: "Contact Number",
+                        textInputAction: TextInputAction.done,
+                        textInputType: TextInputType.phone,
+                        prefix: Container(
+                          margin: EdgeInsets.fromLTRB(27.h, 15.v, 17.h, 15.v),
+                          child: CustomImageView(
+                            svgPath: ImageConstant.phone,
                           ),
                         ),
                         prefixConstraints: BoxConstraints(
@@ -239,36 +243,74 @@ class HomePageScreen extends StatelessWidget {
                         ),
                         hintText: "Password",
                         textInputAction: TextInputAction.done,
-                        textInputType: TextInputType.emailAddress,
+                        textInputType: TextInputType.visiblePassword,
                         prefix: Container(
                           margin: EdgeInsets.fromLTRB(27.h, 15.v, 17.h, 15.v),
                           child: CustomImageView(
-                            svgPath: ImageConstant.imgCalculator,
+                            svgPath: ImageConstant.password,
                           ),
                         ),
                         prefixConstraints: BoxConstraints(
                           maxHeight: 54.v,
                         ),
                       ),
-           
-           
-             
-          
+                      Container(
+                        margin: EdgeInsets.only(
+                          left: 25.0,
+                          top: 52.0,
+                          right: 25.0,
+                        ),
+                        padding: EdgeInsets.symmetric(
+                            horizontal: 10.0), // Adjust padding as needed
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(
+                              8.0), // Adjust border radius as needed
+                          border: Border.all(
+                              color: Colors
+                                  .black), // Adjust border color as needed
+                        ),
+                        child: DropdownButton<String>(
+                          value: selectedRole,
+                          onChanged: (String? newValue) {
+                            if (newValue != null) {
+                              setState(() {
+                                selectedRole = newValue;
+                              });
+                            }
+                          },
+                          items: roleOptions.map((String role) {
+                            return DropdownMenuItem<String>(
+                              value: role,
+                              child: Text(role),
+                            );
+                          }).toList(),
+                        ),
+                      ),
                       CustomElevatedButton(
-  text: "LOGIN",
-  margin: EdgeInsets.fromLTRB(37.h, 79.v, 23.h, 5.v),
-  onTap: () {
-    final user = User(
-      firstname: firstnameController.text,
-      lastname: lastnameController.text, 
-      email: emailController.text,
-      password: passwordController.text,
-    );
+                        text: "SUBMIT",
+                        margin: EdgeInsets.fromLTRB(37.h, 79.v, 23.h, 5.v),
+                        onTap: () {
+                          int contact =
+                              int.tryParse(contactController.text) ?? 0;
+                          final user = User(
+                            userName: userNameController.text,
+                            email: emailController.text,
+                            contact: contact,
+                            password: passwordController.text,
+                            role: selectedRole,
+                          );
 
-   createUser(user);
-  },
-),
-
+                          createUser(user);
+                        },
+                      ),
+                      TextButton(
+                        onPressed: () {
+                          print("Log in button pressed");
+                          Navigator.of(context)
+                              .pushNamed(AppRoutes.loginPageScreen);
+                        },
+                        child: Text("Already have an account? Log in"),
+                      ),
                     ],
                   ),
                 ),
@@ -283,55 +325,54 @@ class HomePageScreen extends StatelessWidget {
     );
   }
 
-Future createUser(User user) async {
-
-  try {
-    final response = await http.post(
-      Uri.parse('http://192.168.56.1:8080/user/add'),
-      headers: {'Content-Type': 'application/json'},
-      body: jsonEncode(user.toJson()), // Convert User object to JSON
+  Future<void> _showUserCreatedDialog(User user) async {
+    return showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text("User Created"),
+          content: Text("Your account has been created successfully."),
+          actions: <Widget>[
+            TextButton(
+              child: Text("OK"),
+              onPressed: () {
+                Navigator.of(context).pop(); // Close the dialog
+                if (user.role == "buyer") {
+                  Navigator.of(context)
+                      .pushNamed(AppRoutes.banAccountDetailsScreen);
+                } else if (user.role == "farmer") {
+                  Navigator.of(context)
+                      .pushNamed(AppRoutes.userLoginPageScreen);
+                }
+              },
+            ),
+          ],
+        );
+      },
     );
-
-    if (response.statusCode == 200) {
-      // Successful request
-      return response.body;
-    } else {
-      // Handle error responses here
-      print('Request failed with status: ${response.statusCode}');
-      print('Response body: ${response.body}');
-      throw Exception('Failed to create user');
-    }
-  } catch (e) {
-    // Handle network errors or other exceptions here
-    print('Error: $e');
-    throw Exception('Failed to create user1111111');
   }
-}
 
-// Future getUser(User user) async {
+  Future createUser(User user) async {
+    try {
+      final response = await http.post(
+        Uri.parse('http://192.168.56.1:8080/user/add-user'),
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode(user.toJson()),
+      );
 
-//   try {
-//     final response = await http.get(
-//       Uri.parse('http://192.168.56.1:8080/user/'),
-//       headers: {'Content-Type': 'application/json'}
-      
-//       // Convert User object to JSON
-//     );
-//     print(response.body);
-
-//     if (response.statusCode == 200) {
-//       // Successful request
-//       return response.body;
-//     } else {
-//       // Handle error responses here
-//       print('Request failed with status: ${response.statusCode}');
-//       print('Response body: ${response.body}');
-//       throw Exception('Failed to create user');
-//     }
-//   } catch (e) {
-//     // Handle network errors or other exceptions here
-//     print('Error: $e');
-//     throw Exception('Failed to create user1111111');
-//   }
-// }
+      if (response.statusCode == 200) {
+        // Show a user-created dialog
+        _showUserCreatedDialog(user);
+      } else {
+        // Handle error responses here
+        print('Request failed with status: ${response.statusCode}');
+        print('Response body: ${response.body}');
+        throw Exception('Failed to create user');
+      }
+    } catch (e) {
+      // Handle network errors or other exceptions here
+      print('Error: $e');
+      throw Exception('Failed to create user1111111');
+    }
+  }
 }

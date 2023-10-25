@@ -29,7 +29,8 @@ class CustomTextFormField extends StatelessWidget {
     this.fillColor,
     this.filled = true,
     this.onPressed, 
-    this.validator, Null Function()? onTap,  bool? enabled,
+    this.enabled = true,
+    this.validator, Null Function()? onTap,
   }) : super(
           key: key,
         );
@@ -47,6 +48,8 @@ class CustomTextFormField extends StatelessWidget {
   final FocusNode? focusNode;
 
   final bool? autofocus;
+
+  final bool? enabled;
 
   final TextStyle? textStyle;
 
@@ -107,6 +110,7 @@ class CustomTextFormField extends StatelessWidget {
           decoration: decoration,
           validator: validator,
           onTap: onPressed,
+          enabled: enabled,
         ),
       );
   InputDecoration get decoration => InputDecoration(

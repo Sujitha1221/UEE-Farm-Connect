@@ -9,9 +9,6 @@ import 'package:form_structure/widgets/custom_text_form_field.dart';
 import 'package:intl/intl.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
-import 'package:flutter/cupertino.dart'; // For iOS-style date picker
 
 // ignore: must_be_immutable
 
@@ -323,7 +320,7 @@ class _AddProductState extends State<AddProductPageScreen> {
                           right: 25.h,
                         ),
                         hintText: "Expiry Date",
-                        enabled: false, // Make the text field read-only
+                       // Make the text field read-only
                         onPressed: () {
                           selectDate();
                         },
@@ -353,10 +350,10 @@ class _AddProductState extends State<AddProductPageScreen> {
                       CustomElevatedButton(
                         text: "ADD",
                         margin: EdgeInsets.fromLTRB(37.h, 20.v, 23.h, 5.v),
-                        onTap: () {
+                        onTap: () async {
                           final product = Product(
                               productName: productNameController.text,
-                              farmerName: "Sajeevan Siva",
+                              farmerName: await getFarmerNameFromLocalStorage(),
                               quantity: double.parse(quantityController.text),
                               unitPrice:
                                   double.parse(amountPerkgController.text),
@@ -480,9 +477,9 @@ class _AddProductState extends State<AddProductPageScreen> {
     }
   }
 
-  Future<String> getEmpNameFromLocalStorage() async {
+  Future<String> getFarmerNameFromLocalStorage() async {
     final prefs = await SharedPreferences.getInstance();
-    return prefs.getString('empName') ??
+    return prefs.getString('userName') ??
         ''; // Provide a default value if 'empId' is not found
   }
 }

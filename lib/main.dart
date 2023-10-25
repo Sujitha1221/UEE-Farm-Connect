@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
       theme: theme,
       title: 'Farm Connect',
       debugShowCheckedModeBanner: false,
-      initialRoute: AppRoutes.addProductPageScreen,
+      initialRoute: AppRoutes.userLoginPageScreen,
       routes: AppRoutes.routes,
     );
   }

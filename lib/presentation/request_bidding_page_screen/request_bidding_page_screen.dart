@@ -215,7 +215,7 @@ class _RBScreenState extends State<RequestBiddingPage> {
                           top: 52.v,
                           right: 25.h,
                         ),
-                        hintText: "${widget.farmerName}",
+                        hintText: "productName",
                         
                         // textInputAction: TextInputAction.done,
                         textInputType: TextInputType.emailAddress,

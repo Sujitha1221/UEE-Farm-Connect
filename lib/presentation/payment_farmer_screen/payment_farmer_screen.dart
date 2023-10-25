@@ -42,7 +42,8 @@ class _PFScreenState extends State<PaymentFarmerScreen> {
     try {
       final userName = "adsTo";
       final response = await client.get(
-        Uri.parse('http://192.168.56.1:8080/payment/get-all-payment-user/$userName'),
+        Uri.parse(
+            'http://192.168.56.1:8080/payment/get-all-payment-user/$userName'),
         headers: {'Content-Type': 'application/json'},
       );
 
@@ -159,7 +160,10 @@ class _PFScreenState extends State<PaymentFarmerScreen> {
                                 top: 10.v,
                                 bottom: 7.v,
                               ),
-                              onTap:() => { Navigator.of(context).pushReplacementNamed('/view_current_bidding_farmer_screen')},
+                              onTap: () => {
+                                Navigator.of(context).pushReplacementNamed(
+                                    '/view_current_bidding_farmer_screen')
+                              },
                             ),
                             Opacity(
                               opacity: 0.9,
@@ -183,7 +187,9 @@ class _PFScreenState extends State<PaymentFarmerScreen> {
                           shrinkWrap: true,
                           itemBuilder: (context, index) {
                             Map<String, dynamic> bid = paymentList[index];
-                            String transactionDateTime = bid['transactionDateTime'].substring(3, 16) ?? "Unknown";
+                            String transactionDateTime =
+                                bid['transactionDateTime'].substring(3, 16) ??
+                                    "Unknown";
                             String amount = bid['amount'] ?? "0.0";
 
                             return Container(
@@ -205,8 +211,10 @@ class _PFScreenState extends State<PaymentFarmerScreen> {
                                           BorderRadiusStyle.roundedBorder18,
                                     ),
                                     child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
                                       children: [
                                         Opacity(
                                           opacity: 0.9,

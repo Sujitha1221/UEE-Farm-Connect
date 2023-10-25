@@ -11,6 +11,7 @@ import Bidding from "./models/Bidding.mjs";
 import axios from "axios";
 import ProductRouter from "./routes/ProductRoute.mjs";
 import UserRouter from "./routes/UserRoute.mjs";
+import BankDetailsRouter from "./routes/BankDetails.mjs";
 
 const app = express();
 const PORT = process.env.PORT || "8080";
@@ -67,4 +68,4 @@ app.use('/product', ProductRouter);
 app.use("/user", UserRouter);
 app.use("/payment", PaymentRoute);
 app.use("/bidding", BiddingRoute);
-
+app.use("/bank", BankDetailsRouter);

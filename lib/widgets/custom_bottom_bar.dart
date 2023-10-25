@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:form_structure/core/app_export.dart';
 
+// ignore: must_be_immutable
 class CustomBottomBar extends StatefulWidget {
   CustomBottomBar({this.onChanged});
 

@@ -41,7 +41,6 @@ export const loginUser = async (req, res) => {
           userName: user.userName,
           email: user.email,
           contact: user.contact,
-          password: user.password,
           role: user.role,
         },
       });
@@ -82,7 +81,7 @@ export const changePassword = async (req, res) => {
 
 export const updateUser = async (req, res) => {
   try {
-    const { email, username, password, contact } = req.body;
+    const { email, username, contact } = req.body;
 
     // Find the user by email
     const user = await User.findOne({ email });
@@ -94,11 +93,6 @@ export const updateUser = async (req, res) => {
     // Update the user's username, password, and contact
     if (username) {
       user.userName = username;
-    }
-    if (password) {
-      const saltRounds = 12;
-      const hashedNewPassword = await bcrypt.hash(password, saltRounds);
-      user.password = hashedNewPassword;
     }
     if (contact) {
       user.contact = contact;
@@ -135,17 +129,17 @@ export const deleteUser = async (req, res) => {
 };
 
 export const getFarmerContact = async (req, res) => {
-    try {
-        const { farmerName } = req.params;
+  try {
+      const { farmerName } = req.params;
 
-        const farmer = await User.findOne({ userName:farmerName });
+      const farmer = await User.findOne({ userName:farmerName });
 
-        if (!farmer) {
-            return res.status(404).json({ error: "Farmer not found" });
-        }
+      if (!farmer) {
+          return res.status(404).json({ error: "Farmer not found" });
+      }
 
-        res.status(200).json({ contact: farmer.contact });
-    } catch (error) {
-        res.status(500).json({ error: "Internal server error" });
-    }
+      res.status(200).json({ contact: farmer.contact });
+  } catch (error) {
+      res.status(500).json({ error: "Internal server error" });
+  }
 };

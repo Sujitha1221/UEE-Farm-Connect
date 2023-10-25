@@ -1,6 +1,7 @@
 import twilio from "twilio";
 import cron from "node-cron";
 import mongoose from "mongoose";
+import moment from "moment-timezone"; // Import the moment-timezone library
 
 // Replace with your MongoDB connection URL
 mongoose.connect(process.env.MONGODB_URL, {
@@ -27,40 +28,35 @@ const sendSMS = (to, body) => {
   });
 };
 
+// Set the time zone to Sri Lankan time (Asia/Colombo)
+moment.tz.setDefault("Asia/Colombo");
 
-
-// Calculate the notification date (two days before expiryDate)
-const notificationDate = new Date();
-
+// Calculate the notification date (three days in the future)
+const notificationDate = moment();
 
 // Set the time portion to midnight (00:00:00)
-notificationDate.setHours(0, 0, 0, 0);
+notificationDate.startOf("day");
 
-notificationDate.setDate(notificationDate.getDate() + 2); // Advance by 1 day
+notificationDate.add(3, "days"); // Advance by 3 days
 
-console.log(notificationDate);
-
-// Schedule SMS notifications for products expiring in two days
-cron.schedule('0 8 * * *', async () => {
-  
+// Schedule SMS notifications for products expiring in two days at midnight Sri Lankan time
+// Schedule SMS notifications for products expiring in two days at midnight Sri Lankan time
+cron.schedule('0 0 * * *', async () => {
   try {
-  
     const products = await Product.find({
-      // Find products with expiry date greater than notificationDate and less than expiryDate
+      // Find products with expiry date greater than or equal to notificationDate and less than expiryDate
       expiryDate: {
-        $gte: notificationDate,
-        $lt: new Date(notificationDate.getTime() + 2 * 24 * 60 * 60 * 1000), // Two days later
+        $gte: notificationDate.toDate(),
+        $lt: moment(notificationDate).add(2, "days").toDate(), // Two days later
       },
     });
-
+    console.log(notificationDate); // Change this line
 
     for (const product of products) {
       const farmer = await User.findOne({ userName: product.farmerName });
 
       if (farmer) {
-        console.log(farmer);
         const farmerPhoneNumber = "+94" + farmer.contact.toString();
-        console.log(farmerPhoneNumber);
         const message = `Hi ${farmer.userName}, your product "${product.productName}" is expiring in two days. Please take action.`;
 
         // Send SMS notification
@@ -73,3 +69,4 @@ cron.schedule('0 8 * * *', async () => {
     console.error(`Error retrieving products: ${error}`);
   }
 });
+

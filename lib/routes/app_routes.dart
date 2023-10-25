@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:form_structure/presentation/add_product_page_screen/add_product_page_screen.dart';
-import 'package:form_structure/presentation/home_page_screen/home_page_screen.dart';
-import 'package:form_structure/presentation/login_page_screen/login_page_screen.dart';
 import 'package:form_structure/presentation/request_bidding_page_screen/request_bidding_page_screen.dart';
 import 'package:form_structure/presentation/view_current_bidding_user_screen/view_current_bidding_user_screen.dart';
 import 'package:form_structure/presentation/view_product_user_screen/view_product_user_screen.dart';
@@ -11,6 +9,11 @@ import '../presentation/payment_user_screen/payment_user_screen.dart';
 import '../presentation/view_bidding_farmer_screen/view_bidding_farmer_screen.dart';
 import '../presentation/view_bidding_user_screen/view_bidding_user_screen.dart';
 import '../presentation/view_current_bidding_farmer_screen/view_current_bidding_farmer_screen.dart';
+import '../presentation/user_login_page_screen.dart';
+import '../presentation/register_page_screen.dart';
+import '../presentation/forgot_password_screen.dart';
+import '../presentation/bank_account_details_screen.dart';
+import '../presentation/profile_update_screen.dart';
 
 
 class AppRoutes {
@@ -26,13 +29,20 @@ class AppRoutes {
   static const String ViewBiddingScreen = '/view_bidding_screen';
   static const String PaymentUserScreens = '/payment_user_screen';
   static const String PaymentFarmerScreens = '/payment_farmer_screen';
+  static const String registerPageScreen = '/register_page_screen';
+  static const String userLoginPageScreen = '/user_login_page_screen';
+  static const String forgotPasswordScreen = '/forgot_password_screen';
+  static const String banAccountDetailsScreen =
+      '/bank_account_details_screen.dart';
+  static const String userProfileScreen = '/profile_update_screen';
+  
 
 
   
 
   static Map<String, WidgetBuilder> routes = {
-    loginPageScreen: (context) => LoginPageScreen(),
-    homePageScreen: (context) => HomePageScreen(),
+    loginPageScreen: (context) => UserLoginPageScreen(),
+    
     addProductPageScreen:(context) => AddProductPageScreen(),
     viewProductPageUserScreen:(context) => ViewPageUserScreen(),
     viewProductPageFarmerScreen:(context)=>ViewPageFarmerScreen(),
@@ -42,7 +52,12 @@ class AppRoutes {
     ViewCurrentBiddingScreen:(context) => ViewCurrentBiddingPage(),
     ViewBiddingScreen: (context) => ViewBiddingPage(),
     PaymentUserScreens:(context) => PaymentUserScreen(),
-    PaymentFarmerScreens: (context) => PaymentFarmerScreen()
+    PaymentFarmerScreens: (context) => PaymentFarmerScreen(),
+    registerPageScreen: (context) => RegisterPageScreen(),
+    userLoginPageScreen: (context) => UserLoginPageScreen(),
+    forgotPasswordScreen: (context) => ForgotPasswordPage(),
+    banAccountDetailsScreen: (context) => BankAccountPageScreen(),
+    userProfileScreen: (context) => UserProfilePage()
     
   };
 

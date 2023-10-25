@@ -19,9 +19,7 @@ class _UserLoginPageScreenState extends State<UserLoginPageScreen> {
 
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-
   Future<void> loginUser(BuildContext context) async {
-    // Pass context to loginUser
     try {
       final email = emailController.text;
       final password = passwordController.text;
@@ -30,7 +28,7 @@ class _UserLoginPageScreenState extends State<UserLoginPageScreen> {
           email.isNotEmpty &&
           password.isNotEmpty) {
         final response = await http.post(
-          Uri.parse('http://192.168.1.12:8080/user/login'),
+          Uri.parse('http://192.168.56.1:8080/user/login'),
           headers: {'Content-Type': 'application/json'},
           body: jsonEncode({
             'email': email,
@@ -40,50 +38,85 @@ class _UserLoginPageScreenState extends State<UserLoginPageScreen> {
 
         if (response.statusCode == 200) {
           final userData = jsonDecode(response.body);
+          print(userData);
 
-          if (userData != null) {
-            // Handle success and show the success dialog
-            showSuccessDialog(context, userData);
-            // ...
+          if (userData != null && userData is Map) {
+            // Save user data after successful login
+            final userName = userData['user']['userName'].toString();
+            print(userName);
+            final email = userData['user']['email'].toString();
+            print(email);
+            final contact = userData['user']['contact'].toString();
+            print(contact);
+            final role = userData['user']['role'].toString();
+            print(role);
+            final prefs = await SharedPreferences.getInstance();
+            await prefs.setString('userName', userName);
+            await prefs.setString('email', email);
+            await prefs.setString('contact', contact);
+            await prefs.setString('role', role);
+            if (role == 'farmer') {
+              // Handle farmer logic, e.g., navigate to the farmer screen
+              Navigator.of(context)
+                  .pushReplacementNamed(AppRoutes.userProfileScreen);
+            } else if (role == 'buyer') {
+              // Handle buyer logic, e.g., navigate to the buyer screen
+              Navigator.of(context)
+                  .pushReplacementNamed(AppRoutes.userProfileScreen);
+            }
           } else {
-            // Handle the case where userData is null and show an error dialog
-            showErrorDialog(context, 'User data is null');
+            // Handle the case where userData is not as expected
+            showAlertDialog(context, 'User data is not in the expected format');
           }
         } else {
           // Handle login error and show an error dialog
           print('Login failed with status: ${response.statusCode}');
           print('Response body: ${response.body}');
-          showErrorDialog(
+          showAlertDialog(
               context, 'Login failed with status ${response.statusCode}');
         }
       } else {
         // Handle the case where email or password is null and show an error dialog
+        showAlertDialog(context, 'Please enter valid email and password');
       }
     } catch (e) {
       // Handle network errors or other exceptions and show an error dialog
       print('Error: $e');
-      showErrorDialog(context, 'An error occurred: $e');
+      showAlertDialog(context, 'An error occurred: $e');
     }
   }
 
-  void showSuccessDialog(BuildContext context, Map<String, dynamic> userData) {
+  void showAlertDialog(BuildContext context, String message) {
     showDialog(
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: Text('Login Successful'),
-          content: Text('You have successfully logged in.'),
+          title: Text('Error'),
+          content: Text(message),
           actions: <Widget>[
             TextButton(
               onPressed: () {
                 Navigator.of(context).pop();
-                if (userData['role'] == 'farmer') {
-                  Navigator.of(context)
-                      .pushReplacementNamed(AppRoutes.homePageScreen);
-                } else if (userData['role'] == 'buyer') {
-                  Navigator.of(context)
-                      .pushReplacementNamed(AppRoutes.registerPageScreen);
-                }
+              },
+              child: Text('OK'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void showSuccessDialog(BuildContext context, String message) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text('success'),
+          content: Text(message),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
               },
               child: Text('OK'),
             ),
@@ -111,15 +144,6 @@ class _UserLoginPageScreenState extends State<UserLoginPageScreen> {
         );
       },
     );
-  }
-
-  Future<void> saveUserData(Map<String, dynamic> userData) async {
-    final prefs = await SharedPreferences.getInstance();
-    prefs.setString('userName', userData['userName']);
-    prefs.setString('email', userData['email']);
-    prefs.setString('contact', userData['contact']);
-    prefs.setString('role', userData['role']);
-    prefs.setString('password', userData['password']);
   }
 
   @override
@@ -284,12 +308,26 @@ class _UserLoginPageScreenState extends State<UserLoginPageScreen> {
                           maxHeight: 54,
                         ),
                       ),
+                      TextButton(
+                        onPressed: () {
+                          Navigator.of(context)
+                              .pushNamed(AppRoutes.forgotPasswordScreen);
+                        },
+                        child: Text("Forgot Password?"),
+                      ),
                       CustomElevatedButton(
                         margin: EdgeInsets.fromLTRB(37, 79, 23, 5),
                         text: "Login",
                         onTap: () {
                           loginUser(context);
                         },
+                      ),
+                      TextButton(
+                        onPressed: () {
+                          Navigator.of(context)
+                              .pushNamed(AppRoutes.registerPageScreen);
+                        },
+                        child: Text("Don't have an account? Register"),
                       ),
                     ],
                   ),

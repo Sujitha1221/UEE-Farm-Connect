@@ -24,7 +24,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
       if (email.isNotEmpty && newPassword.isNotEmpty) {
         final response = await http.post(
           Uri.parse(
-              'http://192.168.1.12:8080/user/change-pwd'), // Use the correct URL
+              'http://192.168.56.1:8080/user/change-pwd'), // Use the correct URL
           headers: {'Content-Type': 'application/json'},
           body: jsonEncode({
             'email': email,

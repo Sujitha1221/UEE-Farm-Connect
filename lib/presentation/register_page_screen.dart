@@ -305,6 +305,7 @@ class _RegisterPageScreenState extends State<RegisterPageScreen> {
                       ),
                       TextButton(
                         onPressed: () {
+                          print("Log in button pressed");
                           Navigator.of(context)
                               .pushNamed(AppRoutes.loginPageScreen);
                         },
@@ -340,7 +341,8 @@ class _RegisterPageScreenState extends State<RegisterPageScreen> {
                   Navigator.of(context)
                       .pushNamed(AppRoutes.banAccountDetailsScreen);
                 } else if (user.role == "farmer") {
-                  Navigator.of(context).pushNamed(AppRoutes.loginPageScreen);
+                  Navigator.of(context)
+                      .pushNamed(AppRoutes.userLoginPageScreen);
                 }
               },
             ),
@@ -353,7 +355,7 @@ class _RegisterPageScreenState extends State<RegisterPageScreen> {
   Future createUser(User user) async {
     try {
       final response = await http.post(
-        Uri.parse('http://192.168.1.12:8080/user/add-user'),
+        Uri.parse('http://192.168.56.1:8080/user/add-user'),
         headers: {'Content-Type': 'application/json'},
         body: jsonEncode(user.toJson()),
       );

@@ -326,26 +326,37 @@ class _BankAccountPageScreenState extends State<BankAccountPageScreen> {
   }
 
   Future createBankDetails(Bank bank) async {
-    try {
-      final response = await http.post(
-        Uri.parse('http://192.168.1.12:8080/bank/bank-details'),
-        headers: {'Content-Type': 'application/json'},
-        body: jsonEncode(bank.toJson()),
-      );
+    int retryCount = 3; // Set the number of retries
+    int currentRetry = 0;
 
-      if (response.statusCode == 200) {
-        // Show a user-created dialog
-        _showUserCreatedDialog();
-      } else {
-        // Handle error responses here
-        print('Request failed with status: ${response.statusCode}');
-        print('Response body: ${response.body}');
-        throw Exception('Failed to add bank details');
+    while (currentRetry < retryCount) {
+      try {
+        final response = await http.post(
+          Uri.parse('http://192.168.56.1:8080/bank/bank-details'),
+          headers: {'Content-Type': 'application/json'},
+          body: jsonEncode(bank.toJson()),
+        );
+
+        if (response.statusCode == 200) {
+          // Request was successful, exit the loop
+          _showUserCreatedDialog();
+          break;
+        } else {
+          // Handle error responses here
+          print('Request failed with status: ${response.statusCode}');
+          print('Response body: ${response.body}');
+          throw Exception('Failed to add bank details');
+        }
+      } catch (e) {
+        // Handle network errors or other exceptions here
+        print('Error: $e');
+        if (currentRetry < retryCount - 1) {
+          print('Retrying...');
+        } else {
+          throw Exception('Failed to add bank details');
+        }
       }
-    } catch (e) {
-      // Handle network errors or other exceptions here
-      print('Error: $e');
-      throw Exception('Failed to add bank details');
+      currentRetry++;
     }
   }
 }

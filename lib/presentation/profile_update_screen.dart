@@ -1,7 +1,6 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:form_structure/core/app_export.dart';
+import 'package:form_structure/widgets/custom_elevated_button.dart';
 import 'package:form_structure/widgets/custom_text_form_field.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
@@ -16,7 +15,6 @@ class _UserProfilePageState extends State<UserProfilePage> {
   TextEditingController emailController = TextEditingController();
   TextEditingController roleController = TextEditingController();
   TextEditingController contactController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
 
   @override
   void initState() {
@@ -26,121 +24,107 @@ class _UserProfilePageState extends State<UserProfilePage> {
 
   Future<void> loadUserData() async {
     final prefs = await SharedPreferences.getInstance();
+    final userName = prefs.getString('userName');
+    final email = prefs.getString('email');
+    final role = prefs.getString('role');
+    final contact = prefs.getString('contact');
+
+    // Set the text in the controllers inside a setState to trigger a rebuild
     setState(() {
-      usernameController.text = prefs.getString('userName') ?? '';
-      emailController.text = prefs.getString('email') ?? '';
-      roleController.text = prefs.getString('role') ?? '';
-      contactController.text = prefs.getString('contact') ?? '';
-      passwordController.text = prefs.getString('password') ?? '';
+      usernameController.text = userName ?? '';
+      emailController.text = email ?? '';
+      roleController.text = role ?? '';
+      contactController.text = contact ?? '';
     });
   }
 
   Future<void> updateUserProfile() async {
-    final newUsername = usernameController.text;
-    final newEmail = emailController.text;
-    final newRole = roleController.text;
-    final newContact = contactController.text;
-    final newPassword = passwordController.text;
-
-    final prefs = await SharedPreferences.getInstance();
-    prefs.setString('userName', newUsername);
-    prefs.setString('email', newEmail);
-    prefs.setString('role', newRole);
-    prefs.setString('contact', newContact);
-    prefs.setString('password', newPassword);
-
     try {
+      final url = 'http://192.168.56.1:8080/user/update-user';
       final response = await http.put(
-        Uri.parse(
-            'YOUR_UPDATE_PROFILE_API_ENDPOINT'), // Replace with your API endpoint
-        headers: {'Content-Type': 'application/json'},
-        body: jsonEncode({
-          'username': newUsername,
-          'email': newEmail,
-          'role': newRole,
-          'contact': newContact,
-          'password': newPassword,
-        }),
+        Uri.parse(url),
+        body: {
+          'email': emailController.text,
+          'username': usernameController.text,
+          'contact': contactController.text,
+        },
       );
 
       if (response.statusCode == 200) {
-        // Show a success dialog
-        showSuccessDialog('Profile updated successfully');
+        showDialog(
+          context: context,
+          builder: (BuildContext context) => AlertDialog(
+            title: Text("Success"),
+            content: Text("Profile updated successfully"),
+            actions: [
+              TextButton(
+                child: Text("OK"),
+                onPressed: () {
+                  Navigator.of(context).pop(); // Close the dialog
+                  Navigator.of(context).pushReplacementNamed(
+                      AppRoutes.userLoginPageScreen); // Navigate to login page
+                },
+              ),
+            ],
+          ),
+        );
       } else {
-        // Show an error dialog
-        showErrorDialog('Failed to update profile: ${response.statusCode}');
+        throw Exception("Failed to update profile");
       }
-    } catch (e) {
-      // Handle network errors or other exceptions and show an error dialog
-      showErrorDialog('An error occurred: $e');
+    } catch (error) {
+      _showErrorDialog("Error updating profile");
     }
   }
 
   Future<void> deleteUserProfile() async {
-    final prefs = await SharedPreferences.getInstance();
-    prefs.clear(); // Clear all user data from shared preferences
-
     try {
-      final response = await http.delete(
-        Uri.parse('YOUR_UPDATE_PROFILE_API_ENDPOINT'),
-        headers: {'Content-Type': 'application/json'},
-        body: jsonEncode({
-          'email': emailController.text, // Pass the user's email as a parameter
-        }),
+      final url = 'http://192.168.56.1:8080/user/delete-user';
+      final response = await http.post(
+        Uri.parse(url),
+        body: {'email': emailController.text},
       );
 
       if (response.statusCode == 200) {
-        // Show a success dialog
-        showSuccessDialog('Profile deleted successfully');
-        // After successful deletion, navigate to a different screen, e.g., the login screen.
-        Navigator.of(context).pushReplacementNamed(AppRoutes.loginPageScreen);
+        showDialog(
+          context: context,
+          builder: (BuildContext context) => AlertDialog(
+            title: Text("Success"),
+            content: Text("Profile deleted successfully"),
+            actions: [
+              TextButton(
+                child: Text("OK"),
+                onPressed: () {
+                  Navigator.of(context).pop(); // Close the dialog
+                  Navigator.of(context).pushReplacementNamed(AppRoutes
+                      .registerPageScreen); // Navigate to registration page
+                },
+              ),
+            ],
+          ),
+        );
       } else {
-        // Show an error dialog
-        showErrorDialog('Failed to delete profile: ${response.statusCode}');
+        throw Exception("Failed to delete profile");
       }
-    } catch (e) {
-      // Handle network errors or other exceptions and show an error dialog
-      showErrorDialog('An error occurred: $e');
+    } catch (error) {
+      _showErrorDialog("Error deleting profile");
     }
   }
 
-  void showSuccessDialog(String message) {
+  void _showErrorDialog(String message) {
     showDialog(
       context: context,
-      builder: (context) {
-        return AlertDialog(
-          title: Text('Success'),
-          content: Text(message),
-          actions: <Widget>[
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: Text('OK'),
-            ),
-          ],
-        );
-      },
-    );
-  }
-
-  void showErrorDialog(String message) {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          title: Text('Error'),
-          content: Text(message),
-          actions: <Widget>[
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: Text('OK'),
-            ),
-          ],
-        );
-      },
+      builder: (BuildContext context) => AlertDialog(
+        title: Text("Error"),
+        content: Text(message),
+        actions: [
+          TextButton(
+            child: Text("OK"),
+            onPressed: () {
+              Navigator.of(context).pop(); // Close the dialog
+            },
+          ),
+        ],
+      ),
     );
   }
 
@@ -276,19 +260,22 @@ class _UserProfilePageState extends State<UserProfilePage> {
                         ),
                         prefixConstraints: BoxConstraints(maxHeight: 54),
                       ),
-                      CustomTextFormField(
-                        controller: emailController,
-                        margin: EdgeInsets.fromLTRB(25, 15, 25, 0),
-                        hintText: 'Email',
-                        textInputAction: TextInputAction.done,
-                        textInputType: TextInputType.emailAddress,
-                        prefix: Container(
-                          margin: EdgeInsets.fromLTRB(27, 15, 17, 15),
-                          child: CustomImageView(
-                            svgPath: ImageConstant.email,
+                      IgnorePointer(
+                        ignoring: true,
+                        child: CustomTextFormField(
+                          controller: emailController,
+                          margin: EdgeInsets.fromLTRB(25, 15, 25, 0),
+                          hintText: 'Email',
+                          textInputAction: TextInputAction.done,
+                          textInputType: TextInputType.emailAddress,
+                          prefix: Container(
+                            margin: EdgeInsets.fromLTRB(27, 15, 17, 15),
+                            child: CustomImageView(
+                              svgPath: ImageConstant.email,
+                            ),
                           ),
+                          prefixConstraints: BoxConstraints(maxHeight: 54),
                         ),
-                        prefixConstraints: BoxConstraints(maxHeight: 54),
                       ),
                       CustomTextFormField(
                         controller: roleController,
@@ -318,28 +305,16 @@ class _UserProfilePageState extends State<UserProfilePage> {
                         ),
                         prefixConstraints: BoxConstraints(maxHeight: 54),
                       ),
-                      CustomTextFormField(
-                        controller: passwordController,
-                        margin: EdgeInsets.fromLTRB(25, 15, 25, 0),
-                        hintText: 'Password',
-                        textInputAction: TextInputAction.done,
-                        textInputType: TextInputType.visiblePassword,
-                        prefix: Container(
-                          margin: EdgeInsets.fromLTRB(27, 15, 17, 15),
-                          child: CustomImageView(
-                            svgPath: ImageConstant.password,
-                          ),
-                        ),
-                        prefixConstraints: BoxConstraints(maxHeight: 54),
-                      ),
                       SizedBox(height: 20),
-                      ElevatedButton(
-                        onPressed: updateUserProfile,
-                        child: Text('Update Profile'),
+                      CustomElevatedButton(
+                        onTap: updateUserProfile,
+                        margin: EdgeInsets.fromLTRB(37, 79, 23, 5),
+                        text: "Update Profile",
                       ),
-                      ElevatedButton(
-                        onPressed: deleteUserProfile,
-                        child: Text('Delete Profile'),
+                      CustomElevatedButton(
+                        onTap: deleteUserProfile,
+                        margin: EdgeInsets.fromLTRB(37, 79, 23, 5),
+                        text: "Delete Profile",
                       ),
                     ],
                   ),

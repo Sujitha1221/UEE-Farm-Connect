@@ -229,6 +229,7 @@ class _ViewFarmerState extends State<ViewPageFarmerScreen> {
                       Container(
                         width: double.maxFinite,
                         margin: EdgeInsets.fromLTRB(30.h, 8.v, 30.h, 8.v),
+                        
                         child: Column(
                           children: [
                             SizedBox(height: 5.v),
@@ -241,7 +242,7 @@ class _ViewFarmerState extends State<ViewPageFarmerScreen> {
                                       filterProducts(searchController.text)
                                           .length,
                                   shrinkWrap: true,
-                                  itemExtent: 220,
+                                  
                                   // itemCount: prodList.length,
                                   itemBuilder: (context, index) {
                                     Map<String, dynamic> prod =
@@ -273,6 +274,7 @@ class _ViewFarmerState extends State<ViewPageFarmerScreen> {
                                         borderRadius:
                                             BorderRadiusStyle.roundedBorder18,
                                       ),
+                                      
                                       child: Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,

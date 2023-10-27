@@ -482,4 +482,6 @@ class _AddProductState extends State<AddProductPageScreen> {
     return prefs.getString('userName') ??
         ''; // Provide a default value if 'empId' is not found
   }
+
+  
 }

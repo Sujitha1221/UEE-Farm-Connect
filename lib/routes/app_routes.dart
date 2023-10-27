@@ -14,6 +14,9 @@ import '../presentation/register_page_screen.dart';
 import '../presentation/forgot_password_screen.dart';
 import '../presentation/bank_account_details_screen.dart';
 import '../presentation/profile_update_screen.dart';
+import 'package:form_structure/presentation/buyer_dashboard_screen.dart';
+import 'package:form_structure/presentation/farmer_dashboard_scree.dart';
+
 
 
 class AppRoutes {
@@ -35,6 +38,9 @@ class AppRoutes {
   static const String banAccountDetailsScreen =
       '/bank_account_details_screen.dart';
   static const String userProfileScreen = '/profile_update_screen';
+  static const String buyerDashboardScreen = '/buyer_dashboard_screen';
+  static const String farmerDashboardScreen = 'farmer_dashboard_scree';
+
   
 
 
@@ -57,7 +63,10 @@ class AppRoutes {
     userLoginPageScreen: (context) => UserLoginPageScreen(),
     forgotPasswordScreen: (context) => ForgotPasswordPage(),
     banAccountDetailsScreen: (context) => BankAccountPageScreen(),
-    userProfileScreen: (context) => UserProfilePage()
+    userProfileScreen: (context) => UserProfilePage(),
+    buyerDashboardScreen: (context) => DashboardScreen(),
+    farmerDashboardScreen: (context) => FarmerDashboardScreen()
+
     
   };
 

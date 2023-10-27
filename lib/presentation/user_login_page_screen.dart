@@ -6,7 +6,6 @@ import 'package:form_structure/widgets/custom_elevated_button.dart';
 import 'package:form_structure/widgets/custom_text_form_field.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:form_structure/widgets/custom_bottom_bar.dart';
 
 class UserLoginPageScreen extends StatefulWidget {
   @override
@@ -58,11 +57,11 @@ class _UserLoginPageScreenState extends State<UserLoginPageScreen> {
             if (role == 'farmer') {
               // Handle farmer logic, e.g., navigate to the farmer screen
               Navigator.of(context)
-                  .pushReplacementNamed(AppRoutes.viewProductPageFarmerScreen);
+                  .pushReplacementNamed(AppRoutes.farmerDashboardScreen);
             } else if (role == 'buyer') {
               // Handle buyer logic, e.g., navigate to the buyer screen
               Navigator.of(context)
-                  .pushReplacementNamed(AppRoutes.userProfileScreen);
+                  .pushReplacementNamed(AppRoutes.buyerDashboardScreen);
             }
           } else {
             // Handle the case where userData is not as expected
@@ -301,7 +300,7 @@ class _UserLoginPageScreenState extends State<UserLoginPageScreen> {
                         prefix: Container(
                           margin: EdgeInsets.fromLTRB(27, 15, 17, 15),
                           child: CustomImageView(
-                            svgPath: ImageConstant.imgCalculator,
+                            imagePath: ImageConstant.passwordLock,
                           ),
                         ),
                         prefixConstraints: BoxConstraints(
@@ -335,9 +334,6 @@ class _UserLoginPageScreenState extends State<UserLoginPageScreen> {
               ),
             ),
           ],
-        ),
-        bottomNavigationBar: CustomBottomBar(
-          onChanged: (BottomBarEnum type) {},
         ),
       ),
     );

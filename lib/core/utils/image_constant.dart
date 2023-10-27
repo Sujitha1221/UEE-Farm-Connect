@@ -50,24 +50,29 @@ class ImageConstant {
 
   static String imgCall = '$imagePath/img_ringervolume.png';
 
-  static String email = '$imagePath/email.svg';
+  static String barley = '$imagePath/barleyImage.jpg';
 
-  static String password = '$imagePath/password.svg';
+  static String password = '$imagePath/password.jpg';
 
-  static String phone = '$imagePath/phone.svg';
+  static String passwordLock = '$imagePath/passwordLock.png';
 
-  static String username = '$imagePath/username.svg';
+  static String fullName = '$imagePath/fullName.jpg';
 
-  static String accountNumber = '$imagePath/accountNumber.svg';
+  static String contact = '$imagePath/contact.jpg';
 
-  static String bankName = '$imagePath/bankName.svg';
+  static String auction = '$imagePath/Auction.jpg';
 
-  static String branchName = '$imagePath/branchName.svg';
+  static String profitAnalysis = '$imagePath/ProfitAnalysis.png';
 
-  static String branchNumber = '$imagePath/branchNumber.svg';
+  static String receiveCash = '$imagePath/ReceiveCash.png';
 
   static String role = '$imagePath/branchNumber.svg';
-    
 
+  static String account = '$imagePath/Account.png';
 
+  static String bank = '$imagePath/bank.jpg';
+
+  static String branchNumber = '$imagePath/branchNumber.png';
+
+  static String accountNumber = '$imagePath/accountNumber.jpg';
 }

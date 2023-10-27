@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:form_structure/core/app_export.dart';
-import 'package:form_structure/widgets/custom_bottom_bar.dart';
 import 'package:form_structure/widgets/custom_elevated_button.dart';
 import 'package:http/http.dart' as http;
 
@@ -187,7 +186,7 @@ class _RegisterPageScreenState extends State<RegisterPageScreen> {
                         prefix: Container(
                           margin: EdgeInsets.fromLTRB(27.h, 15.v, 17.h, 15.v),
                           child: CustomImageView(
-                            svgPath: ImageConstant.username,
+                            imagePath: ImageConstant.fullName,
                           ),
                         ),
                         prefixConstraints: BoxConstraints(
@@ -207,7 +206,7 @@ class _RegisterPageScreenState extends State<RegisterPageScreen> {
                         prefix: Container(
                           margin: EdgeInsets.fromLTRB(27.h, 15.v, 17.h, 15.v),
                           child: CustomImageView(
-                            svgPath: ImageConstant.email,
+                            svgPath: ImageConstant.imgCalculator,
                           ),
                         ),
                         prefixConstraints: BoxConstraints(
@@ -227,7 +226,7 @@ class _RegisterPageScreenState extends State<RegisterPageScreen> {
                         prefix: Container(
                           margin: EdgeInsets.fromLTRB(27.h, 15.v, 17.h, 15.v),
                           child: CustomImageView(
-                            svgPath: ImageConstant.phone,
+                            imagePath: ImageConstant.contact,
                           ),
                         ),
                         prefixConstraints: BoxConstraints(
@@ -247,7 +246,7 @@ class _RegisterPageScreenState extends State<RegisterPageScreen> {
                         prefix: Container(
                           margin: EdgeInsets.fromLTRB(27.h, 15.v, 17.h, 15.v),
                           child: CustomImageView(
-                            svgPath: ImageConstant.password,
+                            imagePath: ImageConstant.passwordLock,
                           ),
                         ),
                         prefixConstraints: BoxConstraints(
@@ -307,7 +306,7 @@ class _RegisterPageScreenState extends State<RegisterPageScreen> {
                         onPressed: () {
                           print("Log in button pressed");
                           Navigator.of(context)
-                              .pushNamed(AppRoutes.loginPageScreen);
+                              .pushNamed(AppRoutes.userLoginPageScreen);
                         },
                         child: Text("Already have an account? Log in"),
                       ),
@@ -317,9 +316,6 @@ class _RegisterPageScreenState extends State<RegisterPageScreen> {
               ),
             ),
           ],
-        ),
-        bottomNavigationBar: CustomBottomBar(
-          onChanged: (BottomBarEnum type) {},
         ),
       ),
     );

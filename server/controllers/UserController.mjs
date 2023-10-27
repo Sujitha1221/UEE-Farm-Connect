@@ -109,7 +109,7 @@ export const updateUser = async (req, res) => {
 
 export const deleteUser = async (req, res) => {
   try {
-    const { email } = req.body;
+    const email = req.params.email;
 
     // Find the user by email
     const user = await User.findOne({ email });
@@ -119,12 +119,12 @@ export const deleteUser = async (req, res) => {
     }
 
     // Delete the user
-    await user.remove();
+    await User.deleteOne({ email: email });
 
     res.status(200).json({ message: "User deleted successfully" });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "Server error" });
+    res.status(500).json({ message: "Server error", error: error.message });
   }
 };
 

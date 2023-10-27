@@ -77,10 +77,12 @@ class _RBScreenState extends State<RequestBiddingPage> {
     String farmerName = prefs.getString('farmerName') ?? '';
     String productName = prefs.getString('productName') ?? '';
     String quantity = prefs.getString('quantity') ?? '';
+    String userName = prefs.getString('email') ?? '';
     setState(() {
       farmerUserNameController.text = farmerName ?? '';
       productNameController.text = productName ?? '';
       weightController.text = quantity ?? '';
+      userNameController.text = userName ?? '';
     });
     getAllBidding(farmerName);
   }
@@ -342,8 +344,8 @@ class _RBScreenState extends State<RequestBiddingPage> {
                         margin: EdgeInsets.fromLTRB(37.h, 79.v, 23.h, 5.v),
                         onTap: () {
                           final bidding = Bidding(
-                              farmerUserName: "sajeesiva12@gmail.com",
-                              userName: "Sajeevan Siva",
+                              farmerUserName: farmerUserNameController.text,
+                              userName: userNameController.text,
                               productName: productNameController.text,
                               amountPerKg: amountPerKgController.text,
                               totalAmount: totalAmountController.text,

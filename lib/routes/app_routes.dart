@@ -20,10 +20,13 @@ class AppRoutes {
   static const String loginPageScreen = '/login_page_screen';
   static const String homePageScreen = '/home_page_screen';
   static const String addProductPageScreen = '/add_product_page_screen';
-  static const String viewProductPageUserScreen = '/view_product_page_user_screen';
-  static const String viewProductPageFarmerScreen = '/view_product_page_farmer_screen';
+  static const String viewProductPageUserScreen =
+      '/view_product_page_user_screen';
+  static const String viewProductPageFarmerScreen =
+      '/view_product_page_farmer_screen';
   static const String RequestBiddingScreen = '/request_bidding_screen';
-  static const String ViewCurrentBiddingFarmerScreen = '/view_current_bidding_farmer_screen';
+  static const String ViewCurrentBiddingFarmerScreen =
+      '/view_current_bidding_farmer_screen';
   static const String ViewBiddingFarmerScreen = '/view_bidding_farmer_screen';
   static const String ViewCurrentBiddingScreen = '/view_current_bidding_screen';
   static const String ViewBiddingScreen = '/view_bidding_screen';
@@ -35,35 +38,26 @@ class AppRoutes {
   static const String banAccountDetailsScreen =
       '/bank_account_details_screen.dart';
   static const String userProfileScreen = '/profile_update_screen';
-  
-
-
-  
   static const String addCropScreen = '/add_crop_screen';
 
   static Map<String, WidgetBuilder> routes = {
     loginPageScreen: (context) => UserLoginPageScreen(),
-    
-    addProductPageScreen:(context) => AddProductPageScreen(),
-    viewProductPageUserScreen:(context) => ViewPageUserScreen(),
-    viewProductPageFarmerScreen:(context)=>ViewPageFarmerScreen(),
-    RequestBiddingScreen:(context) =>RequestBiddingPage(productName: '',farmerName: ''),
-    ViewCurrentBiddingFarmerScreen:(context) => ViewCurrentBiddingFarmerPage(),
+    addProductPageScreen: (context) => AddProductPageScreen(),
+    viewProductPageUserScreen: (context) => ViewPageUserScreen(),
+    viewProductPageFarmerScreen: (context) => ViewPageFarmerScreen(),
+    RequestBiddingScreen: (context) =>
+        RequestBiddingPage(productName: '', farmerName: ''),
+    ViewCurrentBiddingFarmerScreen: (context) => ViewCurrentBiddingFarmerPage(),
     ViewBiddingFarmerScreen: (context) => ViewBiddingFarmerPage(),
-    ViewCurrentBiddingScreen:(context) => ViewCurrentBiddingPage(),
+    ViewCurrentBiddingScreen: (context) => ViewCurrentBiddingPage(),
     ViewBiddingScreen: (context) => ViewBiddingPage(),
-    PaymentUserScreens:(context) => PaymentUserScreen(),
+    PaymentUserScreens: (context) => PaymentUserScreen(),
     PaymentFarmerScreens: (context) => PaymentFarmerScreen(),
     registerPageScreen: (context) => RegisterPageScreen(),
     userLoginPageScreen: (context) => UserLoginPageScreen(),
     forgotPasswordScreen: (context) => ForgotPasswordPage(),
     banAccountDetailsScreen: (context) => BankAccountPageScreen(),
-    userProfileScreen: (context) => UserProfilePage()
-    String addCropScreen = '/add_crop_screen';
-
-  static Map<String, WidgetBuilder> routes = {
-    loginPageScreen: (context) => LoginPageScreen(),
-    homePageScreen: (context) => HomePageScreen(),
+    userProfileScreen: (context) => UserProfilePage(),
     addCropScreen: (context) => AddCropScreen(),
   };
 }

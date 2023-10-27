@@ -8,6 +8,7 @@ import 'package:form_structure/widgets/custom_search_view.dart';
 import 'package:http/http.dart' as http;
 import 'package:form_structure/widgets/custom_text_form_field.dart';
 import 'package:intl/intl.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ViewBiddingFarmerPage extends StatefulWidget {
   ViewBiddingFarmerPage({Key? key}) : super(key: key);
@@ -40,7 +41,8 @@ class _VBPScreenState extends State<ViewBiddingFarmerPage> {
   Future<List<Map<String, dynamic>>?> getAllBidding(
       BuildContext context) async {
     try {
-      final farmerUserName = "asdTO";
+      String farmerUserName = await getFarmerNameFromLocalStorage();
+      print("farmer name: " + farmerUserName);
       final response = await client.get(
         Uri.parse(
             'http://192.168.56.1:8080/bidding/get-history-farmer/$farmerUserName'),
@@ -226,8 +228,8 @@ class _VBPScreenState extends State<ViewBiddingFarmerPage> {
                         final filteredBidding =
                             filterBidding(searchController.text);
                         return ListView.builder(
-                            itemCount: filterBidding(searchController.text)
-                                          .length,
+                            itemCount:
+                                filterBidding(searchController.text).length,
                             shrinkWrap: true,
                             itemBuilder: (context, index) {
                               Map<String, dynamic> bid = biddingList[index];
@@ -397,5 +399,10 @@ class _VBPScreenState extends State<ViewBiddingFarmerPage> {
       default:
         return Colors.black;
     }
+  }
+
+  Future<String> getFarmerNameFromLocalStorage() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getString('email') ?? '';
   }
 }

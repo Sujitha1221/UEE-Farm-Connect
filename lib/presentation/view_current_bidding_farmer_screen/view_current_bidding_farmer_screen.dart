@@ -8,6 +8,7 @@ import 'package:form_structure/widgets/custom_search_view.dart';
 import 'package:http/http.dart' as http;
 import 'package:form_structure/widgets/custom_text_form_field.dart';
 import 'package:intl/intl.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class BiddingF {
   String id;
@@ -59,7 +60,7 @@ class _VCBFPScreenState extends State<ViewCurrentBiddingFarmerPage> {
   Future<List<Map<String, dynamic>>?> getAllBidding(
       BuildContext context) async {
     try {
-      final farmerUserName = "asdTO";
+      final farmerUserName = await getFarmerNameFromLocalStorage();
       final response = await client.get(
         Uri.parse(
             'http://192.168.56.1:8080/bidding/get-pending-farmer/$farmerUserName'),
@@ -405,5 +406,10 @@ class _VCBFPScreenState extends State<ViewCurrentBiddingFarmerPage> {
         'Failed to request bidding',
       );
     }
+  }
+
+  Future<String> getFarmerNameFromLocalStorage() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getString('email') ?? '';
   }
 }

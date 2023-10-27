@@ -9,8 +9,6 @@ import 'package:http/http.dart' as http;
 
 import 'package:form_structure/widgets/custom_text_form_field.dart';
 
-
-
 // ignore: must_be_immutable
 class User {
   String firstname;
@@ -36,7 +34,6 @@ class User {
 }
 
 class HomePageScreen extends StatelessWidget {
-  
   HomePageScreen({Key? key})
       : super(
           key: key,
@@ -50,8 +47,6 @@ class HomePageScreen extends StatelessWidget {
   TextEditingController passwordController = TextEditingController();
 
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-
-  
 
   @override
   Widget build(BuildContext context) {
@@ -115,7 +110,8 @@ class HomePageScreen extends StatelessWidget {
                             Opacity(
                               opacity: 0.9,
                               child: CustomImageView(
-                                imagePath: ImageConstant.imgJagokisanremovebgpreview,
+                                imagePath:
+                                    ImageConstant.imgJagokisanremovebgpreview,
                                 height: 97.v,
                                 width: 104.h,
                                 radius: BorderRadius.circular(
@@ -251,25 +247,28 @@ class HomePageScreen extends StatelessWidget {
                           maxHeight: 54.v,
                         ),
                       ),
-           
-           
-             
-          
                       CustomElevatedButton(
-  text: "LOGIN",
-  margin: EdgeInsets.fromLTRB(37.h, 79.v, 23.h, 5.v),
-  onTap: () {
-    final user = User(
-      firstname: firstnameController.text,
-      lastname: lastnameController.text, 
-      email: emailController.text,
-      password: passwordController.text,
-    );
+                        text: "LOGIN",
+                        margin: EdgeInsets.fromLTRB(37.h, 79.v, 23.h, 5.v),
+                        onTap: () {
+                          final user = User(
+                            firstname: firstnameController.text,
+                            lastname: lastnameController.text,
+                            email: emailController.text,
+                            password: passwordController.text,
+                          );
 
-   createUser(user);
-  },
-),
-
+                          createUser(user);
+                        },
+                      ),
+                      CustomElevatedButton(
+                        text: "Crops",
+                        margin: EdgeInsets.fromLTRB(37.h, 79.v, 23.h, 5.v),
+                        onTap: () {
+                          Navigator.of(context)
+                              .pushReplacementNamed('/add_crop_screen');
+                        },
+                      ),
                     ],
                   ),
                 ),
@@ -284,30 +283,29 @@ class HomePageScreen extends StatelessWidget {
     );
   }
 
-Future createUser(User user) async {
+  Future createUser(User user) async {
+    try {
+      final response = await http.post(
+        Uri.parse('http://192.168.56.1:8080/user/add'),
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode(user.toJson()), // Convert User object to JSON
+      );
 
-  try {
-    final response = await http.post(
-      Uri.parse('http://192.168.56.1:8080/user/add'),
-      headers: {'Content-Type': 'application/json'},
-      body: jsonEncode(user.toJson()), // Convert User object to JSON
-    );
-
-    if (response.statusCode == 200) {
-      // Successful request
-      return response.body;
-    } else {
-      // Handle error responses here
-      print('Request failed with status: ${response.statusCode}');
-      print('Response body: ${response.body}');
-      throw Exception('Failed to create user');
+      if (response.statusCode == 200) {
+        // Successful request
+        return response.body;
+      } else {
+        // Handle error responses here
+        print('Request failed with status: ${response.statusCode}');
+        print('Response body: ${response.body}');
+        throw Exception('Failed to create user');
+      }
+    } catch (e) {
+      // Handle network errors or other exceptions here
+      print('Error: $e');
+      throw Exception('Failed to create user1111111');
     }
-  } catch (e) {
-    // Handle network errors or other exceptions here
-    print('Error: $e');
-    throw Exception('Failed to create user1111111');
   }
-}
 
 // Future getUser(User user) async {
 
@@ -315,7 +313,7 @@ Future createUser(User user) async {
 //     final response = await http.get(
 //       Uri.parse('http://192.168.56.1:8080/user/'),
 //       headers: {'Content-Type': 'application/json'}
-      
+
 //       // Convert User object to JSON
 //     );
 //     print(response.body);

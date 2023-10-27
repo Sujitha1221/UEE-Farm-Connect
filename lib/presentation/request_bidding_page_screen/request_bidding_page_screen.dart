@@ -425,24 +425,30 @@ class _RBScreenState extends State<RequestBiddingPage> {
   }
 
   void _showAlertDialog(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text(''),
-          content: Image.asset('./././assets/images/RequstBiddingInfo.png'),
-          actions: <Widget>[
-            TextButton(
-              child: Text('OK'),
-              onPressed: () {
-                Navigator.of(context).pop(); // Close the alert dialog
-              },
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Align(
+              alignment: Alignment.topRight,
+              child: IconButton(
+                icon: Icon(Icons.close),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
             ),
+            Image.asset('./././assets/images/RequstBiddingInfo.png'),
           ],
-        );
-      },
-    );
-  }
+        ),
+      );
+    },
+  );
+}
+
 }
 
 // Future<String> getEmpIdFromLocalStorage() async {

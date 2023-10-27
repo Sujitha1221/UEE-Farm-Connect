@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:form_structure/core/app_export.dart';
 import 'package:form_structure/widgets/custom_bottom_bar.dart';
-import 'package:form_structure/widgets/custom_elevated_button.dart';
-import 'package:form_structure/widgets/custom_search_view.dart';
-import 'package:form_structure/widgets/custom_text_form_field.dart';
 
 class DashboardScreen extends StatelessWidget {
   DashboardScreen({Key? key}) : super(key: key);
@@ -139,8 +136,7 @@ class DashboardScreen extends StatelessWidget {
                                   child: Column(
                                     children: [
                                       CustomImageView(
-                                        imagePath: ImageConstant
-                                            .imgJagokisanremovebgpreview,
+                                        imagePath: ImageConstant.auction,
                                         height: 190,
                                         width: 150,
                                       ),
@@ -178,8 +174,7 @@ class DashboardScreen extends StatelessWidget {
                                   child: Column(
                                     children: [
                                       CustomImageView(
-                                        imagePath: ImageConstant
-                                            .imgJagokisanremovebgpreview,
+                                        imagePath: ImageConstant.receiveCash,
                                         height: 190,
                                         width: 150,
                                       ),
@@ -211,8 +206,7 @@ class DashboardScreen extends StatelessWidget {
                                   child: Column(
                                     children: [
                                       CustomImageView(
-                                        imagePath: ImageConstant
-                                            .imgJagokisanremovebgpreview,
+                                        imagePath: ImageConstant.account,
                                         height: 190,
                                         width: 150,
                                       ),

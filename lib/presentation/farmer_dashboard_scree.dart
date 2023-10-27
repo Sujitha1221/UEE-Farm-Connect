@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:form_structure/core/app_export.dart';
 import 'package:form_structure/widgets/custom_bottom_bar.dart';
-import 'package:form_structure/widgets/custom_elevated_button.dart';
-import 'package:form_structure/widgets/custom_search_view.dart';
-import 'package:form_structure/widgets/custom_text_form_field.dart';
 
 class FarmerDashboardScreen extends StatelessWidget {
   FarmerDashboardScreen({Key? key}) : super(key: key);
@@ -88,67 +85,209 @@ class FarmerDashboardScreen extends StatelessWidget {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
-                                CustomImageView(
-                                  imagePath:
-                                      ImageConstant.imgJagokisanremovebgpreview,
-                                  height: 190,
-                                  width: 150,
-                                  margin:
-                                      EdgeInsets.only(top: 10.0, bottom: 7.0),
-                                  onTap: () {
+                                ElevatedButton(
+                                  onPressed: () {
                                     Navigator.of(context)
                                         .pushReplacementNamed('/path');
                                   },
+                                  style: ElevatedButton.styleFrom(
+                                    primary: Colors
+                                        .transparent, // Transparent background
+                                    shadowColor:
+                                        Colors.transparent, // No shadow
+                                    side: BorderSide(
+                                        width: 1,
+                                        color:
+                                            Color(0xFF255B20)), // Border color
+                                    elevation: 0, // No elevation
+                                  ),
+                                  child: Column(
+                                    children: [
+                                      CustomImageView(
+                                        imagePath: ImageConstant.barley,
+                                        height: 190,
+                                        width: 150,
+                                      ),
+                                      SizedBox(
+                                          height:
+                                              8), // Gap between image and text
+                                      Text("PRODUCTS",
+                                          style: TextStyle(
+                                              color: Color(0xFF255B20)))
+                                    ],
+                                  ),
                                 ),
-                                CustomImageView(
-                                  imagePath:
-                                      ImageConstant.imgJagokisanremovebgpreview,
-                                  height: 190,
-                                  width: 150,
-                                  margin:
-                                      EdgeInsets.only(top: 10.0, bottom: 7.0),
+                                ElevatedButton(
+                                  onPressed: () {
+                                    Navigator.of(context)
+                                        .pushReplacementNamed('/path');
+                                  },
+                                  style: ElevatedButton.styleFrom(
+                                    primary: Colors
+                                        .transparent, // Transparent background
+                                    shadowColor:
+                                        Colors.transparent, // No shadow
+                                    side: BorderSide(
+                                        width: 1,
+                                        color:
+                                            Color(0xFF255B20)), // Border color
+                                    elevation: 0, // No elevation
+                                  ),
+                                  child: Column(
+                                    children: [
+                                      CustomImageView(
+                                        imagePath: ImageConstant.auction,
+                                        height: 190,
+                                        width: 150,
+                                      ),
+                                      SizedBox(
+                                          height:
+                                              8), // Gap between image and text
+                                      Text("BIDDING",
+                                          style: TextStyle(
+                                              color: Color(0xFF255B20)))
+                                    ],
+                                  ),
                                 ),
                               ],
                             ),
+                            SizedBox(height: 20),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
-                                CustomImageView(
-                                  imagePath:
-                                      ImageConstant.imgJagokisanremovebgpreview,
-                                  height: 190,
-                                  width: 150,
-                                  margin:
-                                      EdgeInsets.only(top: 10.0, bottom: 7.0),
+                                ElevatedButton(
+                                  onPressed: () {
+                                    Navigator.of(context)
+                                        .pushReplacementNamed('/path');
+                                  },
+                                  style: ElevatedButton.styleFrom(
+                                    primary: Colors
+                                        .transparent, // Transparent background
+                                    shadowColor:
+                                        Colors.transparent, // No shadow
+                                    side: BorderSide(
+                                        width: 1,
+                                        color:
+                                            Color(0xFF255B20)), // Border color
+                                    elevation: 0, // No elevation
+                                  ),
+                                  child: Column(
+                                    children: [
+                                      CustomImageView(
+                                        imagePath: ImageConstant.profitAnalysis,
+                                        height: 190,
+                                        width: 150,
+                                      ),
+                                      SizedBox(
+                                          height:
+                                              8), // Gap between image and text
+                                      Text("FINANCE",
+                                          style: TextStyle(
+                                              color: Color(0xFF255B20)))
+                                    ],
+                                  ),
                                 ),
-                                CustomImageView(
-                                  imagePath:
-                                      ImageConstant.imgJagokisanremovebgpreview,
-                                  height: 190,
-                                  width: 150,
-                                  margin:
-                                      EdgeInsets.only(top: 10.0, bottom: 7.0),
+                                ElevatedButton(
+                                  onPressed: () {
+                                    Navigator.of(context)
+                                        .pushReplacementNamed('/path');
+                                  },
+                                  style: ElevatedButton.styleFrom(
+                                    primary: Colors
+                                        .transparent, // Transparent background
+                                    shadowColor:
+                                        Colors.transparent, // No shadow
+                                    side: BorderSide(
+                                        width: 1,
+                                        color:
+                                            Color(0xFF255B20)), // Border color
+                                    elevation: 0, // No elevation
+                                  ),
+                                  child: Column(
+                                    children: [
+                                      CustomImageView(
+                                        imagePath: ImageConstant.barley,
+                                        height: 190,
+                                        width: 150,
+                                      ),
+                                      SizedBox(
+                                          height:
+                                              8), // Gap between image and text
+                                      Text("CROP HARVEST",
+                                          style: TextStyle(
+                                              color: Color(0xFF255B20)))
+                                    ],
+                                  ),
                                 ),
                               ],
                             ),
+                            SizedBox(height: 20),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
-                                CustomImageView(
-                                  imagePath:
-                                      ImageConstant.imgJagokisanremovebgpreview,
-                                  height: 190,
-                                  width: 150,
-                                  margin:
-                                      EdgeInsets.only(top: 10.0, bottom: 7.0),
+                                ElevatedButton(
+                                  onPressed: () {
+                                    Navigator.of(context)
+                                        .pushReplacementNamed('/path');
+                                  },
+                                  style: ElevatedButton.styleFrom(
+                                    primary: Colors
+                                        .transparent, // Transparent background
+                                    shadowColor:
+                                        Colors.transparent, // No shadow
+                                    side: BorderSide(
+                                        width: 1,
+                                        color:
+                                            Color(0xFF255B20)), // Border color
+                                    elevation: 0, // No elevation
+                                  ),
+                                  child: Column(
+                                    children: [
+                                      CustomImageView(
+                                        imagePath: ImageConstant.receiveCash,
+                                        height: 190,
+                                        width: 150,
+                                      ),
+                                      SizedBox(
+                                          height:
+                                              8), // Gap between image and text
+                                      Text("PAYMENT HISTORY",
+                                          style: TextStyle(
+                                              color: Color(0xFF255B20)))
+                                    ],
+                                  ),
                                 ),
-                                CustomImageView(
-                                  imagePath:
-                                      ImageConstant.imgJagokisanremovebgpreview,
-                                  height: 190,
-                                  width: 150,
-                                  margin:
-                                      EdgeInsets.only(top: 10.0, bottom: 7.0),
+                                ElevatedButton(
+                                  onPressed: () {
+                                    Navigator.of(context)
+                                        .pushReplacementNamed('/path');
+                                  },
+                                  style: ElevatedButton.styleFrom(
+                                    primary: Colors
+                                        .transparent, // Transparent background
+                                    shadowColor:
+                                        Colors.transparent, // No shadow
+                                    side: BorderSide(
+                                        width: 1,
+                                        color:
+                                            Color(0xFF255B20)), // Border color
+                                    elevation: 0, // No elevation
+                                  ),
+                                  child: Column(
+                                    children: [
+                                      CustomImageView(
+                                        imagePath: ImageConstant.account,
+                                        height: 190,
+                                        width: 150,
+                                      ),
+                                      SizedBox(
+                                          height:
+                                              8), // Gap between image and text
+                                      Text("MY PROFILE",
+                                          style: TextStyle(
+                                              color: Color(0xFF255B20)))
+                                    ],
+                                  ),
                                 ),
                               ],
                             ),

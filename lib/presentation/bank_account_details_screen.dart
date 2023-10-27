@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:form_structure/core/app_export.dart';
-import 'package:form_structure/widgets/custom_bottom_bar.dart';
 import 'package:form_structure/widgets/custom_elevated_button.dart';
 import 'package:http/http.dart' as http;
 
@@ -184,7 +183,7 @@ class _BankAccountPageScreenState extends State<BankAccountPageScreen> {
                         prefix: Container(
                           margin: EdgeInsets.fromLTRB(27.h, 15.v, 17.h, 15.v),
                           child: CustomImageView(
-                            svgPath: ImageConstant.imgUnverifiedaccount,
+                            svgPath: ImageConstant.imgCalculator,
                           ),
                         ),
                         prefixConstraints: BoxConstraints(
@@ -204,7 +203,7 @@ class _BankAccountPageScreenState extends State<BankAccountPageScreen> {
                         prefix: Container(
                           margin: EdgeInsets.fromLTRB(27.h, 15.v, 17.h, 15.v),
                           child: CustomImageView(
-                            svgPath: ImageConstant.imgUnverifiedaccount,
+                            imagePath: ImageConstant.bank,
                           ),
                         ),
                         prefixConstraints: BoxConstraints(
@@ -224,7 +223,7 @@ class _BankAccountPageScreenState extends State<BankAccountPageScreen> {
                         prefix: Container(
                           margin: EdgeInsets.fromLTRB(27.h, 15.v, 17.h, 15.v),
                           child: CustomImageView(
-                            svgPath: ImageConstant.imgUnverifiedaccount,
+                            imagePath: ImageConstant.bank,
                           ),
                         ),
                         prefixConstraints: BoxConstraints(
@@ -244,7 +243,7 @@ class _BankAccountPageScreenState extends State<BankAccountPageScreen> {
                         prefix: Container(
                           margin: EdgeInsets.fromLTRB(27.h, 15.v, 17.h, 15.v),
                           child: CustomImageView(
-                            svgPath: ImageConstant.imgUnverifiedaccount,
+                            imagePath: ImageConstant.branchNumber,
                           ),
                         ),
                         prefixConstraints: BoxConstraints(
@@ -264,7 +263,7 @@ class _BankAccountPageScreenState extends State<BankAccountPageScreen> {
                         prefix: Container(
                           margin: EdgeInsets.fromLTRB(27.h, 15.v, 17.h, 15.v),
                           child: CustomImageView(
-                            svgPath: ImageConstant.imgUnverifiedaccount,
+                            imagePath: ImageConstant.accountNumber,
                           ),
                         ),
                         prefixConstraints: BoxConstraints(

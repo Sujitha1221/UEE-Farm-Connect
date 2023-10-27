@@ -6,7 +6,6 @@ import 'package:form_structure/widgets/custom_elevated_button.dart';
 import 'package:form_structure/widgets/custom_text_form_field.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:form_structure/widgets/custom_bottom_bar.dart';
 
 class UserLoginPageScreen extends StatefulWidget {
   @override
@@ -301,7 +300,7 @@ class _UserLoginPageScreenState extends State<UserLoginPageScreen> {
                         prefix: Container(
                           margin: EdgeInsets.fromLTRB(27, 15, 17, 15),
                           child: CustomImageView(
-                            svgPath: ImageConstant.imgCalculator,
+                            imagePath: ImageConstant.passwordLock,
                           ),
                         ),
                         prefixConstraints: BoxConstraints(

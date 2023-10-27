@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'package:flutter/material.dart'; // Import material.dart
-import 'package:form_structure/widgets/custom_bottom_bar.dart';
 import 'package:http/http.dart' as http;
 import 'package:form_structure/core/app_export.dart';
 import 'package:form_structure/widgets/custom_elevated_button.dart';
@@ -227,7 +226,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                         prefix: Container(
                           margin: EdgeInsets.fromLTRB(27.h, 15.v, 17.h, 15.v),
                           child: CustomImageView(
-                            svgPath: ImageConstant.imgUnverifiedaccount,
+                            svgPath: ImageConstant.imgCalculator,
                           ),
                         ),
                         prefixConstraints: BoxConstraints(
@@ -247,7 +246,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                         prefix: Container(
                           margin: EdgeInsets.fromLTRB(27.h, 15.v, 17.h, 15.v),
                           child: CustomImageView(
-                            svgPath: ImageConstant.imgUnverifiedaccount,
+                            imagePath: ImageConstant.password,
                           ),
                         ),
                         prefixConstraints: BoxConstraints(
@@ -267,9 +266,6 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
               ),
             ),
           ],
-        ),
-        bottomNavigationBar: CustomBottomBar(
-          onChanged: (BottomBarEnum type) {},
         ),
       ),
     );

@@ -108,7 +108,7 @@ class CustomBottomBarState extends State<CustomBottomBar> {
         break;
       case BottomBarEnum.Arrowright:
         // Handle Arrowright button action
-        Navigator.of(context).pushReplacementNamed('/register_page_screen');
+        Navigator.of(context).pushReplacementNamed('/user_login_page_screen');
         break;
     }
     widget.onChanged?.call(type);

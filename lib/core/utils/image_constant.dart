@@ -31,4 +31,26 @@ class ImageConstant {
   static String barley = '$imagePath/barleyImage.jpg';
 
   static String password = '$imagePath/password.jpg';
+
+  static String passwordLock = '$imagePath/passwordLock.png';
+
+  static String fullName = '$imagePath/fullName.jpg';
+
+  static String contact = '$imagePath/contact.jpg';
+
+  static String auction = '$imagePath/Auction.jpg';
+
+  static String profitAnalysis = '$imagePath/ProfitAnalysis.png';
+
+  static String receiveCash = '$imagePath/ReceiveCash.png';
+
+  static String account = '$imagePath/Account.png';
+
+  static String bank = '$imagePath/bank.jpg';
+
+  static String branchNumber = '$imagePath/branchNumber.png';
+
+  static String accountNumber = '$imagePath/accountNumber.jpg';
+
+  static String role = '$imagePath/role.png';
 }

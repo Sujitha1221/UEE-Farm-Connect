@@ -187,7 +187,7 @@ class _RegisterPageScreenState extends State<RegisterPageScreen> {
                         prefix: Container(
                           margin: EdgeInsets.fromLTRB(27.h, 15.v, 17.h, 15.v),
                           child: CustomImageView(
-                            svgPath: ImageConstant.username,
+                            svgPath: ImageConstant.imgUnverifiedaccount,
                           ),
                         ),
                         prefixConstraints: BoxConstraints(
@@ -207,7 +207,7 @@ class _RegisterPageScreenState extends State<RegisterPageScreen> {
                         prefix: Container(
                           margin: EdgeInsets.fromLTRB(27.h, 15.v, 17.h, 15.v),
                           child: CustomImageView(
-                            svgPath: ImageConstant.email,
+                            svgPath: ImageConstant.imgUnverifiedaccount,
                           ),
                         ),
                         prefixConstraints: BoxConstraints(
@@ -227,7 +227,7 @@ class _RegisterPageScreenState extends State<RegisterPageScreen> {
                         prefix: Container(
                           margin: EdgeInsets.fromLTRB(27.h, 15.v, 17.h, 15.v),
                           child: CustomImageView(
-                            svgPath: ImageConstant.phone,
+                            svgPath: ImageConstant.imgUnverifiedaccount,
                           ),
                         ),
                         prefixConstraints: BoxConstraints(
@@ -247,7 +247,7 @@ class _RegisterPageScreenState extends State<RegisterPageScreen> {
                         prefix: Container(
                           margin: EdgeInsets.fromLTRB(27.h, 15.v, 17.h, 15.v),
                           child: CustomImageView(
-                            svgPath: ImageConstant.password,
+                            svgPath: ImageConstant.imgUnverifiedaccount,
                           ),
                         ),
                         prefixConstraints: BoxConstraints(
@@ -307,7 +307,7 @@ class _RegisterPageScreenState extends State<RegisterPageScreen> {
                         onPressed: () {
                           print("Log in button pressed");
                           Navigator.of(context)
-                              .pushNamed(AppRoutes.loginPageScreen);
+                              .pushNamed(AppRoutes.userLoginPageScreen);
                         },
                         child: Text("Already have an account? Log in"),
                       ),
@@ -317,9 +317,6 @@ class _RegisterPageScreenState extends State<RegisterPageScreen> {
               ),
             ),
           ],
-        ),
-        bottomNavigationBar: CustomBottomBar(
-          onChanged: (BottomBarEnum type) {},
         ),
       ),
     );

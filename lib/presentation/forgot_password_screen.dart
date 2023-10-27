@@ -63,7 +63,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                 onPressed: () {
                   Navigator.of(context).pop();
                   Navigator.of(context)
-                      .pushReplacementNamed(AppRoutes.loginPageScreen);
+                      .pushReplacementNamed(AppRoutes.userLoginPageScreen);
                 },
                 child: Text('OK'),
               ),
@@ -227,7 +227,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                         prefix: Container(
                           margin: EdgeInsets.fromLTRB(27.h, 15.v, 17.h, 15.v),
                           child: CustomImageView(
-                            svgPath: ImageConstant.email,
+                            svgPath: ImageConstant.imgUnverifiedaccount,
                           ),
                         ),
                         prefixConstraints: BoxConstraints(
@@ -247,7 +247,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                         prefix: Container(
                           margin: EdgeInsets.fromLTRB(27.h, 15.v, 17.h, 15.v),
                           child: CustomImageView(
-                            svgPath: ImageConstant.password,
+                            svgPath: ImageConstant.imgUnverifiedaccount,
                           ),
                         ),
                         prefixConstraints: BoxConstraints(

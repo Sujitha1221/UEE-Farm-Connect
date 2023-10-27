@@ -58,11 +58,11 @@ class _UserLoginPageScreenState extends State<UserLoginPageScreen> {
             if (role == 'farmer') {
               // Handle farmer logic, e.g., navigate to the farmer screen
               Navigator.of(context)
-                  .pushReplacementNamed(AppRoutes.userProfileScreen);
+                  .pushReplacementNamed(AppRoutes.farmerDashboardScreen);
             } else if (role == 'buyer') {
               // Handle buyer logic, e.g., navigate to the buyer screen
               Navigator.of(context)
-                  .pushReplacementNamed(AppRoutes.userProfileScreen);
+                  .pushReplacementNamed(AppRoutes.buyerDashboardScreen);
             }
           } else {
             // Handle the case where userData is not as expected
@@ -335,9 +335,6 @@ class _UserLoginPageScreenState extends State<UserLoginPageScreen> {
               ),
             ),
           ],
-        ),
-        bottomNavigationBar: CustomBottomBar(
-          onChanged: (BottomBarEnum type) {},
         ),
       ),
     );

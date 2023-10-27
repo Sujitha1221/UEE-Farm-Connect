@@ -172,7 +172,7 @@ class _BankAccountPageScreenState extends State<BankAccountPageScreen> {
                         ),
                       ),
                       CustomTextFormField(
-                        controller: bankNameController,
+                        controller: emailController,
                         margin: EdgeInsets.only(
                           left: 25.h,
                           top: 52.v,
@@ -184,7 +184,7 @@ class _BankAccountPageScreenState extends State<BankAccountPageScreen> {
                         prefix: Container(
                           margin: EdgeInsets.fromLTRB(27.h, 15.v, 17.h, 15.v),
                           child: CustomImageView(
-                            svgPath: ImageConstant.email,
+                            svgPath: ImageConstant.imgUnverifiedaccount,
                           ),
                         ),
                         prefixConstraints: BoxConstraints(
@@ -192,7 +192,7 @@ class _BankAccountPageScreenState extends State<BankAccountPageScreen> {
                         ),
                       ),
                       CustomTextFormField(
-                        controller: emailController,
+                        controller: bankNameController,
                         margin: EdgeInsets.only(
                           left: 25.h,
                           top: 52.v,
@@ -204,7 +204,7 @@ class _BankAccountPageScreenState extends State<BankAccountPageScreen> {
                         prefix: Container(
                           margin: EdgeInsets.fromLTRB(27.h, 15.v, 17.h, 15.v),
                           child: CustomImageView(
-                            svgPath: ImageConstant.bankName,
+                            svgPath: ImageConstant.imgUnverifiedaccount,
                           ),
                         ),
                         prefixConstraints: BoxConstraints(
@@ -224,7 +224,7 @@ class _BankAccountPageScreenState extends State<BankAccountPageScreen> {
                         prefix: Container(
                           margin: EdgeInsets.fromLTRB(27.h, 15.v, 17.h, 15.v),
                           child: CustomImageView(
-                            svgPath: ImageConstant.branchName,
+                            svgPath: ImageConstant.imgUnverifiedaccount,
                           ),
                         ),
                         prefixConstraints: BoxConstraints(
@@ -244,7 +244,7 @@ class _BankAccountPageScreenState extends State<BankAccountPageScreen> {
                         prefix: Container(
                           margin: EdgeInsets.fromLTRB(27.h, 15.v, 17.h, 15.v),
                           child: CustomImageView(
-                            svgPath: ImageConstant.branchNumber,
+                            svgPath: ImageConstant.imgUnverifiedaccount,
                           ),
                         ),
                         prefixConstraints: BoxConstraints(
@@ -264,7 +264,7 @@ class _BankAccountPageScreenState extends State<BankAccountPageScreen> {
                         prefix: Container(
                           margin: EdgeInsets.fromLTRB(27.h, 15.v, 17.h, 15.v),
                           child: CustomImageView(
-                            svgPath: ImageConstant.accountNumber,
+                            svgPath: ImageConstant.imgUnverifiedaccount,
                           ),
                         ),
                         prefixConstraints: BoxConstraints(
@@ -279,6 +279,8 @@ class _BankAccountPageScreenState extends State<BankAccountPageScreen> {
                               int.tryParse(branchNumberController.text) ?? 0;
                           int accountNumber =
                               int.tryParse(accountNumberController.text) ?? 0;
+                          print(
+                              "Sending request for email: ${emailController.text}");
                           final bank = Bank(
                             email: emailController.text,
                             bankName: bankNameController.text,
@@ -297,9 +299,6 @@ class _BankAccountPageScreenState extends State<BankAccountPageScreen> {
             ),
           ],
         ),
-        bottomNavigationBar: CustomBottomBar(
-          onChanged: (BottomBarEnum type) {},
-        ),
       ),
     );
   }
@@ -316,7 +315,7 @@ class _BankAccountPageScreenState extends State<BankAccountPageScreen> {
               child: Text("OK"),
               onPressed: () {
                 Navigator.of(context).pop(); // Close the dialog
-                Navigator.of(context).pushNamed(AppRoutes.loginPageScreen);
+                Navigator.of(context).pushNamed(AppRoutes.userLoginPageScreen);
               },
             ),
           ],
@@ -328,6 +327,7 @@ class _BankAccountPageScreenState extends State<BankAccountPageScreen> {
   Future createBankDetails(Bank bank) async {
     int retryCount = 3; // Set the number of retries
     int currentRetry = 0;
+    print(bank);
 
     while (currentRetry < retryCount) {
       try {

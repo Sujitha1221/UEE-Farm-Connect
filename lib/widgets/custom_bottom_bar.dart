@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:form_structure/core/app_export.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 // ignore: must_be_immutable
 class CustomBottomBar extends StatefulWidget {
@@ -84,19 +85,30 @@ class CustomBottomBarState extends State<CustomBottomBar> {
     );
   }
 
-  void handleNavigation(BottomBarEnum type) {
+  Future<String?> getUserRole() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getString('role');
+  }
+
+  void handleNavigation(BottomBarEnum type) async {
+    String? userRole = await getUserRole();
     switch (type) {
       case BottomBarEnum.Home:
-        // Navigate to the home page
-        Navigator.of(context).pushReplacementNamed('/home_page_screen');
+        if (userRole == 'farmer') {
+          // Navigate to the farmer dashboard page
+          Navigator.of(context).pushReplacementNamed('/farmer_dashboard_scree');
+        } else if (userRole == 'buyer') {
+          // Navigate to the buyer dashboard page
+          Navigator.of(context).pushReplacementNamed('/buyer_dashboard_screen');
+        }
         break;
       case BottomBarEnum.User:
         // Handle User button action
-        Navigator.of(context).pushReplacementNamed('/user_login_page_screen');
+        Navigator.of(context).pushReplacementNamed('/profile_update_screen');
         break;
       case BottomBarEnum.Arrowright:
         // Handle Arrowright button action
-        Navigator.of(context).pushReplacementNamed('/forgot_password_screen');
+        Navigator.of(context).pushReplacementNamed('/register_page_screen');
         break;
     }
     widget.onChanged?.call(type);

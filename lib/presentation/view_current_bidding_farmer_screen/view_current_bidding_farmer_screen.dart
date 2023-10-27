@@ -180,6 +180,10 @@ class _VCBFPScreenState extends State<ViewCurrentBiddingFarmerPage> {
                                 top: 10.v,
                                 bottom: 7.v,
                               ),
+                              onTap: () {
+                                    Navigator.of(context)
+                                        .pushReplacementNamed(AppRoutes.farmerDashboardScreen);
+                                  },
                             ),
                             Opacity(
                               opacity: 0.9,

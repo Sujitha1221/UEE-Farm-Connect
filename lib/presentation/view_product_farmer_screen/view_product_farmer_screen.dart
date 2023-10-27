@@ -175,7 +175,12 @@ class _ViewFarmerState extends State<ViewPageFarmerScreen> {
                               margin: EdgeInsets.only(
                                 top: 10.v,
                                 bottom: 7.v,
+                                
                               ),
+                              onTap: () {
+                                    Navigator.of(context)
+                                        .pushReplacementNamed('/farmer_dashboard_scree');
+                                  },
                             ),
                             Opacity(
                               opacity: 0.9,

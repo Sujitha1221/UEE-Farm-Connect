@@ -161,10 +161,10 @@ class _PFScreenState extends State<PaymentFarmerScreen> {
                                 top: 10.v,
                                 bottom: 7.v,
                               ),
-                              onTap: () => {
-                                Navigator.of(context).pushReplacementNamed(
-                                    '/view_current_bidding_farmer_screen')
-                              },
+                              onTap: () {
+                                    Navigator.of(context)
+                                        .pushReplacementNamed(AppRoutes.farmerDashboardScreen);
+                                  },
                             ),
                             Opacity(
                               opacity: 0.9,

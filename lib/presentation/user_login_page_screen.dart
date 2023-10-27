@@ -229,19 +229,7 @@ class _UserLoginPageScreenState extends State<UserLoginPageScreen> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
-                            CustomImageView(
-                              svgPath: ImageConstant.imgVolume,
-                              onTap: () {
-                                Navigator.of(context)
-                                    .pushReplacementNamed('/home_page_screen');
-                              },
-                              height: 28, // Remove .v and .h
-                              width: 35, // Remove .v and .h
-                              margin: EdgeInsets.only(
-                                top: 13,
-                                bottom: 7,
-                              ),
-                            ),
+                          
                             Opacity(
                               opacity: 0.9,
                               child: Padding(

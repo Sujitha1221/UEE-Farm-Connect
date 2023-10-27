@@ -39,7 +39,7 @@ class AppRoutes {
       '/bank_account_details_screen.dart';
   static const String userProfileScreen = '/profile_update_screen';
   static const String buyerDashboardScreen = '/buyer_dashboard_screen';
-  static const String farmerDashboardScreen = 'farmer_dashboard_scree';
+  static const String farmerDashboardScreen = '/farmer_dashboard_scree';
 
   
 

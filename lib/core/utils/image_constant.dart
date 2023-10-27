@@ -66,7 +66,7 @@ class ImageConstant {
 
   static String receiveCash = '$imagePath/ReceiveCash.png';
 
-  static String role = '$imagePath/branchNumber.svg';
+  static String role = '$imagePath/role.png';
 
   static String account = '$imagePath/Account.png';
 

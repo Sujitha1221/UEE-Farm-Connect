@@ -162,7 +162,7 @@ class _AddProductState extends State<AddProductPageScreen> {
                               ),
                               onTap: () {
                                 Navigator.of(context)
-                                    .pushReplacementNamed('/home_page_screen');
+                                    .pushReplacementNamed('/view_product_page_farmer_screen');
                               },
                             ),
                             Opacity(

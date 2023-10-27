@@ -218,6 +218,10 @@ class _RBScreenState extends State<RequestBiddingPage> {
                                 top: 13.v,
                                 bottom: 7.v,
                               ),
+                              onTap: () {
+                                    Navigator.of(context)
+                                        .pushReplacementNamed('/view_product_page_user_screen');
+                                  },
                             ),
                             Opacity(
                               opacity: 0.9,

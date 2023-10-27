@@ -88,7 +88,7 @@ class FarmerDashboardScreen extends StatelessWidget {
                                 ElevatedButton(
                                   onPressed: () {
                                     Navigator.of(context)
-                                        .pushReplacementNamed('/path');
+                                        .pushReplacementNamed('/view_product_page_farmer_screen');
                                   },
                                   style: ElevatedButton.styleFrom(
                                     primary: Colors
@@ -105,7 +105,7 @@ class FarmerDashboardScreen extends StatelessWidget {
                                     children: [
                                       CustomImageView(
                                         imagePath: ImageConstant.barley,
-                                        height: 190,
+                                        height: 150,
                                         width: 150,
                                       ),
                                       SizedBox(
@@ -120,7 +120,7 @@ class FarmerDashboardScreen extends StatelessWidget {
                                 ElevatedButton(
                                   onPressed: () {
                                     Navigator.of(context)
-                                        .pushReplacementNamed('/path');
+                                        .pushReplacementNamed('/view_current_bidding_farmer_screen');
                                   },
                                   style: ElevatedButton.styleFrom(
                                     primary: Colors
@@ -137,7 +137,7 @@ class FarmerDashboardScreen extends StatelessWidget {
                                     children: [
                                       CustomImageView(
                                         imagePath: ImageConstant.auction,
-                                        height: 190,
+                                        height: 150,
                                         width: 150,
                                       ),
                                       SizedBox(
@@ -158,7 +158,7 @@ class FarmerDashboardScreen extends StatelessWidget {
                                 ElevatedButton(
                                   onPressed: () {
                                     Navigator.of(context)
-                                        .pushReplacementNamed('/path');
+                                        .pushReplacementNamed('');
                                   },
                                   style: ElevatedButton.styleFrom(
                                     primary: Colors
@@ -175,7 +175,7 @@ class FarmerDashboardScreen extends StatelessWidget {
                                     children: [
                                       CustomImageView(
                                         imagePath: ImageConstant.profitAnalysis,
-                                        height: 190,
+                                        height: 150,
                                         width: 150,
                                       ),
                                       SizedBox(
@@ -207,7 +207,7 @@ class FarmerDashboardScreen extends StatelessWidget {
                                     children: [
                                       CustomImageView(
                                         imagePath: ImageConstant.barley,
-                                        height: 190,
+                                        height: 150,
                                         width: 150,
                                       ),
                                       SizedBox(
@@ -228,7 +228,7 @@ class FarmerDashboardScreen extends StatelessWidget {
                                 ElevatedButton(
                                   onPressed: () {
                                     Navigator.of(context)
-                                        .pushReplacementNamed('/path');
+                                        .pushReplacementNamed('/payment_farmer_screen');
                                   },
                                   style: ElevatedButton.styleFrom(
                                     primary: Colors
@@ -245,7 +245,7 @@ class FarmerDashboardScreen extends StatelessWidget {
                                     children: [
                                       CustomImageView(
                                         imagePath: ImageConstant.receiveCash,
-                                        height: 190,
+                                        height: 150,
                                         width: 150,
                                       ),
                                       SizedBox(
@@ -260,7 +260,7 @@ class FarmerDashboardScreen extends StatelessWidget {
                                 ElevatedButton(
                                   onPressed: () {
                                     Navigator.of(context)
-                                        .pushReplacementNamed('/path');
+                                        .pushReplacementNamed('/profile_update_screen');
                                   },
                                   style: ElevatedButton.styleFrom(
                                     primary: Colors
@@ -277,7 +277,7 @@ class FarmerDashboardScreen extends StatelessWidget {
                                     children: [
                                       CustomImageView(
                                         imagePath: ImageConstant.account,
-                                        height: 190,
+                                        height: 150,
                                         width: 150,
                                       ),
                                       SizedBox(
@@ -289,6 +289,7 @@ class FarmerDashboardScreen extends StatelessWidget {
                                     ],
                                   ),
                                 ),
+                                
                               ],
                             ),
                           ],

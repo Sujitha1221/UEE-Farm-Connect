@@ -101,7 +101,7 @@ class CustomBottomBarState extends State<CustomBottomBar> {
       case BottomBarEnum.Home:
         if (userRole == 'farmer') {
           // Navigate to the farmer dashboard page
-          Navigator.of(context).pushReplacementNamed('/farmer_dashboard_scree');
+          Navigator.of(context).pushReplacementNamed(AppRoutes.farmerDashboardScreen);
         } else if (userRole == 'buyer') {
           // Navigate to the buyer dashboard page
           Navigator.of(context).pushReplacementNamed('/buyer_dashboard_screen');

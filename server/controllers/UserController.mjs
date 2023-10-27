@@ -143,3 +143,19 @@ export const getFarmerContact = async (req, res) => {
       res.status(500).json({ error: "Internal server error" });
   }
 };
+
+
+export const getEmailFromUserName = async (req, res) => {
+  const { userName } = req.params;
+  try {
+    const user = await User.findOne({ userName });
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+    const { email } = user;
+    return res.status(200).json({ email });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: 'Internal Server Error' });
+  }
+};

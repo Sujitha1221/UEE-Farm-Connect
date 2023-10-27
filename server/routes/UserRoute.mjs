@@ -4,7 +4,8 @@ import {
     changePassword,
     updateUser,
     deleteUser,
-    getFarmerContact
+    getFarmerContact,
+    getEmailFromUserName
   } from "../controllers/UserController.mjs";
   import Router from "express";
   
@@ -15,5 +16,6 @@ import {
   UserRouter.put("/update-user", updateUser);
   UserRouter.delete("/delete-user", deleteUser);
   UserRouter.get("/get-contact/:farmerName", getFarmerContact);
+  UserRouter.get("/get-email/:userName", getEmailFromUserName);
   
   export default UserRouter;

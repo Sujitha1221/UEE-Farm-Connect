@@ -41,18 +41,16 @@ class Bidding {
 }
 
 class RequestBiddingPage extends StatefulWidget {
-
   final String productName;
   final String farmerName;
-  RequestBiddingPage({Key? key,  required this.productName, required this.farmerName}
-  )
+  RequestBiddingPage(
+      {Key? key, required this.productName, required this.farmerName})
       : super(
           key: key,
         );
 
   @override
   _RBScreenState createState() => _RBScreenState();
-
 }
 
 class _RBScreenState extends State<RequestBiddingPage> {
@@ -63,26 +61,63 @@ class _RBScreenState extends State<RequestBiddingPage> {
   void initState() {
     super.initState();
     client = http.Client();
-    
+    getEmpIdFromLocalStorage();
+    // getAllBidding();
+    // @override
+    // void initState() {
+    //   super.initState();
+    //   client = http.Client();
+    //   getEmpIdFromLocalStorage();
+    // }
+  }
 
-    @override
-    void initState() {
-      super.initState();
-      client = http.Client();
-      getEmpIdFromLocalStorage();
+  Future<void> getEmpIdFromLocalStorage() async {
+    final prefs = await SharedPreferences.getInstance();
+
+    String farmerName = prefs.getString('farmerName') ?? '';
+    String productName = prefs.getString('productName') ?? '';
+    String quantity = prefs.getString('quantity') ?? '';
+    setState(() {
+      farmerUserNameController.text = farmerName ?? '';
+      productNameController.text = productName ?? '';
+      weightController.text = quantity ?? '';
+    });
+    getAllBidding(farmerName);
+  }
+
+  Future<void> getAllBidding(String farmerName) async {
+    print("farmer name : " + farmerName);
+    try {
+      final response = await client.get(
+        Uri.parse('http://192.168.56.1:8080/user/get-email/$farmerName'),
+        headers: {'Content-Type': 'application/json'},
+      );
+
+      if (response.body != null) {
+        final Map<String, dynamic> data = json.decode(response.body);
+        String email = data['email'];
+        
+        setState(() {
+      farmerUserNameController.text = email ?? '';
+    });
+      } else {
+        print('Request failed with status: ${response.statusCode}');
+        print('Response body: ${response.body}');
+        throw Exception('Failed to fetch purchase requisitions');
+      }
+    } catch (e) {
+      print('Error: $e');
+      return null;
     }
   }
 
   GlobalKey<NavigatorState> navigatorKey = GlobalKey();
 
-  final prefs =  SharedPreferences.getInstance();
-  Future<String> quantity = getEmpIdFromLocalStorage();
-
+  final prefs = SharedPreferences.getInstance();
   TextEditingController farmerUserNameController = TextEditingController();
   TextEditingController userNameController = TextEditingController();
   TextEditingController productNameController = TextEditingController();
- 
-  TextEditingController weightController = TextEditingController( );
+  TextEditingController weightController = TextEditingController();
   TextEditingController amountPerKgController = TextEditingController();
   TextEditingController totalAmountController = TextEditingController();
 
@@ -216,10 +251,10 @@ class _RBScreenState extends State<RequestBiddingPage> {
                           right: 25.h,
                         ),
                         hintText: "productName",
-                        
+
                         // textInputAction: TextInputAction.done,
                         textInputType: TextInputType.emailAddress,
-                        enabled:false ,
+                        enabled: false,
                         prefix: Container(
                           margin: EdgeInsets.fromLTRB(27.h, 15.v, 17.h, 15.v),
                           child: CustomImageView(
@@ -232,13 +267,13 @@ class _RBScreenState extends State<RequestBiddingPage> {
                       ),
                       CustomTextFormField(
                         controller: weightController,
-                       
                         margin: EdgeInsets.only(
                           left: 25.h,
                           top: 52.v,
                           right: 25.h,
                         ),
                         hintText: "Weight",
+                        enabled: false,
                         textInputAction: TextInputAction.done,
                         textInputType: TextInputType.number,
                         prefix: Container(
@@ -279,7 +314,6 @@ class _RBScreenState extends State<RequestBiddingPage> {
                         ),
                         controller: totalAmountController,
                         hintText: "Total Amount",
-                        enabled:false,
                         hintStyle: CustomTextStyles.titleBlack,
                         prefix: Container(
                           margin: EdgeInsets.fromLTRB(14.h, 10.v, 5.h, 10.v),
@@ -296,9 +330,7 @@ class _RBScreenState extends State<RequestBiddingPage> {
                           child: CustomImageView(
                             svgPath: ImageConstant.imgCalculator,
                             color: Colors.black,
-                            onTap: () => {
-                              calculateTotalAmount()
-                            },
+                            onTap: () => {calculateTotalAmount()},
                           ),
                         ),
                         suffixConstraints: BoxConstraints(
@@ -335,9 +367,9 @@ class _RBScreenState extends State<RequestBiddingPage> {
   }
 
   void calculateTotalAmount() {
-    double amountPerKg = double.tryParse(amountPerKgController.text) ?? 0;
-    double weight = double.tryParse(weightController.text) ?? 0;
-    double totalAmount = weight * amountPerKg;
+    int amountPerKg = int.tryParse(amountPerKgController.text) ?? 0;
+    int weight = int.tryParse(weightController.text) ?? 0;
+    int totalAmount = weight * amountPerKg;
     totalAmountController.text = totalAmount.toString();
     print('Total Amount: $totalAmount');
   }
@@ -348,9 +380,10 @@ class _RBScreenState extends State<RequestBiddingPage> {
         Uri.parse('http://192.168.56.1:8080/payment/new-payment'),
         headers: {'Content-Type': 'application/json'},
         body: jsonEncode({
-        "userNameTo" : bidding.farmerUserName,
-        "userNameFrom": bidding.userName,
-        "amount": bidding.totalAmount}),
+          "userNameTo": bidding.farmerUserName,
+          "userNameFrom": bidding.userName,
+          "amount": bidding.totalAmount
+        }),
       );
 
       if (response.body != null) {
@@ -412,8 +445,8 @@ class _RBScreenState extends State<RequestBiddingPage> {
   }
 }
 
- Future<String> getEmpIdFromLocalStorage() async {
-    final prefs = await SharedPreferences.getInstance();
-    return prefs.getString('empId') ??
-        ''; // Provide a default value if 'empId' is not found
-  }
+// Future<String> getEmpIdFromLocalStorage() async {
+//   final prefs = await SharedPreferences.getInstance();
+//   return prefs.getString('empId') ??
+//       ''; // Provide a default value if 'empId' is not found
+// }

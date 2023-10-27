@@ -66,6 +66,13 @@ class _VBPScreenState extends State<ViewBiddingFarmerPage> {
     }
   }
 
+  List<Map<String, dynamic>> filterBidding(String searchText) {
+    return biddingList.where((bidding) {
+      final biddingName = bidding['userName'].toLowerCase();
+      return biddingName.contains(searchText.toLowerCase());
+    }).toList();
+  }
+
   GlobalKey<NavigatorState> navigatorKey = GlobalKey();
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   TextEditingController searchController = TextEditingController();
@@ -201,150 +208,170 @@ class _VBPScreenState extends State<ViewBiddingFarmerPage> {
                         ),
                         suffix: Container(
                           margin: EdgeInsets.fromLTRB(30.h, 8.v, 15.h, 8.v),
-                          child: CustomImageView(
-                            svgPath: ImageConstant.imgClose,
-                            color: Colors.black,
+                          child: GestureDetector(
+                            onTap: () {
+                              searchController.clear(); // Clear the search text
+                            },
+                            child: CustomImageView(
+                              svgPath: ImageConstant.imgClose,
+                              color: Colors.black,
+                            ),
                           ),
                         ),
                         suffixConstraints: BoxConstraints(
                           maxHeight: 41.v,
                         ),
                       ),
-                      ListView.builder(
-                          itemCount: biddingList.length,
-                          shrinkWrap: true,
-                          itemBuilder: (context, index) {
-                            Map<String, dynamic> bid = biddingList[index];
-                            String farmerUserName =
-                                bid['farmerUserName'] ?? "Unknown";
-                            String userName = bid['userName'] ?? "Unknown";
-                            String userName1 = userName.split('@')[0] ?? "Unknown";
-                            String weight = bid['weight'] ?? "Unknown";
-                            String totalAmount = bid['totalAmount'] ?? "0.0";
-                            double ppkg = (int.parse(bid['totalAmount']) /
-                                int.parse(bid['weight']));
-                            String status = bid['status'] ?? "Null";
-                            return Container(
-                              width: double.maxFinite,
-                              margin: EdgeInsets.fromLTRB(30.h, 8.v, 30.h, 8.v),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  SizedBox(height: 5.v),
-                                  Container(
-                                    height: 150,
-                                    padding: EdgeInsets.symmetric(
-                                      horizontal: 10.h,
-                                      vertical: 10.v,
-                                    ),
-                                    decoration:
-                                        AppDecoration.outlineGray.copyWith(
-                                      borderRadius:
-                                          BorderRadiusStyle.roundedBorder18,
-                                    ),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Padding(
-                                          padding: EdgeInsets.only(top: 2.v),
-                                          child: Column(
-                                            children: [
-                                              Opacity(
-                                                opacity: 0.9,
-                                                child: Text(
-                                                  "$userName1",
-                                                  style: theme
-                                                      .textTheme.labelLarge
-                                                      ?.copyWith(
-                                                    fontWeight: FontWeight.bold,
-                                                    fontSize: 18.0,
+                      Builder(builder: (context) {
+                        final filteredBidding =
+                            filterBidding(searchController.text);
+                        return ListView.builder(
+                            itemCount: filterBidding(searchController.text)
+                                          .length,
+                            shrinkWrap: true,
+                            itemBuilder: (context, index) {
+                              Map<String, dynamic> bid = biddingList[index];
+                              String farmerUserName =
+                                  bid['farmerUserName'] ?? "Unknown";
+                              String userName = bid['userName'] ?? "Unknown";
+                              String userName1 =
+                                  userName.split('@')[0] ?? "Unknown";
+                              String weight = bid['weight'] ?? "Unknown";
+                              String totalAmount = bid['totalAmount'] ?? "0.0";
+                              double ppkg = (int.parse(bid['totalAmount']) /
+                                  int.parse(bid['weight']));
+                              String status = bid['status'] ?? "Null";
+                              return Container(
+                                width: double.maxFinite,
+                                margin:
+                                    EdgeInsets.fromLTRB(30.h, 8.v, 30.h, 8.v),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    SizedBox(height: 5.v),
+                                    Container(
+                                      height: 150,
+                                      padding: EdgeInsets.symmetric(
+                                        horizontal: 10.h,
+                                        vertical: 10.v,
+                                      ),
+                                      decoration:
+                                          AppDecoration.outlineGray.copyWith(
+                                        borderRadius:
+                                            BorderRadiusStyle.roundedBorder18,
+                                      ),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Padding(
+                                            padding: EdgeInsets.only(top: 2.v),
+                                            child: Column(
+                                              children: [
+                                                Opacity(
+                                                  opacity: 0.9,
+                                                  child: Text(
+                                                    "$userName1",
+                                                    style: theme
+                                                        .textTheme.labelLarge
+                                                        ?.copyWith(
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      fontSize: 18.0,
+                                                    ),
                                                   ),
                                                 ),
-                                              ),
-                                              SizedBox(height: 12.v),
-                                              Opacity(
-                                                opacity: 0.9,
-                                                child: Text(
-                                                  "Price Per Kg : " + "$ppkg".toString().split('.')[0],
-                                                  style: theme
-                                                      .textTheme.labelLarge
-                                                      ?.copyWith(
-                                                    fontWeight: FontWeight.bold,
-                                                    fontSize: 18.0,
-                                                    color: Color(0xFF0A5C03),
+                                                SizedBox(height: 12.v),
+                                                Opacity(
+                                                  opacity: 0.9,
+                                                  child: Text(
+                                                    "Price Per Kg : " +
+                                                        "$ppkg"
+                                                            .toString()
+                                                            .split('.')[0],
+                                                    style: theme
+                                                        .textTheme.labelLarge
+                                                        ?.copyWith(
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      fontSize: 18.0,
+                                                      color: Color(0xFF0A5C03),
+                                                    ),
                                                   ),
                                                 ),
-                                              ),
-                                              SizedBox(height: 12.v),
-                                              Opacity(
-                                                opacity: 0.9,
-                                                child: Text(
-                                                  "TotalKg : " + "$weight",
-                                                  style: theme
-                                                      .textTheme.labelLarge
-                                                      ?.copyWith(
-                                                    fontWeight: FontWeight.bold,
-                                                    fontSize: 18.0,
-                                                    color: Color(0xFF0A5C03),
+                                                SizedBox(height: 12.v),
+                                                Opacity(
+                                                  opacity: 0.9,
+                                                  child: Text(
+                                                    "TotalKg : " + "$weight",
+                                                    style: theme
+                                                        .textTheme.labelLarge
+                                                        ?.copyWith(
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      fontSize: 18.0,
+                                                      color: Color(0xFF0A5C03),
+                                                    ),
                                                   ),
                                                 ),
-                                              ),
-                                              SizedBox(height: 5.v),
-                                              Opacity(
-                                                opacity: 0.9,
-                                                child: Text(
-                                                  "Total : " + "$totalAmount",
-                                                  style: theme
-                                                      .textTheme.labelLarge
-                                                      ?.copyWith(
-                                                    fontWeight: FontWeight.bold,
-                                                    fontSize: 18.0,
-                                                    color: Color(0xFF0A5C03),
+                                                SizedBox(height: 5.v),
+                                                Opacity(
+                                                  opacity: 0.9,
+                                                  child: Text(
+                                                    "Total : " + "$totalAmount",
+                                                    style: theme
+                                                        .textTheme.labelLarge
+                                                        ?.copyWith(
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      fontSize: 18.0,
+                                                      color: Color(0xFF0A5C03),
+                                                    ),
                                                   ),
                                                 ),
-                                              ),
-                                              Padding(
-                                                padding: EdgeInsets.only(
-                                                  left: 10.h,
-                                                  top: 6.v,
+                                                Padding(
+                                                  padding: EdgeInsets.only(
+                                                    left: 10.h,
+                                                    top: 6.v,
+                                                  ),
                                                 ),
-                                              ),
-                                            ],
+                                              ],
+                                            ),
                                           ),
-                                        ),
-                                        Container(
-                                          width: 130.h,
-                                          height:
-                                              30.v, // Set the desired height
-                                          alignment: Alignment.center,
-                                          margin: EdgeInsets.only(top: 44.v),
-                                          child: Opacity(
-                                            opacity: 0.9,
-                                            child: Text(
-                                              "${status.toUpperCase()}",
-                                              maxLines: 2,
-                                              overflow: TextOverflow.ellipsis,
-                                              textAlign: TextAlign.start,
-                                              style: theme.textTheme.labelLarge
-                                                  ?.copyWith(
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 25.0,
-                                                color:
-                                                    getColorForStatus(status),
+                                          Container(
+                                            width: 130.h,
+                                            height:
+                                                30.v, // Set the desired height
+                                            alignment: Alignment.center,
+                                            margin: EdgeInsets.only(top: 44.v),
+                                            child: Opacity(
+                                              opacity: 0.9,
+                                              child: Text(
+                                                "${status.toUpperCase()}",
+                                                maxLines: 2,
+                                                overflow: TextOverflow.ellipsis,
+                                                textAlign: TextAlign.start,
+                                                style: theme
+                                                    .textTheme.labelLarge
+                                                    ?.copyWith(
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 25.0,
+                                                  color:
+                                                      getColorForStatus(status),
+                                                ),
                                               ),
                                             ),
                                           ),
-                                        ),
-                                      ],
+                                        ],
+                                      ),
                                     ),
-                                  ),
-                                ],
-                              ),
-                            );
-                          }),
+                                  ],
+                                ),
+                              );
+                            });
+                      }),
                     ],
                   ),
                 ),
@@ -368,7 +395,7 @@ class _VBPScreenState extends State<ViewBiddingFarmerPage> {
       case "rejected":
         return Colors.red;
       default:
-        return Colors.black; 
+        return Colors.black;
     }
   }
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:form_structure/core/app_export.dart';
 
+// ignore: must_be_immutable
 class CustomBottomBar extends StatefulWidget {
   CustomBottomBar({this.onChanged});
 
@@ -38,7 +39,7 @@ class CustomBottomBarState extends State<CustomBottomBar> {
       decoration: BoxDecoration(
         color: theme.colorScheme.primaryContainer.withOpacity(0.2),
         border: Border.all(
-          color: appTheme.gray800,
+          color: appTheme.whiteA700,
           width: 1.h,
         ),
       ),
@@ -87,18 +88,23 @@ class CustomBottomBarState extends State<CustomBottomBar> {
     switch (type) {
       case BottomBarEnum.Home:
         // Navigate to the home page
-        Navigator.of(context).pushReplacementNamed('/home_page_screen');
+        Navigator.of(context).pushReplacementNamed('/add_product_page_screen');
         break;
       case BottomBarEnum.User:
         // Handle User button action
+        Navigator.of(context).pushReplacementNamed('/view_product_page_farmer_screen');
         break;
       case BottomBarEnum.Arrowright:
         // Handle Arrowright button action
+        Navigator.of(context)
+            .pushReplacementNamed('/view_product_page_user_screen');
+
         break;
     }
     widget.onChanged?.call(type);
   }
 }
+
 
 enum BottomBarEnum {
   Home,

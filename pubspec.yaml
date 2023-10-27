@@ -10,6 +10,7 @@ dependencies:
   flutter_svg: ^1.1.6
   intl: ^0.18.0
   shared_preferences: ^2.2.2
+  fl_chart: ^0.64.0
 dev_dependencies: 
   flutter_test: 
     sdk: flutter

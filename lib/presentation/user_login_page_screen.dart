@@ -145,6 +145,31 @@ class _UserLoginPageScreenState extends State<UserLoginPageScreen> {
     );
   }
 
+  void _showAlertDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Align(
+                alignment: Alignment.topRight,
+                child: IconButton(
+                  icon: Icon(Icons.close),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ),
+              Image.asset('./././assets/images/login.png'),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -229,19 +254,6 @@ class _UserLoginPageScreenState extends State<UserLoginPageScreen> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
-                            CustomImageView(
-                              svgPath: ImageConstant.imgVolume,
-                              onTap: () {
-                                Navigator.of(context)
-                                    .pushReplacementNamed('/home_page_screen');
-                              },
-                              height: 28, // Remove .v and .h
-                              width: 35, // Remove .v and .h
-                              margin: EdgeInsets.only(
-                                top: 13,
-                                bottom: 7,
-                              ),
-                            ),
                             Opacity(
                               opacity: 0.9,
                               child: Padding(
@@ -257,11 +269,12 @@ class _UserLoginPageScreenState extends State<UserLoginPageScreen> {
                             ),
                             CustomImageView(
                               imagePath: ImageConstant.imgUnverifiedaccount,
-                              height: 46, // Remove .v and .h
-                              width: 52, // Remove .v and .h
+                              height: 46.v,
+                              width: 52.h,
+                              onTap: () => _showAlertDialog(context),
                               margin: EdgeInsets.only(
-                                left: 2,
-                                bottom: 2,
+                                left: 2.h,
+                                bottom: 2.v,
                               ),
                             ),
                           ],
@@ -307,15 +320,21 @@ class _UserLoginPageScreenState extends State<UserLoginPageScreen> {
                           maxHeight: 54,
                         ),
                       ),
+                      SizedBox(height: 10), // Add some spacing
                       TextButton(
                         onPressed: () {
                           Navigator.of(context)
                               .pushNamed(AppRoutes.forgotPasswordScreen);
                         },
-                        child: Text("Forgot Password?"),
+                        child: Text(
+                          "Forgot Password?",
+                          style: TextStyle(
+                              color: Colors.black87), // Set a darker color
+                        ),
                       ),
                       CustomElevatedButton(
-                        margin: EdgeInsets.fromLTRB(37, 79, 23, 5),
+                        margin: EdgeInsets.fromLTRB(
+                            37, 20, 23, 5), // Reduce the top margin
                         text: "Login",
                         onTap: () {
                           loginUser(context);
@@ -326,7 +345,11 @@ class _UserLoginPageScreenState extends State<UserLoginPageScreen> {
                           Navigator.of(context)
                               .pushNamed(AppRoutes.registerPageScreen);
                         },
-                        child: Text("Don't have an account? Register"),
+                        child: Text(
+                          "Don't have an account? Register",
+                          style: TextStyle(
+                              color: Colors.black87), // Set a darker color
+                        ),
                       ),
                     ],
                   ),

@@ -6,6 +6,8 @@ import 'package:form_structure/presentation/bank_account_details_screen.dart';
 import 'package:form_structure/presentation/profile_update_screen.dart';
 import 'package:form_structure/presentation/buyer_dashboard_screen.dart';
 import 'package:form_structure/presentation/farmer_dashboard_scree.dart';
+import 'package:form_structure/presentation/farmer_revenue_screen.dart';
+import 'package:form_structure/presentation/home_page_screen.dart';
 
 class AppRoutes {
   static const String registerPageScreen = '/register_page_screen';
@@ -15,7 +17,9 @@ class AppRoutes {
       '/bank_account_details_screen.dart';
   static const String userProfileScreen = '/profile_update_screen';
   static const String buyerDashboardScreen = '/buyer_dashboard_screen';
-  static const String farmerDashboardScreen = 'farmer_dashboard_scree';
+  static const String farmerDashboardScreen = '/farmer_dashboard_scree';
+  static const String farmerRevenueScreen = '/farmer_revenue_screen';
+  static const String homePageScreen = '/home_page_screen';
 
   static Map<String, WidgetBuilder> routes = {
     registerPageScreen: (context) => RegisterPageScreen(),
@@ -24,6 +28,8 @@ class AppRoutes {
     banAccountDetailsScreen: (context) => BankAccountPageScreen(),
     userProfileScreen: (context) => UserProfilePage(),
     buyerDashboardScreen: (context) => DashboardScreen(),
-    farmerDashboardScreen: (context) => FarmerDashboardScreen()
+    farmerDashboardScreen: (context) => FarmerDashboardScreen(),
+    farmerRevenueScreen: (context) => RevenuePage(),
+    homePageScreen: (context) => HomePageScreen()
   };
 }

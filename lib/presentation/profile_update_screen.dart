@@ -77,6 +77,11 @@ class _UserProfilePageState extends State<UserProfilePage> {
     }
   }
 
+  Future<String?> getUserRole() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getString('role');
+  }
+
   Future<void> deleteUserProfile() async {
     try {
       final url =
@@ -127,6 +132,31 @@ class _UserProfilePageState extends State<UserProfilePage> {
           ),
         ],
       ),
+    );
+  }
+
+  void _showAlertDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Align(
+                alignment: Alignment.topRight,
+                child: IconButton(
+                  icon: Icon(Icons.close),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ),
+              Image.asset('./././assets/images/profile.png'),
+            ],
+          ),
+        );
+      },
     );
   }
 
@@ -213,11 +243,26 @@ class _UserProfilePageState extends State<UserProfilePage> {
                           children: [
                             CustomImageView(
                               svgPath: ImageConstant.imgVolume,
-                              height: 28.v,
-                              width: 35.h,
+                              onTap: () async {
+                                String? userRole = await getUserRole();
+                                if (userRole == 'farmer') {
+                                  // Navigate to the farmer dashboard page
+                                  Navigator.of(context).pushReplacementNamed(
+                                      '/farmer_dashboard_screen');
+                                } else if (userRole == 'buyer') {
+                                  // Navigate to the buyer dashboard page
+                                  Navigator.of(context).pushReplacementNamed(
+                                      '/buyer_dashboard_screen');
+                                } else {
+                                  // Handle the case where the userRole is not 'farmer' or 'buyer', if needed
+                                  print("Unknown user role");
+                                }
+                              },
+                              height: 28,
+                              width: 35,
                               margin: EdgeInsets.only(
-                                top: 13.v,
-                                bottom: 7.v,
+                                top: 13,
+                                bottom: 7,
                               ),
                             ),
                             Opacity(
@@ -237,6 +282,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
                               imagePath: ImageConstant.imgUnverifiedaccount,
                               height: 46.v,
                               width: 52.h,
+                              onTap: () => _showAlertDialog(context),
                               margin: EdgeInsets.only(
                                 left: 2.h,
                                 bottom: 2.v,

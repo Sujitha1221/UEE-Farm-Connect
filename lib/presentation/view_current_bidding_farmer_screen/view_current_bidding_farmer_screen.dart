@@ -210,8 +210,8 @@ class _VCBFPScreenState extends State<ViewCurrentBiddingFarmerPage> {
                             String id = bid['_id'] ?? "Unknown";
                             String weight = bid['weight'] ?? "Unknown";
                             String totalAmount = bid['totalAmount'] ?? "0.0";
-                            double ppkg = (int.parse(bid['weight']) /
-                                int.parse(bid['totalAmount']));
+                            double ppkg = (int.parse(bid['totalAmount']) /
+                                int.parse(bid['weight']));
                             String status = bid['status'] ?? "Null";
                             String productName =
                                 bid['productName'] ?? "Unknown";
@@ -394,6 +394,7 @@ class _VCBFPScreenState extends State<ViewCurrentBiddingFarmerPage> {
       );
 
       if (response.body != null) {
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => ViewCurrentBiddingFarmerPage()));
         return response.body;
       } else {
         print('Request failed with status: ${response.statusCode}');

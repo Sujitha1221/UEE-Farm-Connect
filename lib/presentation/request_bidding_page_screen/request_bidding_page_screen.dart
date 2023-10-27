@@ -389,6 +389,7 @@ class _RBScreenState extends State<RequestBiddingPage> {
       );
 
       if (response.body != null) {
+        Navigator.of(context).pushReplacementNamed('/view_product_page_user_screen');
         return response.body;
       } else {
         print('Request failed with status: ${response.statusCode}');

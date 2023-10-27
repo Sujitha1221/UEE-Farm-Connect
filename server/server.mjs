@@ -38,16 +38,16 @@ function myScheduledTask() {
 
   axios.get('http://localhost:8080/bidding/expire-bidding')
   .then((bid) => {
-    return res.json(bid);
+    return;// res.json(bid);
   })
   .catch((err) => {
-    console.error('Error', error);
+    console.error('Error', err);
     return res.json({ status: "Error", err });
   });
   
 }
 
-cron.schedule('55 23 * * *', myScheduledTask, {
+cron.schedule('59 23 * * *', myScheduledTask, {
   scheduled: true,
   timezone: 'Asia/Colombo'
 });

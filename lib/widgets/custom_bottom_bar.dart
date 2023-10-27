@@ -90,6 +90,11 @@ class CustomBottomBarState extends State<CustomBottomBar> {
     return prefs.getString('role');
   }
 
+  Future<void> _clearSharedPreferences() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.clear();
+  }
+
   void handleNavigation(BottomBarEnum type) async {
     String? userRole = await getUserRole();
     switch (type) {
@@ -107,8 +112,11 @@ class CustomBottomBarState extends State<CustomBottomBar> {
         Navigator.of(context).pushReplacementNamed('/profile_update_screen');
         break;
       case BottomBarEnum.Arrowright:
-        // Handle Arrowright button action
-        Navigator.of(context).pushReplacementNamed('/user_login_page_screen');
+        // Clear SharedPreferences
+        _clearSharedPreferences().then((_) {
+          // After clearing the preferences, navigate to the login screen
+          Navigator.of(context).pushReplacementNamed('/user_login_page_screen');
+        });
         break;
     }
     widget.onChanged?.call(type);

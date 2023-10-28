@@ -16,6 +16,8 @@ import '../presentation/bank_account_details_screen.dart';
 import '../presentation/profile_update_screen.dart';
 import 'package:form_structure/presentation/buyer_dashboard_screen.dart';
 import 'package:form_structure/presentation/farmer_dashboard_scree.dart';
+import 'package:form_structure/presentation/farmer_revenue_screen.dart';
+import 'package:form_structure/presentation/home_page_screen.dart';
 
 
 
@@ -40,11 +42,7 @@ class AppRoutes {
   static const String userProfileScreen = '/profile_update_screen';
   static const String buyerDashboardScreen = '/buyer_dashboard_screen';
   static const String farmerDashboardScreen = '/farmer_dashboard_scree';
-
-  
-
-
-  
+  static const String farmerRevenueScreen = '/farmer_revenue_screen';
 
   static Map<String, WidgetBuilder> routes = {
     loginPageScreen: (context) => UserLoginPageScreen(),
@@ -65,9 +63,9 @@ class AppRoutes {
     banAccountDetailsScreen: (context) => BankAccountPageScreen(),
     userProfileScreen: (context) => UserProfilePage(),
     buyerDashboardScreen: (context) => DashboardScreen(),
-    farmerDashboardScreen: (context) => FarmerDashboardScreen()
-
-    
+    farmerDashboardScreen: (context) => FarmerDashboardScreen(),
+    farmerRevenueScreen: (context) => RevenuePage(),
+    homePageScreen: (context) => HomePageScreen()
   };
 
   

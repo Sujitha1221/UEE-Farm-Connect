@@ -12,6 +12,7 @@ import axios from "axios";
 import ProductRouter from "./routes/ProductRoute.mjs";
 import UserRouter from "./routes/UserRoute.mjs";
 import BankDetailsRouter from "./routes/BankDetails.mjs";
+import PaymentRoute from "./routes/PaymentRoute.mjs";
 
 const app = express();
 const PORT = process.env.PORT || "8080";

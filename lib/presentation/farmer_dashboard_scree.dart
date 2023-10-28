@@ -157,8 +157,8 @@ class FarmerDashboardScreen extends StatelessWidget {
                               children: [
                                 ElevatedButton(
                                   onPressed: () {
-                                    Navigator.of(context)
-                                        .pushReplacementNamed('');
+                                    Navigator.of(context).pushReplacementNamed(
+                                        '/farmer_revenue_screen');
                                   },
                                   style: ElevatedButton.styleFrom(
                                     primary: Colors
@@ -189,8 +189,8 @@ class FarmerDashboardScreen extends StatelessWidget {
                                 ),
                                 ElevatedButton(
                                   onPressed: () {
-                                    Navigator.of(context)
-                                        .pushReplacementNamed('/path');
+                                    Navigator.of(context).pushReplacementNamed(
+                                        '/farmer_revenue_screen');
                                   },
                                   style: ElevatedButton.styleFrom(
                                     primary: Colors

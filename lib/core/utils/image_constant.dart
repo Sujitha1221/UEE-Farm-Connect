@@ -75,4 +75,14 @@ class ImageConstant {
   static String branchNumber = '$imagePath/branchNumber.png';
 
   static String accountNumber = '$imagePath/accountNumber.jpg';
+
+  static String bankDetails = '$imagePath/bankDetails.png';
+
+  static String forgetPassword = '$imagePath/forgetPassword.png';
+
+  static String login = '$imagePath/login.png';
+
+  static String profile = '$imagePath/profile.png';
+
+  static String register = '$imagePath/register.png';
 }

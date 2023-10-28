@@ -93,3 +93,25 @@ export const updatePayment = async (req, res) => {
       return res.json({ status: "Error", err });
     });
 };
+
+export const getRevenue = async (req, res) => {
+  try {
+    // Extracting userName and type from the query parameters
+    const { userName, type } = req.query;
+
+    if (!userName || !type) {
+      return res
+        .status(400)
+        .send({ error: "userName and type are required query parameters" });
+    }
+
+    // Fetching the payments
+    const payments = await Payment.find({ userName, type });
+
+    // Sending the payments as a response
+    res.json(payments);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send({ error: "Internal Server Error" });
+  }
+};

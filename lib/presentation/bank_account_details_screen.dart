@@ -49,6 +49,31 @@ class _BankAccountPageScreenState extends State<BankAccountPageScreen> {
   TextEditingController emailController = TextEditingController();
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
+  void _showAlertDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Align(
+                alignment: Alignment.topRight,
+                child: IconButton(
+                  icon: Icon(Icons.close),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ),
+              Image.asset('./././assets/images/bankDetails.png'),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     mediaQueryData = MediaQuery.of(context);
@@ -136,11 +161,15 @@ class _BankAccountPageScreenState extends State<BankAccountPageScreen> {
                           children: [
                             CustomImageView(
                               svgPath: ImageConstant.imgVolume,
-                              height: 28.v,
-                              width: 35.h,
+                              onTap: () {
+                                Navigator.of(context).pushReplacementNamed(
+                                    '/user_login_page_screen');
+                              },
+                              height: 28, // Remove .v and .h
+                              width: 35, // Remove .v and .h
                               margin: EdgeInsets.only(
-                                top: 13.v,
-                                bottom: 7.v,
+                                top: 13,
+                                bottom: 7,
                               ),
                             ),
                             Opacity(
@@ -160,6 +189,7 @@ class _BankAccountPageScreenState extends State<BankAccountPageScreen> {
                               imagePath: ImageConstant.imgUnverifiedaccount,
                               height: 46.v,
                               width: 52.h,
+                              onTap: () => _showAlertDialog(context),
                               margin: EdgeInsets.only(
                                 left: 2.h,
                                 bottom: 2.v,

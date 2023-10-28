@@ -170,8 +170,8 @@ class _RegisterPageScreenState extends State<RegisterPageScreen> {
                                 Navigator.of(context).pushReplacementNamed(
                                     '/user_login_page_screen');
                               },
-                              height: 28, // Remove .v and .h
-                              width: 35, // Remove .v and .h
+                              height: 28,
+                              width: 35,
                               margin: EdgeInsets.only(
                                 top: 13,
                                 bottom: 7,
@@ -211,6 +211,12 @@ class _RegisterPageScreenState extends State<RegisterPageScreen> {
                           right: 25.h,
                         ),
                         hintText: "Full name",
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return 'Please enter your full name';
+                          }
+                          return null;
+                        },
                         textInputAction: TextInputAction.done,
                         textInputType: TextInputType.name,
                         prefix: Container(
@@ -233,6 +239,16 @@ class _RegisterPageScreenState extends State<RegisterPageScreen> {
                         hintText: "Email Address",
                         textInputAction: TextInputAction.done,
                         textInputType: TextInputType.emailAddress,
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return 'Please enter your email';
+                          } else if (!RegExp(
+                                  r"^[a-zA-Z0-9.]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                              .hasMatch(value)) {
+                            return 'Please enter a valid email address';
+                          }
+                          return null;
+                        },
                         prefix: Container(
                           margin: EdgeInsets.fromLTRB(27.h, 15.v, 17.h, 15.v),
                           child: CustomImageView(
@@ -253,6 +269,15 @@ class _RegisterPageScreenState extends State<RegisterPageScreen> {
                         hintText: "Contact Number",
                         textInputAction: TextInputAction.done,
                         textInputType: TextInputType.phone,
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return 'Please enter your contact number';
+                          } else if (!RegExp(r"^(?:\+94|0\d{2})-?\d{3}-?\d{4}$")
+                              .hasMatch(value)) {
+                            return 'Please enter a valid Sri Lankan contact number';
+                          }
+                          return null;
+                        },
                         prefix: Container(
                           margin: EdgeInsets.fromLTRB(27.h, 15.v, 17.h, 15.v),
                           child: CustomImageView(
@@ -273,6 +298,14 @@ class _RegisterPageScreenState extends State<RegisterPageScreen> {
                         hintText: "Password",
                         textInputAction: TextInputAction.done,
                         textInputType: TextInputType.visiblePassword,
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return 'Please enter a password';
+                          } else if (value.length < 6) {
+                            return 'Password should be at least 6 characters';
+                          }
+                          return null;
+                        },
                         prefix: Container(
                           margin: EdgeInsets.fromLTRB(27.h, 15.v, 17.h, 15.v),
                           child: CustomImageView(
@@ -319,17 +352,19 @@ class _RegisterPageScreenState extends State<RegisterPageScreen> {
                         text: "SUBMIT",
                         margin: EdgeInsets.fromLTRB(37.h, 79.v, 23.h, 5.v),
                         onTap: () {
-                          int contact =
-                              int.tryParse(contactController.text) ?? 0;
-                          final user = User(
-                            userName: userNameController.text,
-                            email: emailController.text,
-                            contact: contact,
-                            password: passwordController.text,
-                            role: selectedRole,
-                          );
+                          if (_formKey.currentState!.validate()) {
+                            int contact =
+                                int.tryParse(contactController.text) ?? 0;
+                            final user = User(
+                              userName: userNameController.text,
+                              email: emailController.text,
+                              contact: contact,
+                              password: passwordController.text,
+                              role: selectedRole,
+                            );
 
-                          createUser(user);
+                            createUser(user);
+                          }
                         },
                       ),
                       TextButton(

@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:form_structure/core/app_export.dart';
-import 'package:form_structure/widgets/custom_bottom_bar.dart';
 import 'package:form_structure/widgets/custom_elevated_button.dart';
 import 'package:http/http.dart' as http;
 
@@ -54,6 +53,31 @@ class _RegisterPageScreenState extends State<RegisterPageScreen> {
   TextEditingController passwordController = TextEditingController();
   TextEditingController roleController = TextEditingController();
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+  void _showAlertDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Align(
+                alignment: Alignment.topRight,
+                child: IconButton(
+                  icon: Icon(Icons.close),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ),
+              Image.asset('./././assets/images/register.png'),
+            ],
+          ),
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -142,11 +166,15 @@ class _RegisterPageScreenState extends State<RegisterPageScreen> {
                           children: [
                             CustomImageView(
                               svgPath: ImageConstant.imgVolume,
-                              height: 28.v,
-                              width: 35.h,
+                              onTap: () {
+                                Navigator.of(context).pushReplacementNamed(
+                                    '/user_login_page_screen');
+                              },
+                              height: 28,
+                              width: 35,
                               margin: EdgeInsets.only(
-                                top: 13.v,
-                                bottom: 7.v,
+                                top: 13,
+                                bottom: 7,
                               ),
                             ),
                             Opacity(
@@ -166,6 +194,7 @@ class _RegisterPageScreenState extends State<RegisterPageScreen> {
                               imagePath: ImageConstant.imgUnverifiedaccount,
                               height: 46.v,
                               width: 52.h,
+                              onTap: () => _showAlertDialog(context),
                               margin: EdgeInsets.only(
                                 left: 2.h,
                                 bottom: 2.v,
@@ -182,12 +211,18 @@ class _RegisterPageScreenState extends State<RegisterPageScreen> {
                           right: 25.h,
                         ),
                         hintText: "Full name",
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return 'Please enter your full name';
+                          }
+                          return null;
+                        },
                         textInputAction: TextInputAction.done,
                         textInputType: TextInputType.name,
                         prefix: Container(
                           margin: EdgeInsets.fromLTRB(27.h, 15.v, 17.h, 15.v),
                           child: CustomImageView(
-                            svgPath: ImageConstant.username,
+                            imagePath: ImageConstant.fullName,
                           ),
                         ),
                         prefixConstraints: BoxConstraints(
@@ -204,10 +239,20 @@ class _RegisterPageScreenState extends State<RegisterPageScreen> {
                         hintText: "Email Address",
                         textInputAction: TextInputAction.done,
                         textInputType: TextInputType.emailAddress,
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return 'Please enter your email';
+                          } else if (!RegExp(
+                                  r"^[a-zA-Z0-9.]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                              .hasMatch(value)) {
+                            return 'Please enter a valid email address';
+                          }
+                          return null;
+                        },
                         prefix: Container(
                           margin: EdgeInsets.fromLTRB(27.h, 15.v, 17.h, 15.v),
                           child: CustomImageView(
-                            svgPath: ImageConstant.email,
+                            svgPath: ImageConstant.imgCalculator,
                           ),
                         ),
                         prefixConstraints: BoxConstraints(
@@ -224,10 +269,19 @@ class _RegisterPageScreenState extends State<RegisterPageScreen> {
                         hintText: "Contact Number",
                         textInputAction: TextInputAction.done,
                         textInputType: TextInputType.phone,
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return 'Please enter your contact number';
+                          } else if (!RegExp(r"^(?:\+94|0\d{2})-?\d{3}-?\d{4}$")
+                              .hasMatch(value)) {
+                            return 'Please enter a valid Sri Lankan contact number';
+                          }
+                          return null;
+                        },
                         prefix: Container(
                           margin: EdgeInsets.fromLTRB(27.h, 15.v, 17.h, 15.v),
                           child: CustomImageView(
-                            svgPath: ImageConstant.phone,
+                            imagePath: ImageConstant.contact,
                           ),
                         ),
                         prefixConstraints: BoxConstraints(
@@ -244,10 +298,18 @@ class _RegisterPageScreenState extends State<RegisterPageScreen> {
                         hintText: "Password",
                         textInputAction: TextInputAction.done,
                         textInputType: TextInputType.visiblePassword,
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return 'Please enter a password';
+                          } else if (value.length < 6) {
+                            return 'Password should be at least 6 characters';
+                          }
+                          return null;
+                        },
                         prefix: Container(
                           margin: EdgeInsets.fromLTRB(27.h, 15.v, 17.h, 15.v),
                           child: CustomImageView(
-                            svgPath: ImageConstant.password,
+                            imagePath: ImageConstant.passwordLock,
                           ),
                         ),
                         prefixConstraints: BoxConstraints(
@@ -290,26 +352,33 @@ class _RegisterPageScreenState extends State<RegisterPageScreen> {
                         text: "SUBMIT",
                         margin: EdgeInsets.fromLTRB(37.h, 79.v, 23.h, 5.v),
                         onTap: () {
-                          int contact =
-                              int.tryParse(contactController.text) ?? 0;
-                          final user = User(
-                            userName: userNameController.text,
-                            email: emailController.text,
-                            contact: contact,
-                            password: passwordController.text,
-                            role: selectedRole,
-                          );
+                          if (_formKey.currentState!.validate()) {
+                            int contact =
+                                int.tryParse(contactController.text) ?? 0;
+                            final user = User(
+                              userName: userNameController.text,
+                              email: emailController.text,
+                              contact: contact,
+                              password: passwordController.text,
+                              role: selectedRole,
+                            );
 
-                          createUser(user);
+                            createUser(user);
+                          }
                         },
                       ),
                       TextButton(
                         onPressed: () {
                           print("Log in button pressed");
                           Navigator.of(context)
-                              .pushNamed(AppRoutes.loginPageScreen);
+                              .pushNamed(AppRoutes.userLoginPageScreen);
                         },
-                        child: Text("Already have an account? Log in"),
+                        child: Text(
+                          "Already have an account? Log in",
+                          style: TextStyle(
+                              color:
+                                  Colors.black), // Adjust the color as needed
+                        ),
                       ),
                     ],
                   ),
@@ -317,9 +386,6 @@ class _RegisterPageScreenState extends State<RegisterPageScreen> {
               ),
             ),
           ],
-        ),
-        bottomNavigationBar: CustomBottomBar(
-          onChanged: (BottomBarEnum type) {},
         ),
       ),
     );

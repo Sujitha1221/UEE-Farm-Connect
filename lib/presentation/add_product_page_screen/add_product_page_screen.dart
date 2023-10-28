@@ -162,7 +162,7 @@ class _AddProductState extends State<AddProductPageScreen> {
                               ),
                               onTap: () {
                                 Navigator.of(context)
-                                    .pushReplacementNamed('/home_page_screen');
+                                    .pushReplacementNamed('/view_product_page_farmer_screen');
                               },
                             ),
                             Opacity(
@@ -387,20 +387,45 @@ class _AddProductState extends State<AddProductPageScreen> {
   }
 
   Future<Null> selectDate() async {
-    DateTime? pickedDate = await showDatePicker(
-      context: context,
-      initialDate: selectedDate ?? DateTime.now(),
-      firstDate: DateTime(2000),
-      lastDate: DateTime(2101),
-    );
+  final DateTime today = DateTime.now();
+  final DateTime minDate = today.add(Duration(days: 2)); // Minimum date is 2 days from today
 
-    if (pickedDate != null) {
+  DateTime? pickedDate = await showDatePicker(
+    context: context,
+    initialDate: selectedDate ?? minDate, // Set initial date to either selectedDate or minDate
+    firstDate: minDate, // Set the minimum date
+    lastDate: DateTime(2101),
+  );
+
+  if (pickedDate != null) {
+    if (pickedDate.isBefore(today)) {
+      // Expiry date is before today
+      showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text('Invalid Date'),
+            content: Text('Expiry date should not be before today.'),
+            actions: <Widget>[
+              TextButton(
+                child: Text('OK'),
+                onPressed: () {
+                  Navigator.of(context).pop(); // Close the dialog
+                },
+              ),
+            ],
+          );
+        },
+      );
+    } else {
       setState(() {
         selectedDate = pickedDate;
         expiryDateController.text = DateFormat('yyyy-MM-dd').format(pickedDate);
       });
     }
   }
+}
+
 
   Future<String?> pickAndConvertImage() async {
     final picker = ImagePicker();
@@ -490,4 +515,6 @@ class _AddProductState extends State<AddProductPageScreen> {
     return prefs.getString('userName') ??
         ''; // Provide a default value if 'empId' is not found
   }
+
+  
 }

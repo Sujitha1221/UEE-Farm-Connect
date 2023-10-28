@@ -8,6 +8,7 @@ import 'package:form_structure/widgets/custom_search_view.dart';
 import 'package:http/http.dart' as http;
 import 'package:form_structure/widgets/custom_text_form_field.dart';
 import 'package:intl/intl.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class PaymentFarmerScreen extends StatefulWidget {
   PaymentFarmerScreen({Key? key}) : super(key: key);
@@ -40,7 +41,7 @@ class _PFScreenState extends State<PaymentFarmerScreen> {
   Future<List<Map<String, dynamic>>?> getAllBidding(
       BuildContext context) async {
     try {
-      final userName = "adsTo";
+      final userName = await getFarmerNameFromLocalStorage();
       final response = await client.get(
         Uri.parse(
             'http://172.28.14.76:8080/payment/get-all-payment-user/$userName'),
@@ -160,10 +161,10 @@ class _PFScreenState extends State<PaymentFarmerScreen> {
                                 top: 10.v,
                                 bottom: 7.v,
                               ),
-                              onTap: () => {
-                                Navigator.of(context).pushReplacementNamed(
-                                    '/view_current_bidding_farmer_screen')
-                              },
+                              onTap: () {
+                                    Navigator.of(context)
+                                        .pushReplacementNamed(AppRoutes.farmerDashboardScreen);
+                                  },
                             ),
                             Opacity(
                               opacity: 0.9,
@@ -263,5 +264,10 @@ class _PFScreenState extends State<PaymentFarmerScreen> {
         ),
       ),
     );
+  }
+
+  Future<String> getFarmerNameFromLocalStorage() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getString('email') ?? '';
   }
 }

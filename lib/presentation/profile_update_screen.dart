@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:form_structure/core/app_export.dart';
+import 'package:form_structure/widgets/custom_bottom_bar.dart';
 import 'package:form_structure/widgets/custom_elevated_button.dart';
 import 'package:form_structure/widgets/custom_text_form_field.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
 import 'package:http/http.dart' as http;
 
 class UserProfilePage extends StatefulWidget {
@@ -76,13 +78,17 @@ class _UserProfilePageState extends State<UserProfilePage> {
     }
   }
 
+  Future<String?> getUserRole() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getString('role');
+  }
+
   Future<void> deleteUserProfile() async {
     try {
-      final url = 'http://172.28.14.76:8080/user/delete-user';
-      final response = await http.post(
-        Uri.parse(url),
-        body: {'email': emailController.text},
-      );
+      final url =
+          'http://192.168.56.1:8080/user/delete-user/${emailController.text}';
+
+      final response = await http.delete(Uri.parse(url));
 
       if (response.statusCode == 200) {
         showDialog(
@@ -103,10 +109,12 @@ class _UserProfilePageState extends State<UserProfilePage> {
           ),
         );
       } else {
+        print("Error response: ${response.body}"); // Add this line
         throw Exception("Failed to delete profile");
       }
     } catch (error) {
       _showErrorDialog("Error deleting profile");
+      print(error);
     }
   }
 
@@ -125,6 +133,31 @@ class _UserProfilePageState extends State<UserProfilePage> {
           ),
         ],
       ),
+    );
+  }
+
+  void _showAlertDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Align(
+                alignment: Alignment.topRight,
+                child: IconButton(
+                  icon: Icon(Icons.close),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ),
+              Image.asset('./././assets/images/profile.png'),
+            ],
+          ),
+        );
+      },
     );
   }
 
@@ -211,11 +244,26 @@ class _UserProfilePageState extends State<UserProfilePage> {
                           children: [
                             CustomImageView(
                               svgPath: ImageConstant.imgVolume,
-                              height: 28.v,
-                              width: 35.h,
+                              onTap: () async {
+                                String? userRole = await getUserRole();
+                                if (userRole == 'farmer') {
+                                  // Navigate to the farmer dashboard page
+                                  Navigator.of(context).pushReplacementNamed(
+                                      '/farmer_dashboard_scree');
+                                } else if (userRole == 'buyer') {
+                                  // Navigate to the buyer dashboard page
+                                  Navigator.of(context).pushReplacementNamed(
+                                      '/buyer_dashboard_screen');
+                                } else {
+                                  // Handle the case where the userRole is not 'farmer' or 'buyer', if needed
+                                  print("Unknown user role");
+                                }
+                              },
+                              height: 28,
+                              width: 35,
                               margin: EdgeInsets.only(
-                                top: 13.v,
-                                bottom: 7.v,
+                                top: 13,
+                                bottom: 7,
                               ),
                             ),
                             Opacity(
@@ -226,7 +274,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
                                   top: 10.v,
                                 ),
                                 child: Text(
-                                  "Create Account",
+                                  "Your Profile",
                                   style: theme.textTheme.headlineSmall,
                                 ),
                               ),
@@ -235,6 +283,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
                               imagePath: ImageConstant.imgUnverifiedaccount,
                               height: 46.v,
                               width: 52.h,
+                              onTap: () => _showAlertDialog(context),
                               margin: EdgeInsets.only(
                                 left: 2.h,
                                 bottom: 2.v,
@@ -252,7 +301,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
                         prefix: Container(
                           margin: EdgeInsets.fromLTRB(27, 15, 17, 15),
                           child: CustomImageView(
-                            svgPath: ImageConstant.username,
+                            imagePath: ImageConstant.account,
                           ),
                         ),
                         prefixConstraints: BoxConstraints(maxHeight: 54),
@@ -268,25 +317,27 @@ class _UserProfilePageState extends State<UserProfilePage> {
                           prefix: Container(
                             margin: EdgeInsets.fromLTRB(27, 15, 17, 15),
                             child: CustomImageView(
-                              svgPath: ImageConstant.email,
+                              svgPath: ImageConstant.imgCalculator,
                             ),
                           ),
                           prefixConstraints: BoxConstraints(maxHeight: 54),
                         ),
                       ),
-                      CustomTextFormField(
-                        controller: roleController,
-                        margin: EdgeInsets.fromLTRB(25, 15, 25, 0),
-                        hintText: 'Role',
-                        textInputAction: TextInputAction.done,
-                        textInputType: TextInputType.text,
-                        prefix: Container(
-                          margin: EdgeInsets.fromLTRB(27, 15, 17, 15),
-                          child: CustomImageView(
-                            svgPath: ImageConstant.role,
+                      IgnorePointer(
+                        child: CustomTextFormField(
+                          controller: roleController,
+                          margin: EdgeInsets.fromLTRB(25, 15, 25, 0),
+                          hintText: 'Role',
+                          textInputAction: TextInputAction.done,
+                          textInputType: TextInputType.text,
+                          prefix: Container(
+                            margin: EdgeInsets.fromLTRB(27, 15, 17, 15),
+                            child: CustomImageView(
+                              imagePath: ImageConstant.role,
+                            ),
                           ),
+                          prefixConstraints: BoxConstraints(maxHeight: 54),
                         ),
-                        prefixConstraints: BoxConstraints(maxHeight: 54),
                       ),
                       CustomTextFormField(
                         controller: contactController,
@@ -297,27 +348,42 @@ class _UserProfilePageState extends State<UserProfilePage> {
                         prefix: Container(
                           margin: EdgeInsets.fromLTRB(27, 15, 17, 15),
                           child: CustomImageView(
-                            svgPath: ImageConstant.imgCalculator,
+                            imagePath: ImageConstant.contact,
                           ),
                         ),
                         prefixConstraints: BoxConstraints(maxHeight: 54),
                       ),
-                      CustomElevatedButton(
-                        onTap: updateUserProfile,
-                        margin: EdgeInsets.fromLTRB(37, 79, 23, 5),
-                        text: "Update Profile",
-                      ),
-                      CustomElevatedButton(
-                        onTap: deleteUserProfile,
-                        margin: EdgeInsets.fromLTRB(37, 79, 23, 5),
-                        text: "Delete Profile",
-                      ),
+                      SizedBox(height: 20),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: CustomElevatedButton(
+                              onTap: updateUserProfile,
+                              margin: EdgeInsets.fromLTRB(37, 79, 23, 5),
+                              text: "Update Profile",
+                            ),
+                          ),
+                          SizedBox(
+                              width:
+                                  10), // to give a small gap between the two buttons
+                          Expanded(
+                            child: CustomElevatedButton(
+                              onTap: deleteUserProfile,
+                              margin: EdgeInsets.fromLTRB(37, 79, 23, 5),
+                              text: "Delete Profile",
+                            ),
+                          ),
+                        ],
+                      )
                     ],
                   ),
                 ),
               ),
             ),
           ],
+        ),
+        bottomNavigationBar: CustomBottomBar(
+          onChanged: (BottomBarEnum type) {},
         ),
       ),
     );

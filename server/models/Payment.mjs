@@ -1,7 +1,6 @@
 import mongoose from "mongoose";
 
 const PaymentSchema = new mongoose.Schema({
-
   userName: {
     type: String,
     required: true,

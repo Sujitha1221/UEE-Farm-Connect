@@ -18,6 +18,12 @@ import '../presentation/forgot_password_screen.dart';
 import '../presentation/bank_account_details_screen.dart';
 import '../presentation/profile_update_screen.dart';
 import 'package:form_structure/presentation/add_crop_screen/add_crop_screen.dart';
+import 'package:form_structure/presentation/buyer_dashboard_screen.dart';
+import 'package:form_structure/presentation/farmer_dashboard_scree.dart';
+import 'package:form_structure/presentation/farmer_revenue_screen.dart';
+import 'package:form_structure/presentation/home_page_screen.dart';
+
+
 
 class AppRoutes {
   static const String loginPageScreen = '/login_page_screen';
@@ -45,6 +51,9 @@ class AppRoutes {
   static const String viewCropScreen = '/view_crop_screen';
   static const String updateCropScreen = '/update_crop_screen';
   static const String weatherScreen = '/weather_screen';
+  static const String buyerDashboardScreen = '/buyer_dashboard_screen';
+  static const String farmerDashboardScreen = '/farmer_dashboard_scree';
+  static const String farmerRevenueScreen = '/farmer_revenue_screen';
 
   static Map<String, WidgetBuilder> routes = {
     loginPageScreen: (context) => UserLoginPageScreen(),
@@ -67,6 +76,10 @@ class AppRoutes {
     addCropScreen: (context) => AddCropScreen(),
     viewCropScreen: (context) => CropListScreen(),
     updateCropScreen: (context) => UpdateCropScreen(cropId: ''),
-    weatherScreen: (context) => WeatherScreen()
+    weatherScreen: (context) => WeatherScreen(),
+    buyerDashboardScreen: (context) => DashboardScreen(),
+    farmerDashboardScreen: (context) => FarmerDashboardScreen(),
+    farmerRevenueScreen: (context) => RevenuePage(),
+    homePageScreen: (context) => HomePageScreen()
   };
 }

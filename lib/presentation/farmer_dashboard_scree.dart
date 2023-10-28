@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:form_structure/core/app_export.dart';
 import 'package:form_structure/widgets/custom_bottom_bar.dart';
 
-class DashboardScreen extends StatelessWidget {
-  DashboardScreen({Key? key}) : super(key: key);
+class FarmerDashboardScreen extends StatelessWidget {
+  FarmerDashboardScreen({Key? key}) : super(key: key);
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
@@ -88,7 +88,7 @@ class DashboardScreen extends StatelessWidget {
                                 ElevatedButton(
                                   onPressed: () {
                                     Navigator.of(context)
-                                        .pushReplacementNamed('/view_product_page_user_screen');
+                                        .pushReplacementNamed('/view_product_page_farmer_screen');
                                   },
                                   style: ElevatedButton.styleFrom(
                                     primary: Colors
@@ -120,7 +120,7 @@ class DashboardScreen extends StatelessWidget {
                                 ElevatedButton(
                                   onPressed: () {
                                     Navigator.of(context)
-                                        .pushReplacementNamed('/view_current_bidding_screen');
+                                        .pushReplacementNamed('/view_current_bidding_farmer_screen');
                                   },
                                   style: ElevatedButton.styleFrom(
                                     primary: Colors
@@ -143,7 +143,77 @@ class DashboardScreen extends StatelessWidget {
                                       SizedBox(
                                           height:
                                               8), // Gap between image and text
-                                      Text("BIDDING HISTORY",
+                                      Text("BIDDING",
+                                          style: TextStyle(
+                                              color: Color(0xFF255B20)))
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                            SizedBox(height: 20),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                ElevatedButton(
+                                  onPressed: () {
+                                    Navigator.of(context).pushReplacementNamed(
+                                        '/farmer_revenue_screen');
+                                  },
+                                  style: ElevatedButton.styleFrom(
+                                    primary: Colors
+                                        .transparent, // Transparent background
+                                    shadowColor:
+                                        Colors.transparent, // No shadow
+                                    side: BorderSide(
+                                        width: 1,
+                                        color:
+                                            Color(0xFF255B20)), // Border color
+                                    elevation: 0, // No elevation
+                                  ),
+                                  child: Column(
+                                    children: [
+                                      CustomImageView(
+                                        imagePath: ImageConstant.profitAnalysis,
+                                        height: 150,
+                                        width: 150,
+                                      ),
+                                      SizedBox(
+                                          height:
+                                              8), // Gap between image and text
+                                      Text("FINANCE",
+                                          style: TextStyle(
+                                              color: Color(0xFF255B20)))
+                                    ],
+                                  ),
+                                ),
+                                ElevatedButton(
+                                  onPressed: () {
+                                    Navigator.of(context).pushReplacementNamed(
+                                        '/farmer_revenue_screen');
+                                  },
+                                  style: ElevatedButton.styleFrom(
+                                    primary: Colors
+                                        .transparent, // Transparent background
+                                    shadowColor:
+                                        Colors.transparent, // No shadow
+                                    side: BorderSide(
+                                        width: 1,
+                                        color:
+                                            Color(0xFF255B20)), // Border color
+                                    elevation: 0, // No elevation
+                                  ),
+                                  child: Column(
+                                    children: [
+                                      CustomImageView(
+                                        imagePath: ImageConstant.barley,
+                                        height: 150,
+                                        width: 150,
+                                      ),
+                                      SizedBox(
+                                          height:
+                                              8), // Gap between image and text
+                                      Text("CROP HARVEST",
                                           style: TextStyle(
                                               color: Color(0xFF255B20)))
                                     ],
@@ -158,7 +228,7 @@ class DashboardScreen extends StatelessWidget {
                                 ElevatedButton(
                                   onPressed: () {
                                     Navigator.of(context)
-                                        .pushReplacementNamed('/payment_user_screen');
+                                        .pushReplacementNamed('/payment_farmer_screen');
                                   },
                                   style: ElevatedButton.styleFrom(
                                     primary: Colors
@@ -219,6 +289,7 @@ class DashboardScreen extends StatelessWidget {
                                     ],
                                   ),
                                 ),
+                                
                               ],
                             ),
                           ],

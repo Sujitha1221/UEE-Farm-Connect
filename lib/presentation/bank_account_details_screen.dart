@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:form_structure/core/app_export.dart';
-import 'package:form_structure/widgets/custom_bottom_bar.dart';
 import 'package:form_structure/widgets/custom_elevated_button.dart';
 import 'package:http/http.dart' as http;
 import 'package:form_structure/widgets/custom_text_form_field.dart';
@@ -49,6 +48,31 @@ class _BankAccountPageScreenState extends State<BankAccountPageScreen> {
   TextEditingController accountNumberController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+  void _showAlertDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Align(
+                alignment: Alignment.topRight,
+                child: IconButton(
+                  icon: Icon(Icons.close),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ),
+              Image.asset('./././assets/images/bankDetails.png'),
+            ],
+          ),
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -137,11 +161,15 @@ class _BankAccountPageScreenState extends State<BankAccountPageScreen> {
                           children: [
                             CustomImageView(
                               svgPath: ImageConstant.imgVolume,
-                              height: 28.v,
-                              width: 35.h,
+                              onTap: () {
+                                Navigator.of(context).pushReplacementNamed(
+                                    '/user_login_page_screen');
+                              },
+                              height: 28, // Remove .v and .h
+                              width: 35, // Remove .v and .h
                               margin: EdgeInsets.only(
-                                top: 13.v,
-                                bottom: 7.v,
+                                top: 13,
+                                bottom: 7,
                               ),
                             ),
                             Opacity(
@@ -161,6 +189,7 @@ class _BankAccountPageScreenState extends State<BankAccountPageScreen> {
                               imagePath: ImageConstant.imgUnverifiedaccount,
                               height: 46.v,
                               width: 52.h,
+                              onTap: () => _showAlertDialog(context),
                               margin: EdgeInsets.only(
                                 left: 2.h,
                                 bottom: 2.v,
@@ -170,7 +199,7 @@ class _BankAccountPageScreenState extends State<BankAccountPageScreen> {
                         ),
                       ),
                       CustomTextFormField(
-                        controller: bankNameController,
+                        controller: emailController,
                         margin: EdgeInsets.only(
                           left: 25.h,
                           top: 52.v,
@@ -179,10 +208,20 @@ class _BankAccountPageScreenState extends State<BankAccountPageScreen> {
                         hintText: "Email Address",
                         textInputAction: TextInputAction.done,
                         textInputType: TextInputType.emailAddress,
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return 'Please enter your email';
+                          } else if (!RegExp(
+                                  r"^[a-zA-Z0-9.]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                              .hasMatch(value)) {
+                            return 'Please enter a valid email address';
+                          }
+                          return null;
+                        },
                         prefix: Container(
                           margin: EdgeInsets.fromLTRB(27.h, 15.v, 17.h, 15.v),
                           child: CustomImageView(
-                            svgPath: ImageConstant.email,
+                            svgPath: ImageConstant.imgCalculator,
                           ),
                         ),
                         prefixConstraints: BoxConstraints(
@@ -190,7 +229,7 @@ class _BankAccountPageScreenState extends State<BankAccountPageScreen> {
                         ),
                       ),
                       CustomTextFormField(
-                        controller: emailController,
+                        controller: bankNameController,
                         margin: EdgeInsets.only(
                           left: 25.h,
                           top: 52.v,
@@ -199,10 +238,16 @@ class _BankAccountPageScreenState extends State<BankAccountPageScreen> {
                         hintText: "Bank Name",
                         textInputAction: TextInputAction.done,
                         textInputType: TextInputType.text,
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return 'Please enter the bank name';
+                          }
+                          return null;
+                        },
                         prefix: Container(
                           margin: EdgeInsets.fromLTRB(27.h, 15.v, 17.h, 15.v),
                           child: CustomImageView(
-                            svgPath: ImageConstant.bankName,
+                            imagePath: ImageConstant.bank,
                           ),
                         ),
                         prefixConstraints: BoxConstraints(
@@ -219,10 +264,16 @@ class _BankAccountPageScreenState extends State<BankAccountPageScreen> {
                         hintText: "Branch Name",
                         textInputAction: TextInputAction.done,
                         textInputType: TextInputType.text,
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return 'Please enter the branch name';
+                          }
+                          return null;
+                        },
                         prefix: Container(
                           margin: EdgeInsets.fromLTRB(27.h, 15.v, 17.h, 15.v),
                           child: CustomImageView(
-                            svgPath: ImageConstant.branchName,
+                            imagePath: ImageConstant.bank,
                           ),
                         ),
                         prefixConstraints: BoxConstraints(
@@ -239,10 +290,18 @@ class _BankAccountPageScreenState extends State<BankAccountPageScreen> {
                         hintText: "Branch Number",
                         textInputAction: TextInputAction.done,
                         textInputType: TextInputType.number,
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return 'Please enter the branch number';
+                          } else if (!RegExp(r"^\d{4}$").hasMatch(value)) {
+                            return 'Branch number should be 4 digits';
+                          }
+                          return null;
+                        },
                         prefix: Container(
                           margin: EdgeInsets.fromLTRB(27.h, 15.v, 17.h, 15.v),
                           child: CustomImageView(
-                            svgPath: ImageConstant.branchNumber,
+                            imagePath: ImageConstant.branchNumber,
                           ),
                         ),
                         prefixConstraints: BoxConstraints(
@@ -259,10 +318,18 @@ class _BankAccountPageScreenState extends State<BankAccountPageScreen> {
                         hintText: "Account number",
                         textInputAction: TextInputAction.done,
                         textInputType: TextInputType.number,
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return 'Please enter the account number';
+                          } else if (!RegExp(r"^\d{8,12}$").hasMatch(value)) {
+                            return 'Account number should be between 8-12 digits';
+                          }
+                          return null;
+                        },
                         prefix: Container(
                           margin: EdgeInsets.fromLTRB(27.h, 15.v, 17.h, 15.v),
                           child: CustomImageView(
-                            svgPath: ImageConstant.accountNumber,
+                            imagePath: ImageConstant.accountNumber,
                           ),
                         ),
                         prefixConstraints: BoxConstraints(
@@ -273,19 +340,23 @@ class _BankAccountPageScreenState extends State<BankAccountPageScreen> {
                         text: "SUBMIT",
                         margin: EdgeInsets.fromLTRB(37.h, 79.v, 23.h, 5.v),
                         onTap: () {
-                          int branchNumber =
-                              int.tryParse(branchNumberController.text) ?? 0;
-                          int accountNumber =
-                              int.tryParse(accountNumberController.text) ?? 0;
-                          final bank = Bank(
-                            email: emailController.text,
-                            bankName: bankNameController.text,
-                            branchName: branchNameController.text,
-                            branchNumber: branchNumber,
-                            accountNumber: accountNumber,
-                          );
+                          if (_formKey.currentState!.validate()) {
+                            int branchNumber =
+                                int.tryParse(branchNumberController.text) ?? 0;
+                            int accountNumber =
+                                int.tryParse(accountNumberController.text) ?? 0;
+                            print(
+                                "Sending request for email: ${emailController.text}");
+                            final bank = Bank(
+                              email: emailController.text,
+                              bankName: bankNameController.text,
+                              branchName: branchNameController.text,
+                              branchNumber: branchNumber,
+                              accountNumber: accountNumber,
+                            );
 
-                          createBankDetails(bank);
+                            createBankDetails(bank);
+                          }
                         },
                       ),
                     ],
@@ -294,9 +365,6 @@ class _BankAccountPageScreenState extends State<BankAccountPageScreen> {
               ),
             ),
           ],
-        ),
-        bottomNavigationBar: CustomBottomBar(
-          onChanged: (BottomBarEnum type) {},
         ),
       ),
     );
@@ -314,7 +382,7 @@ class _BankAccountPageScreenState extends State<BankAccountPageScreen> {
               child: Text("OK"),
               onPressed: () {
                 Navigator.of(context).pop(); // Close the dialog
-                Navigator.of(context).pushNamed(AppRoutes.loginPageScreen);
+                Navigator.of(context).pushNamed(AppRoutes.userLoginPageScreen);
               },
             ),
           ],
@@ -326,6 +394,7 @@ class _BankAccountPageScreenState extends State<BankAccountPageScreen> {
   Future createBankDetails(Bank bank) async {
     int retryCount = 3; // Set the number of retries
     int currentRetry = 0;
+    print(bank);
 
     while (currentRetry < retryCount) {
       try {

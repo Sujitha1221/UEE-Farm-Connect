@@ -175,7 +175,12 @@ class _ViewFarmerState extends State<ViewPageFarmerScreen> {
                               margin: EdgeInsets.only(
                                 top: 10.v,
                                 bottom: 7.v,
+                                
                               ),
+                              onTap: () {
+                                    Navigator.of(context)
+                                        .pushReplacementNamed('/farmer_dashboard_scree');
+                                  },
                             ),
                             Opacity(
                               opacity: 0.9,
@@ -229,6 +234,7 @@ class _ViewFarmerState extends State<ViewPageFarmerScreen> {
                       Container(
                         width: double.maxFinite,
                         margin: EdgeInsets.fromLTRB(30.h, 8.v, 30.h, 8.v),
+                        
                         child: Column(
                           children: [
                             SizedBox(height: 5.v),
@@ -241,7 +247,7 @@ class _ViewFarmerState extends State<ViewPageFarmerScreen> {
                                       filterProducts(searchController.text)
                                           .length,
                                   shrinkWrap: true,
-                                  itemExtent: 220,
+                                  
                                   // itemCount: prodList.length,
                                   itemBuilder: (context, index) {
                                     Map<String, dynamic> prod =
@@ -273,6 +279,7 @@ class _ViewFarmerState extends State<ViewPageFarmerScreen> {
                                         borderRadius:
                                             BorderRadiusStyle.roundedBorder18,
                                       ),
+                                      
                                       child: Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
@@ -488,6 +495,7 @@ class _ViewFarmerState extends State<ViewPageFarmerScreen> {
       if (response.statusCode == 200) {
         // Product deletion was successful
         print('Product with ID $id has been deleted.');
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => ViewPageFarmerScreen()));
         // You can also update your product list or perform other actions here.
       } else {
         // Handle error responses here
@@ -546,6 +554,7 @@ class _ViewFarmerState extends State<ViewPageFarmerScreen> {
                 Navigator.of(dialogContext).pop();
                 await deleteProduct(id);
                 // You can add further logic or UI updates here after the product is deleted.
+                
               },
             ),
           ],

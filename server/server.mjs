@@ -7,12 +7,12 @@ import logger from "./utils/logger.mjs";
 import PaymentRoute from "./routes/PaymentRoute.mjs";
 import BiddingRoute from "./routes/BiddingRoute.mjs";
 import cron from "node-cron";
-import Bidding from "./models/Bidding.mjs";
 import axios from "axios";
 import ProductRouter from "./routes/ProductRoute.mjs";
 import UserRouter from "./routes/UserRoute.mjs";
 import BankDetailsRouter from "./routes/BankDetails.mjs";
 import CropRouter from "./routes/CropRoute.mjs"
+
 
 const app = express();
 const PORT = process.env.PORT || "8080";
@@ -39,16 +39,16 @@ function myScheduledTask() {
 
   axios.get('http://localhost:8080/bidding/expire-bidding')
   .then((bid) => {
-    return res.json(bid);
+    return;// res.json(bid);
   })
   .catch((err) => {
-    console.error('Error', error);
+    console.error('Error', err);
     return res.json({ status: "Error", err });
   });
   
 }
 
-cron.schedule('55 23 * * *', myScheduledTask, {
+cron.schedule('45 08 * * *', myScheduledTask, {
   scheduled: true,
   timezone: 'Asia/Colombo'
 });

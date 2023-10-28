@@ -77,10 +77,12 @@ class _RBScreenState extends State<RequestBiddingPage> {
     String farmerName = prefs.getString('farmerName') ?? '';
     String productName = prefs.getString('productName') ?? '';
     String quantity = prefs.getString('quantity') ?? '';
+    String userName = prefs.getString('email') ?? '';
     setState(() {
       farmerUserNameController.text = farmerName ?? '';
       productNameController.text = productName ?? '';
       weightController.text = quantity ?? '';
+      userNameController.text = userName ?? '';
     });
     getAllBidding(farmerName);
   }
@@ -216,6 +218,10 @@ class _RBScreenState extends State<RequestBiddingPage> {
                                 top: 13.v,
                                 bottom: 7.v,
                               ),
+                              onTap: () {
+                                    Navigator.of(context)
+                                        .pushReplacementNamed('/view_product_page_user_screen');
+                                  },
                             ),
                             Opacity(
                               opacity: 0.9,
@@ -342,8 +348,8 @@ class _RBScreenState extends State<RequestBiddingPage> {
                         margin: EdgeInsets.fromLTRB(37.h, 79.v, 23.h, 5.v),
                         onTap: () {
                           final bidding = Bidding(
-                              farmerUserName: "sajeesiva12@gmail.com",
-                              userName: "Sajeevan Siva",
+                              farmerUserName: farmerUserNameController.text,
+                              userName: userNameController.text,
                               productName: productNameController.text,
                               amountPerKg: amountPerKgController.text,
                               totalAmount: totalAmountController.text,
@@ -387,6 +393,7 @@ class _RBScreenState extends State<RequestBiddingPage> {
       );
 
       if (response.body != null) {
+        Navigator.of(context).pushReplacementNamed('/view_product_page_user_screen');
         return response.body;
       } else {
         print('Request failed with status: ${response.statusCode}');
@@ -425,24 +432,30 @@ class _RBScreenState extends State<RequestBiddingPage> {
   }
 
   void _showAlertDialog(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text(''),
-          content: Image.asset('./././assets/images/RequstBiddingInfo.png'),
-          actions: <Widget>[
-            TextButton(
-              child: Text('OK'),
-              onPressed: () {
-                Navigator.of(context).pop(); // Close the alert dialog
-              },
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Align(
+              alignment: Alignment.topRight,
+              child: IconButton(
+                icon: Icon(Icons.close),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
             ),
+            Image.asset('./././assets/images/RequstBiddingInfo.png'),
           ],
-        );
-      },
-    );
-  }
+        ),
+      );
+    },
+  );
+}
+
 }
 
 // Future<String> getEmpIdFromLocalStorage() async {

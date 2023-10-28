@@ -167,6 +167,10 @@ class _ViewUserState extends State<ViewPageUserScreen> {
                                 top: 10.v,
                                 bottom: 7.v,
                               ),
+                              onTap: () {
+                                    Navigator.of(context)
+                                        .pushReplacementNamed(AppRoutes.buyerDashboardScreen);
+                                  },
                             ),
                             Opacity(
                               opacity: 0.9,

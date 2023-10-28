@@ -8,6 +8,7 @@ import 'package:form_structure/widgets/custom_search_view.dart';
 import 'package:http/http.dart' as http;
 import 'package:form_structure/widgets/custom_text_form_field.dart';
 import 'package:intl/intl.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class BiddingF {
   String id;
@@ -59,7 +60,7 @@ class _VCBFPScreenState extends State<ViewCurrentBiddingFarmerPage> {
   Future<List<Map<String, dynamic>>?> getAllBidding(
       BuildContext context) async {
     try {
-      final farmerUserName = "asdTO";
+      final farmerUserName = await getFarmerNameFromLocalStorage();
       final response = await client.get(
         Uri.parse(
             'http://172.28.14.76:8080/bidding/get-pending-farmer/$farmerUserName'),
@@ -179,6 +180,10 @@ class _VCBFPScreenState extends State<ViewCurrentBiddingFarmerPage> {
                                 top: 10.v,
                                 bottom: 7.v,
                               ),
+                              onTap: () {
+                                    Navigator.of(context)
+                                        .pushReplacementNamed(AppRoutes.farmerDashboardScreen);
+                                  },
                             ),
                             Opacity(
                               opacity: 0.9,
@@ -210,8 +215,8 @@ class _VCBFPScreenState extends State<ViewCurrentBiddingFarmerPage> {
                             String id = bid['_id'] ?? "Unknown";
                             String weight = bid['weight'] ?? "Unknown";
                             String totalAmount = bid['totalAmount'] ?? "0.0";
-                            double ppkg = (int.parse(bid['weight']) /
-                                int.parse(bid['totalAmount']));
+                            double ppkg = (int.parse(bid['totalAmount']) /
+                                int.parse(bid['weight']));
                             String status = bid['status'] ?? "Null";
                             String productName =
                                 bid['productName'] ?? "Unknown";
@@ -398,6 +403,7 @@ class _VCBFPScreenState extends State<ViewCurrentBiddingFarmerPage> {
       );
 
       if (response.body != null) {
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => ViewCurrentBiddingFarmerPage()));
         return response.body;
       } else {
         print('Request failed with status: ${response.statusCode}');
@@ -410,5 +416,10 @@ class _VCBFPScreenState extends State<ViewCurrentBiddingFarmerPage> {
         'Failed to request bidding',
       );
     }
+  }
+
+  Future<String> getFarmerNameFromLocalStorage() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getString('email') ?? '';
   }
 }

@@ -219,9 +219,9 @@ class _RBScreenState extends State<RequestBiddingPage> {
                                 bottom: 7.v,
                               ),
                               onTap: () {
-                                    Navigator.of(context)
-                                        .pushReplacementNamed('/view_product_page_user_screen');
-                                  },
+                                Navigator.of(context).pushReplacementNamed(
+                                    '/view_product_page_user_screen');
+                              },
                             ),
                             Opacity(
                               opacity: 0.9,
@@ -393,7 +393,8 @@ class _RBScreenState extends State<RequestBiddingPage> {
       );
 
       if (response.body != null) {
-        Navigator.of(context).pushReplacementNamed('/view_product_page_user_screen');
+        Navigator.of(context)
+            .pushReplacementNamed('/view_product_page_user_screen');
         return response.body;
       } else {
         print('Request failed with status: ${response.statusCode}');
@@ -432,30 +433,29 @@ class _RBScreenState extends State<RequestBiddingPage> {
   }
 
   void _showAlertDialog(BuildContext context) {
-  showDialog(
-    context: context,
-    builder: (BuildContext context) {
-      return AlertDialog(
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Align(
-              alignment: Alignment.topRight,
-              child: IconButton(
-                icon: Icon(Icons.close),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Align(
+                alignment: Alignment.topRight,
+                child: IconButton(
+                  icon: Icon(Icons.close),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
               ),
-            ),
-            Image.asset('./././assets/images/RequstBiddingInfo.png'),
-          ],
-        ),
-      );
-    },
-  );
-}
-
+              Image.asset('./././assets/images/RequstBiddingInfo.png'),
+            ],
+          ),
+        );
+      },
+    );
+  }
 }
 
 // Future<String> getEmpIdFromLocalStorage() async {

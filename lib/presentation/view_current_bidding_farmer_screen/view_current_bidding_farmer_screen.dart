@@ -181,9 +181,9 @@ class _VCBFPScreenState extends State<ViewCurrentBiddingFarmerPage> {
                                 bottom: 7.v,
                               ),
                               onTap: () {
-                                    Navigator.of(context)
-                                        .pushReplacementNamed(AppRoutes.farmerDashboardScreen);
-                                  },
+                                Navigator.of(context).pushReplacementNamed(
+                                    AppRoutes.farmerDashboardScreen);
+                              },
                             ),
                             Opacity(
                               opacity: 0.9,
@@ -403,7 +403,10 @@ class _VCBFPScreenState extends State<ViewCurrentBiddingFarmerPage> {
       );
 
       if (response.body != null) {
-        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => ViewCurrentBiddingFarmerPage()));
+        Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+                builder: (context) => ViewCurrentBiddingFarmerPage()));
         return response.body;
       } else {
         print('Request failed with status: ${response.statusCode}');

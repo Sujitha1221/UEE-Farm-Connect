@@ -25,7 +25,7 @@ class _RevenuePageState extends State<RevenuePage> {
     print(userName);
     final response = await http.get(
       Uri.parse(
-          'http://192.168.56.1:8080/payment/payments?userName=$userName&type=Receive'),
+          'http://172.28.14.76:8080/payment/payments?userName=$userName&type=Receive'),
     );
 
     if (response.statusCode == 200) {

@@ -162,9 +162,9 @@ class _PFScreenState extends State<PaymentFarmerScreen> {
                                 bottom: 7.v,
                               ),
                               onTap: () {
-                                    Navigator.of(context)
-                                        .pushReplacementNamed(AppRoutes.farmerDashboardScreen);
-                                  },
+                                Navigator.of(context).pushReplacementNamed(
+                                    AppRoutes.farmerDashboardScreen);
+                              },
                             ),
                             Opacity(
                               opacity: 0.9,

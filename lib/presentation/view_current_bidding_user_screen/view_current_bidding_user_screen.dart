@@ -162,9 +162,9 @@ class _VCBPScreenState extends State<ViewCurrentBiddingPage> {
                                 bottom: 7.v,
                               ),
                               onTap: () {
-                                    Navigator.of(context)
-                                        .pushReplacementNamed(AppRoutes.buyerDashboardScreen);
-                                  },
+                                Navigator.of(context).pushReplacementNamed(
+                                    AppRoutes.buyerDashboardScreen);
+                              },
                             ),
                             Opacity(
                               opacity: 0.9,

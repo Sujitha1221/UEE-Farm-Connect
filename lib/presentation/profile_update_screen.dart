@@ -86,7 +86,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
   Future<void> deleteUserProfile() async {
     try {
       final url =
-          'http://192.168.56.1:8080/user/delete-user/${emailController.text}';
+          'http://172.28.14.76:8080/user/delete-user/${emailController.text}';
 
       final response = await http.delete(Uri.parse(url));
 

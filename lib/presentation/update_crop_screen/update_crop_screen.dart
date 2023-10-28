@@ -50,9 +50,11 @@ class UpdateCropScreen extends StatefulWidget {
 class _UpdateCropScreenState extends State<UpdateCropScreen> {
   String selectedValue = 'Carrot';
 
-  TextEditingController dateController = TextEditingController();
-  TextEditingController cropNameController = TextEditingController();
-  TextEditingController countController = TextEditingController();
+  TextEditingController dateController =
+      TextEditingController(text: '28-10-2023');
+  TextEditingController cropNameController =
+      TextEditingController(text: 'Carrot');
+  TextEditingController countController = TextEditingController(text: '50');
 
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
@@ -405,9 +407,12 @@ class _UpdateCropScreenState extends State<UpdateCropScreen> {
                                           TextButton(
                                             onPressed: () {
                                               // Close the confirmation dialog and delete the crop
-                                              Navigator.of(context).pop();
                                               deleteCrop(
                                                   context, widget.cropId);
+
+                                              Navigator.of(context)
+                                                  .pushReplacementNamed(
+                                                      '/view_crop_screen');
                                             },
                                             child: Text("Delete"),
                                           ),

@@ -161,8 +161,8 @@ class _AddProductState extends State<AddProductPageScreen> {
                                 bottom: 7.v,
                               ),
                               onTap: () {
-                                Navigator.of(context)
-                                    .pushReplacementNamed('/view_product_page_farmer_screen');
+                                Navigator.of(context).pushReplacementNamed(
+                                    '/view_product_page_farmer_screen');
                               },
                             ),
                             Opacity(
@@ -364,14 +364,6 @@ class _AddProductState extends State<AddProductPageScreen> {
                           createProduct(product, context);
                         },
                       ),
-                      CustomElevatedButton(
-                        text: "Crop",
-                        margin: EdgeInsets.fromLTRB(37.h, 20.v, 23.h, 5.v),
-                        onTap: () {
-                          Navigator.of(context)
-                              .pushReplacementNamed('/add_crop_screen');
-                        },
-                      ),
                     ],
                   ),
                 ),
@@ -387,45 +379,47 @@ class _AddProductState extends State<AddProductPageScreen> {
   }
 
   Future<Null> selectDate() async {
-  final DateTime today = DateTime.now();
-  final DateTime minDate = today.add(Duration(days: 2)); // Minimum date is 2 days from today
+    final DateTime today = DateTime.now();
+    final DateTime minDate =
+        today.add(Duration(days: 2)); // Minimum date is 2 days from today
 
-  DateTime? pickedDate = await showDatePicker(
-    context: context,
-    initialDate: selectedDate ?? minDate, // Set initial date to either selectedDate or minDate
-    firstDate: minDate, // Set the minimum date
-    lastDate: DateTime(2101),
-  );
+    DateTime? pickedDate = await showDatePicker(
+      context: context,
+      initialDate: selectedDate ??
+          minDate, // Set initial date to either selectedDate or minDate
+      firstDate: minDate, // Set the minimum date
+      lastDate: DateTime(2101),
+    );
 
-  if (pickedDate != null) {
-    if (pickedDate.isBefore(today)) {
-      // Expiry date is before today
-      showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-            title: Text('Invalid Date'),
-            content: Text('Expiry date should not be before today.'),
-            actions: <Widget>[
-              TextButton(
-                child: Text('OK'),
-                onPressed: () {
-                  Navigator.of(context).pop(); // Close the dialog
-                },
-              ),
-            ],
-          );
-        },
-      );
-    } else {
-      setState(() {
-        selectedDate = pickedDate;
-        expiryDateController.text = DateFormat('yyyy-MM-dd').format(pickedDate);
-      });
+    if (pickedDate != null) {
+      if (pickedDate.isBefore(today)) {
+        // Expiry date is before today
+        showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              title: Text('Invalid Date'),
+              content: Text('Expiry date should not be before today.'),
+              actions: <Widget>[
+                TextButton(
+                  child: Text('OK'),
+                  onPressed: () {
+                    Navigator.of(context).pop(); // Close the dialog
+                  },
+                ),
+              ],
+            );
+          },
+        );
+      } else {
+        setState(() {
+          selectedDate = pickedDate;
+          expiryDateController.text =
+              DateFormat('yyyy-MM-dd').format(pickedDate);
+        });
+      }
     }
   }
-}
-
 
   Future<String?> pickAndConvertImage() async {
     final picker = ImagePicker();
@@ -515,6 +509,4 @@ class _AddProductState extends State<AddProductPageScreen> {
     return prefs.getString('userName') ??
         ''; // Provide a default value if 'empId' is not found
   }
-
-  
 }

@@ -235,7 +235,7 @@ class _CropListScreenState extends State<CropListScreen> {
                             },
                           )),
                       Padding(
-                          padding: EdgeInsets.fromLTRB(0, 20.h, 0, 0),
+                          padding: EdgeInsets.fromLTRB(0, 10.h, 0, 10.h),
                           child: ElevatedButton(
                               onPressed: () {
                                 Navigator.of(context).push(

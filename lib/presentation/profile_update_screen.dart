@@ -249,7 +249,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
                                 if (userRole == 'farmer') {
                                   // Navigate to the farmer dashboard page
                                   Navigator.of(context).pushReplacementNamed(
-                                      '/farmer_dashboard_screen');
+                                      '/farmer_dashboard_scree');
                                 } else if (userRole == 'buyer') {
                                   // Navigate to the buyer dashboard page
                                   Navigator.of(context).pushReplacementNamed(

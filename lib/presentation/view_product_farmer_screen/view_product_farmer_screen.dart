@@ -495,6 +495,7 @@ class _ViewFarmerState extends State<ViewPageFarmerScreen> {
       if (response.statusCode == 200) {
         // Product deletion was successful
         print('Product with ID $id has been deleted.');
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => ViewPageFarmerScreen()));
         // You can also update your product list or perform other actions here.
       } else {
         // Handle error responses here
@@ -553,6 +554,7 @@ class _ViewFarmerState extends State<ViewPageFarmerScreen> {
                 Navigator.of(dialogContext).pop();
                 await deleteProduct(id);
                 // You can add further logic or UI updates here after the product is deleted.
+                
               },
             ),
           ],

@@ -43,7 +43,7 @@ class _PUScreenState extends State<PaymentUserScreen> {
       final userName = "Sajeevan Siva";
       final response = await client.get(
         Uri.parse(
-            'http://192.168.56.1:8080/payment/get-all-payment-user/$userName'),
+            'http://172.28.14.76:8080/payment/get-all-payment-user/$userName'),
         headers: {'Content-Type': 'application/json'},
       );
 

@@ -8,8 +8,7 @@ import '../../widgets/custom_dropdown.dart';
 import '../../widgets/custom_elevated_button.dart';
 import '../../widgets/custom_text_form_field.dart';
 
-String selectedValue = 'Carrot'; // Initialize with a default value
-
+// Define a class for the Crop object, similar to what you did in AddCropScreen
 class Crop {
   String cropName;
   String count;
@@ -29,17 +28,26 @@ class Crop {
     };
   }
 
-  static fromJson(data) {}
+  // Add a factory method to deserialize from JSON if needed
+  factory Crop.fromJson(Map<String, dynamic> json) {
+    return Crop(
+      cropName: json['cropName'],
+      count: json['count'],
+      date: json['date'],
+    );
+  }
 }
 
-class AddCropScreen extends StatefulWidget {
-  AddCropScreen({Key? key}) : super(key: key);
+class UpdateCropScreen extends StatefulWidget {
+  final String cropId;
+
+  UpdateCropScreen({required this.cropId});
 
   @override
-  _AddCropScreenState createState() => _AddCropScreenState();
+  _UpdateCropScreenState createState() => _UpdateCropScreenState();
 }
 
-class _AddCropScreenState extends State<AddCropScreen> {
+class _UpdateCropScreenState extends State<UpdateCropScreen> {
   String selectedValue = 'Carrot';
 
   TextEditingController dateController = TextEditingController();
@@ -151,7 +159,7 @@ class _AddCropScreenState extends State<AddCropScreen> {
                                   top: 10.v,
                                 ),
                                 child: Text(
-                                  "Add New Crop",
+                                  "Update Crop",
                                   style: theme.textTheme.headlineSmall,
                                 ),
                               ),
@@ -283,15 +291,13 @@ class _AddCropScreenState extends State<AddCropScreen> {
                               child: TextField(
                             controller: dateController,
                             style: TextStyle(fontSize: 18.h),
-
                             //editing controller of this TextField
                             decoration: InputDecoration(
-                              icon: Icon(Icons.calendar_today,
-                                  color: Colors.green[900]!),
-                              hintText: "Select Date",
-                              //icon of text field
-                              // labelText: "Enter Date" //label text of field
-                            ),
+                                icon: Icon(Icons.calendar_today,
+                                    color: Colors.green[900]!),
+                                hintText: "Select Date" //icon of text field
+                                // labelText: "Enter Date" //label text of field
+                                ),
                             readOnly: true,
                             //set it true, so that user will not able to edit text
                             onTap: () async {
@@ -318,7 +324,7 @@ class _AddCropScreenState extends State<AddCropScreen> {
                           ))),
 
                       CustomElevatedButton(
-                        text: "Add Crop",
+                        text: "Update Crop",
                         margin: EdgeInsets.fromLTRB(37.0, 79.0, 23.0, 5.0),
                         onTap: () {
                           if (_formKey.currentState!.validate()) {
@@ -329,7 +335,7 @@ class _AddCropScreenState extends State<AddCropScreen> {
                             );
                             if (isValidCount(countController.text)) {
                               if (isValidDate(dateController.text)) {
-                                createCrop(context, crop);
+                                updateCrop(context, widget.cropId, crop);
                               } else {
                                 showDialog(
                                   context: context,
@@ -372,6 +378,57 @@ class _AddCropScreenState extends State<AddCropScreen> {
                           }
                         },
                       ),
+                      Padding(
+                          padding:
+                              EdgeInsets.all(8.0), // Set margin for the button
+                          child: Container(
+                              margin: EdgeInsets.all(
+                                  8.0), // Set padding for the button
+                              child: ElevatedButton(
+                                onPressed: () {
+                                  // Show a confirmation dialog before deleting
+                                  showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return AlertDialog(
+                                        title: Text("Confirm Deletion"),
+                                        content: Text(
+                                            "Are you sure you want to delete this crop?"),
+                                        actions: <Widget>[
+                                          TextButton(
+                                            onPressed: () {
+                                              Navigator.of(context)
+                                                  .pop(); // Close the confirmation dialog
+                                            },
+                                            child: Text("Cancel"),
+                                          ),
+                                          TextButton(
+                                            onPressed: () {
+                                              // Close the confirmation dialog and delete the crop
+                                              Navigator.of(context).pop();
+                                              deleteCrop(
+                                                  context, widget.cropId);
+                                            },
+                                            child: Text("Delete"),
+                                          ),
+                                        ],
+                                      );
+                                    },
+                                  );
+                                },
+                                child: Padding(
+                                    padding: EdgeInsets.fromLTRB(
+                                        100.h, 10.h, 100.h, 10.h),
+                                    child: Text(
+                                      "Delete Crop",
+                                      style: TextStyle(
+                                          color: Colors.white, fontSize: 20),
+                                    )),
+                                style: ElevatedButton.styleFrom(
+                                  primary: Colors.red[
+                                      900], // Change this color to your desired color
+                                ),
+                              )))
                     ],
                   ),
                 ),
@@ -384,21 +441,23 @@ class _AddCropScreenState extends State<AddCropScreen> {
   }
 }
 
-Future createCrop(BuildContext context, Crop crop) async {
+Future updateCrop(BuildContext context, String cropId, Crop crop) async {
   try {
-    final response = await http.post(
-      Uri.parse('http://172.28.14.76:8080/crop/add'),
+    final response = await http.put(
+      Uri.parse(
+          'http://172.28.14.76:8080/crop/$cropId'), // Replace with your API endpoint for updating a crop
       headers: {'Content-Type': 'application/json'},
       body: jsonEncode(crop.toJson()), // Convert Crop object to JSON
     );
 
     if (response.statusCode == 200) {
+      // Handle success
       showDialog(
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
             title: Text("Success"),
-            content: Text("Crop created successfully"),
+            content: Text("Crop updated successfully"),
             actions: <Widget>[
               TextButton(
                 onPressed: () {
@@ -412,12 +471,64 @@ Future createCrop(BuildContext context, Crop crop) async {
         },
       );
     } else {
+      // Handle error
       showDialog(
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
             title: Text("Error"),
-            content: Text("Failed to create crop"),
+            content: Text("Failed to update crop"),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: Text("OK"),
+              )
+            ],
+          );
+        },
+      );
+      print('Request failed with status: ${response.statusCode}');
+      print('Response body: ${response.body}');
+    }
+  } catch (e) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text("Error"),
+          content: Text("Failed to update crop"),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text("OK"),
+            )
+          ],
+        );
+      },
+    );
+  }
+}
+
+Future deleteCrop(BuildContext context, String cropId) async {
+  try {
+    final response = await http.delete(
+      Uri.parse(
+          'http://172.28.14.76:8080/crop/$cropId'), // Replace with your delete API endpoint
+    );
+
+    if (response.statusCode == 200) {
+      Navigator.of(context).pushReplacementNamed('/view_crop_screen');
+    } else {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text("Error"),
+            content: Text("Failed to delete crop"),
             actions: <Widget>[
               TextButton(
                 onPressed: () {
@@ -434,21 +545,22 @@ Future createCrop(BuildContext context, Crop crop) async {
     }
   } catch (e) {
     showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: Text("Error"),
-            content: Text("Failed to create crop: $e"),
-            actions: <Widget>[
-              TextButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-                child: Text("OK"),
-              ),
-            ],
-          );
-        });
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text("Error"),
+          content: Text("Failed to delete crop: $e"),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text("OK"),
+            ),
+          ],
+        );
+      },
+    );
     print('Error: $e');
   }
 }

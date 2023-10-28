@@ -7,7 +7,7 @@ import {
   getCropById,
   updateCrop,
   deleteCrop,
-} from '../controllers/crop.controller.mjs';
+} from '../controllers/CropController.mjs';
 
 const router = express.Router();
 

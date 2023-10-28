@@ -60,7 +60,7 @@ class _ViewFarmerState extends State<ViewPageFarmerScreen> {
       // final farmerName = await getFarmerNameFromLocalStorage();
       final farmerName = await getFarmerNameFromLocalStorage();
       final response = await client.get(
-        Uri.parse('http://192.168.56.1:8080/product/get/$farmerName'),
+        Uri.parse('http://172.28.14.76:8080/product/get/$farmerName'),
         headers: {'Content-Type': 'application/json'},
       );
 
@@ -481,7 +481,7 @@ class _ViewFarmerState extends State<ViewPageFarmerScreen> {
     try {
       final response = await client.delete(
         Uri.parse(
-            'http://192.168.56.1:8080/product/delete/$id'), // Replace with your API endpoint
+            'http://172.28.14.76:8080/product/delete/$id'), // Replace with your API endpoint
         headers: {'Content-Type': 'application/json'},
       );
 

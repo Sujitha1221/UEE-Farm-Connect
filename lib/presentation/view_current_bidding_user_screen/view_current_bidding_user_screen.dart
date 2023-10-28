@@ -42,7 +42,8 @@ class _VCBPScreenState extends State<ViewCurrentBiddingPage> {
     try {
       final userName = "Sajeevan Siva";
       final response = await client.get(
-        Uri.parse('http://192.168.56.1:8080/bidding/get-pending-user/$userName'),
+        Uri.parse(
+            'http://172.28.14.76:8080/bidding/get-pending-user/$userName'),
         headers: {'Content-Type': 'application/json'},
       );
 
@@ -235,7 +236,10 @@ class _VCBPScreenState extends State<ViewCurrentBiddingPage> {
                                               Opacity(
                                                 opacity: 0.9,
                                                 child: Text(
-                                                  "Price Per Kg : " + "$ppkg".toString().split('.')[0],
+                                                  "Price Per Kg : " +
+                                                      "$ppkg"
+                                                          .toString()
+                                                          .split('.')[0],
                                                   style: theme
                                                       .textTheme.labelLarge
                                                       ?.copyWith(
@@ -311,24 +315,24 @@ class _VCBPScreenState extends State<ViewCurrentBiddingPage> {
                               ),
                             );
                           }),
-                          Positioned(
-                            bottom: 10.0, 
-                            left: 0,
-                            right: 0,
-                            child: GestureDetector(
-                              onTap: () {
-                                // Handle the click action here
-                              },
-                              child: CustomElevatedButton(
+                      Positioned(
+                        bottom: 10.0,
+                        left: 0,
+                        right: 0,
+                        child: GestureDetector(
+                          onTap: () {
+                            // Handle the click action here
+                          },
+                          child: CustomElevatedButton(
                             text: "View History",
                             margin: EdgeInsets.fromLTRB(37.h, 79.v, 23.h, 5.v),
                             onTap: () {
-                              Navigator.of(context).pushReplacementNamed(
-                                  '/view_bidding_screen');
+                              Navigator.of(context)
+                                  .pushReplacementNamed('/view_bidding_screen');
                             },
                           ),
-                            ),
-                          ),
+                        ),
+                      ),
                     ],
                   ),
                 ),

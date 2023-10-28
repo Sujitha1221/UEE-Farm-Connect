@@ -330,7 +330,7 @@ class _BankAccountPageScreenState extends State<BankAccountPageScreen> {
     while (currentRetry < retryCount) {
       try {
         final response = await http.post(
-          Uri.parse('http://192.168.56.1:8080/bank/bank-details'),
+          Uri.parse('http://172.28.14.76:8080/bank/bank-details'),
           headers: {'Content-Type': 'application/json'},
           body: jsonEncode(bank.toJson()),
         );

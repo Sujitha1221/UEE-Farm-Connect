@@ -12,6 +12,7 @@ import axios from "axios";
 import ProductRouter from "./routes/ProductRoute.mjs";
 import UserRouter from "./routes/UserRoute.mjs";
 import BankDetailsRouter from "./routes/BankDetails.mjs";
+import CropRouter from "./routes/CropRoute.mjs"
 
 const app = express();
 const PORT = process.env.PORT || "8080";
@@ -69,3 +70,4 @@ app.use("/user", UserRouter);
 app.use("/payment", PaymentRoute);
 app.use("/bidding", BiddingRoute);
 app.use("/bank", BankDetailsRouter);
+app.use("/crop", CropRouter);

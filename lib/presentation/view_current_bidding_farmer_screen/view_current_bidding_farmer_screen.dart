@@ -62,7 +62,7 @@ class _VCBFPScreenState extends State<ViewCurrentBiddingFarmerPage> {
       final farmerUserName = "asdTO";
       final response = await client.get(
         Uri.parse(
-            'http://192.168.56.1:8080/bidding/get-pending-farmer/$farmerUserName'),
+            'http://172.28.14.76:8080/bidding/get-pending-farmer/$farmerUserName'),
         headers: {'Content-Type': 'application/json'},
       );
 
@@ -205,7 +205,8 @@ class _VCBFPScreenState extends State<ViewCurrentBiddingFarmerPage> {
                             String farmerUserName =
                                 bid['farmerUserName'] ?? "Unknown";
                             String userName = bid['userName'] ?? "Unknown";
-                            String userName1 = userName.split('@')[0] ?? "Unknown";
+                            String userName1 =
+                                userName.split('@')[0] ?? "Unknown";
                             String id = bid['_id'] ?? "Unknown";
                             String weight = bid['weight'] ?? "Unknown";
                             String totalAmount = bid['totalAmount'] ?? "0.0";
@@ -251,7 +252,8 @@ class _VCBFPScreenState extends State<ViewCurrentBiddingFarmerPage> {
                                                       ?.copyWith(
                                                     fontWeight: FontWeight.bold,
                                                     fontSize: 18.0,
-                                                    overflow: TextOverflow.ellipsis,
+                                                    overflow:
+                                                        TextOverflow.ellipsis,
                                                   ),
                                                   maxLines: 2,
                                                 ),
@@ -260,7 +262,10 @@ class _VCBFPScreenState extends State<ViewCurrentBiddingFarmerPage> {
                                               Opacity(
                                                 opacity: 0.9,
                                                 child: Text(
-                                                  "Price Per Kg : " + "$ppkg".toLowerCase().split('.')[0],
+                                                  "Price Per Kg : " +
+                                                      "$ppkg"
+                                                          .toLowerCase()
+                                                          .split('.')[0],
                                                   style: theme
                                                       .textTheme.labelLarge
                                                       ?.copyWith(
@@ -362,7 +367,7 @@ class _VCBFPScreenState extends State<ViewCurrentBiddingFarmerPage> {
     print(bidding.farmerUserName + " " + bidding.productName);
     try {
       final response = await http.put(
-        Uri.parse('http://192.168.56.1:8080/bidding/accept-bidding'),
+        Uri.parse('http://172.28.14.76:8080/bidding/accept-bidding'),
         headers: {'Content-Type': 'application/json'},
         body: jsonEncode(bidding.toJson()),
       );
@@ -388,7 +393,7 @@ class _VCBFPScreenState extends State<ViewCurrentBiddingFarmerPage> {
     try {
       final response = await http.get(
         Uri.parse(
-            'http://192.168.56.1:8080/bidding/reject-bidding/${bidding.farmerUserName}/${bidding.productName}'),
+            'http://172.28.14.76:8080/bidding/reject-bidding/${bidding.farmerUserName}/${bidding.productName}'),
         headers: {'Content-Type': 'application/json'},
       );
 

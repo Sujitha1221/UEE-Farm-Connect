@@ -355,7 +355,7 @@ class _RegisterPageScreenState extends State<RegisterPageScreen> {
   Future createUser(User user) async {
     try {
       final response = await http.post(
-        Uri.parse('http://192.168.56.1:8080/user/add-user'),
+        Uri.parse('http://172.28.14.76:8080/user/add-user'),
         headers: {'Content-Type': 'application/json'},
         body: jsonEncode(user.toJson()),
       );

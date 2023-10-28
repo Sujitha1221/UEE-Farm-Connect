@@ -43,7 +43,7 @@ class _VBPScreenState extends State<ViewBiddingFarmerPage> {
       final farmerUserName = "asdTO";
       final response = await client.get(
         Uri.parse(
-            'http://192.168.56.1:8080/bidding/get-history-farmer/$farmerUserName'),
+            'http://172.28.14.76:8080/bidding/get-history-farmer/$farmerUserName'),
         headers: {'Content-Type': 'application/json'},
       );
 
@@ -226,8 +226,8 @@ class _VBPScreenState extends State<ViewBiddingFarmerPage> {
                         final filteredBidding =
                             filterBidding(searchController.text);
                         return ListView.builder(
-                            itemCount: filterBidding(searchController.text)
-                                          .length,
+                            itemCount:
+                                filterBidding(searchController.text).length,
                             shrinkWrap: true,
                             itemBuilder: (context, index) {
                               Map<String, dynamic> bid = biddingList[index];

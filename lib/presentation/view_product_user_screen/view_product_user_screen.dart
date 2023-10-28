@@ -48,10 +48,9 @@ class _ViewUserState extends State<ViewPageUserScreen> {
       BuildContext context) async {
     try {
       final response = await client.get(
-        Uri.parse('http://192.168.56.1:8080/product/'),
+        Uri.parse('http://172.28.14.76:8080/product/'),
         headers: {'Content-Type': 'application/json'},
       );
-      
 
       if (response.statusCode == 200) {
         // Explicitly cast the result to the correct type
@@ -65,7 +64,6 @@ class _ViewUserState extends State<ViewPageUserScreen> {
         print('Request failed with status: ${response.statusCode}');
         print('Response body: ${response.body}');
         throw Exception('Failed to fetch purchase requisitions');
-
       }
     } catch (e) {
       // Handle network errors or other exceptions here
@@ -188,38 +186,37 @@ class _ViewUserState extends State<ViewPageUserScreen> {
                         ),
                       ),
                       CustomSearchView(
-  margin: EdgeInsets.only(left: 40.h, top: 15.v, right: 33.h, bottom: 15.h),
-  controller: searchController,
-
-  hintText: "Search here",
-  hintStyle: CustomTextStyles.titleBlack,
-  prefix: Container(
-    margin: EdgeInsets.fromLTRB(14.h, 10.v, 5.h, 10.v),
-    child: CustomImageView(
-      svgPath: ImageConstant.imgSearch,
-      color: Colors.black,
-    ),
-  ),
-  prefixConstraints: BoxConstraints(
-    maxHeight: 41.v,
-  ),
-  suffix: Container(
-    margin: EdgeInsets.fromLTRB(30.h, 8.v, 15.h, 8.v),
-    child: GestureDetector(
-      onTap: () {
-        searchController.clear(); // Clear the search text
-      },
-      child: CustomImageView(
-        svgPath: ImageConstant.imgClose,
-        color: Colors.black,
-      ),
-    ),
-  ),
-  suffixConstraints: BoxConstraints(
-    maxHeight: 41.v,
-  ),
-),
-
+                        margin: EdgeInsets.only(
+                            left: 40.h, top: 15.v, right: 33.h, bottom: 15.h),
+                        controller: searchController,
+                        hintText: "Search here",
+                        hintStyle: CustomTextStyles.titleBlack,
+                        prefix: Container(
+                          margin: EdgeInsets.fromLTRB(14.h, 10.v, 5.h, 10.v),
+                          child: CustomImageView(
+                            svgPath: ImageConstant.imgSearch,
+                            color: Colors.black,
+                          ),
+                        ),
+                        prefixConstraints: BoxConstraints(
+                          maxHeight: 41.v,
+                        ),
+                        suffix: Container(
+                          margin: EdgeInsets.fromLTRB(30.h, 8.v, 15.h, 8.v),
+                          child: GestureDetector(
+                            onTap: () {
+                              searchController.clear(); // Clear the search text
+                            },
+                            child: CustomImageView(
+                              svgPath: ImageConstant.imgClose,
+                              color: Colors.black,
+                            ),
+                          ),
+                        ),
+                        suffixConstraints: BoxConstraints(
+                          maxHeight: 41.v,
+                        ),
+                      ),
                       Container(
                         width: double.maxFinite,
                         margin: EdgeInsets.fromLTRB(30.h, 8.v, 30.h, 8.v),
@@ -238,7 +235,8 @@ class _ViewUserState extends State<ViewPageUserScreen> {
                                   itemExtent: 250,
                                   // itemCount: prodList.length,
                                   itemBuilder: (context, index) {
-                                    Map<String, dynamic> prod = filteredProducts[index];
+                                    Map<String, dynamic> prod =
+                                        filteredProducts[index];
                                     String productName = prod['productName'] ??
                                         "Unknown Product";
                                     String farmerName =
@@ -419,99 +417,121 @@ class _ViewUserState extends State<ViewPageUserScreen> {
                                                         CustomElevatedButton(
                                                           width: 68.h,
                                                           text: "Bid",
-                                                          onTap: (){
-                                                            navigate(farmerName,productName,quantity);
-                                                            
+                                                          onTap: () {
+                                                            navigate(
+                                                                farmerName,
+                                                                productName,
+                                                                quantity);
                                                           },
                                                           margin:
                                                               EdgeInsets.only(
                                                                   top: 14.v),
                                                         ),
                                                         GestureDetector(
-  onTap: () async {
-    // Call the getFarmerContact function to retrieve the contact value
-    String contactValue = await getFarmerContact(farmerName);
+                                                          onTap: () async {
+                                                            // Call the getFarmerContact function to retrieve the contact value
+                                                            String
+                                                                contactValue =
+                                                                await getFarmerContact(
+                                                                    farmerName);
 
-    // Show a modal dialog
+                                                            // Show a modal dialog
 // Show a modal dialog
-showDialog(
-  context: context,
-  builder: (BuildContext context) {
-    return Dialog(
-      child: SingleChildScrollView(
-        child: Stack(
-          children: [
-            Positioned(
-              top: 0.0,
-              right: 0.0,
-              child: GestureDetector(
-                onTap: () {
-                  Navigator.of(context).pop(); // Close the dialog
-                },
-                child: Icon(
-                  Icons.close,
-                  size: 30.0,
-                  color: Colors.black,
-                ),
-              ),
-            ),
-            Center(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  
-                  // Display the image
-                  CustomImageView(
-                    margin: EdgeInsets.only( top: 14.v),
-                    imagePath: ImageConstant.imgCall,
-                    height: 100.adaptSize,
-                    width: 100.adaptSize,
-                  ),
-                  // Display the farmer name with larger font size and color
-                  Container(
-                    margin: EdgeInsets.only(top: 10),
-                    child: Text(
-                      farmerName,
-                      style: TextStyle(
-                        fontSize: 24,
-                        color: Color(0xFF255B20),
-                      ),
-                    ),
-                  ),
-                  // Display the contact value with larger font size and color
-                  Container(
-                    margin: EdgeInsets.only(top: 10, bottom: 10),
-                    child: Text(
-                      contactValue,
-                      style: TextStyle(
-                        fontSize: 24,
-                        color: Color(0xFF255B20),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  },
-);
-
-
-  },
-  child: Opacity(
-    opacity: 0.9,
-    child: CustomImageView(
-      svgPath: ImageConstant.imgUser,
-      height: 34.adaptSize,
-      width: 34.adaptSize,
-      margin: EdgeInsets.only(left: 20.h, top: 14.v),
-    ),
-  ),
-)
-
+                                                            showDialog(
+                                                              context: context,
+                                                              builder:
+                                                                  (BuildContext
+                                                                      context) {
+                                                                return Dialog(
+                                                                  child:
+                                                                      SingleChildScrollView(
+                                                                    child:
+                                                                        Stack(
+                                                                      children: [
+                                                                        Positioned(
+                                                                          top:
+                                                                              0.0,
+                                                                          right:
+                                                                              0.0,
+                                                                          child:
+                                                                              GestureDetector(
+                                                                            onTap:
+                                                                                () {
+                                                                              Navigator.of(context).pop(); // Close the dialog
+                                                                            },
+                                                                            child:
+                                                                                Icon(
+                                                                              Icons.close,
+                                                                              size: 30.0,
+                                                                              color: Colors.black,
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                        Center(
+                                                                          child:
+                                                                              Column(
+                                                                            mainAxisSize:
+                                                                                MainAxisSize.min,
+                                                                            children: [
+                                                                              // Display the image
+                                                                              CustomImageView(
+                                                                                margin: EdgeInsets.only(top: 14.v),
+                                                                                imagePath: ImageConstant.imgCall,
+                                                                                height: 100.adaptSize,
+                                                                                width: 100.adaptSize,
+                                                                              ),
+                                                                              // Display the farmer name with larger font size and color
+                                                                              Container(
+                                                                                margin: EdgeInsets.only(top: 10),
+                                                                                child: Text(
+                                                                                  farmerName,
+                                                                                  style: TextStyle(
+                                                                                    fontSize: 24,
+                                                                                    color: Color(0xFF255B20),
+                                                                                  ),
+                                                                                ),
+                                                                              ),
+                                                                              // Display the contact value with larger font size and color
+                                                                              Container(
+                                                                                margin: EdgeInsets.only(top: 10, bottom: 10),
+                                                                                child: Text(
+                                                                                  contactValue,
+                                                                                  style: TextStyle(
+                                                                                    fontSize: 24,
+                                                                                    color: Color(0xFF255B20),
+                                                                                  ),
+                                                                                ),
+                                                                              ),
+                                                                            ],
+                                                                          ),
+                                                                        ),
+                                                                      ],
+                                                                    ),
+                                                                  ),
+                                                                );
+                                                              },
+                                                            );
+                                                          },
+                                                          child: Opacity(
+                                                            opacity: 0.9,
+                                                            child:
+                                                                CustomImageView(
+                                                              svgPath:
+                                                                  ImageConstant
+                                                                      .imgUser,
+                                                              height:
+                                                                  34.adaptSize,
+                                                              width:
+                                                                  34.adaptSize,
+                                                              margin: EdgeInsets
+                                                                  .only(
+                                                                      left:
+                                                                          20.h,
+                                                                      top:
+                                                                          14.v),
+                                                            ),
+                                                          ),
+                                                        )
                                                       ],
                                                     ),
                                                   ),
@@ -545,7 +565,7 @@ showDialog(
 
   Future<String> getFarmerContact(String farmerName) async {
     final response = await http.get(
-      Uri.parse('http://192.168.56.1:8080/user/get-contact/$farmerName'),
+      Uri.parse('http://172.28.14.76:8080/user/get-contact/$farmerName'),
       headers: {'Content-Type': 'application/json'},
     );
 
@@ -558,16 +578,17 @@ showDialog(
       throw Exception('Failed to get farmer contact');
     }
   }
-  
-  Future<void> navigate(String farmerName, String productName, String quantity,) async {
+
+  Future<void> navigate(
+    String farmerName,
+    String productName,
+    String quantity,
+  ) async {
     final prefs = await SharedPreferences.getInstance();
-        await prefs.setString('farmerName', farmerName);
-        await prefs.setString('productName', productName);
-        await prefs.setString('quantity', quantity);
+    await prefs.setString('farmerName', farmerName);
+    await prefs.setString('productName', productName);
+    await prefs.setString('quantity', quantity);
 
-
-    Navigator.of(context).pushReplacementNamed(
-                        '/request_bidding_screen'
-); 
+    Navigator.of(context).pushReplacementNamed('/request_bidding_screen');
   }
 }

@@ -40,7 +40,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
 
   Future<void> updateUserProfile() async {
     try {
-      final url = 'http://192.168.56.1:8080/user/update-user';
+      final url = 'http://172.28.14.76:8080/user/update-user';
       final response = await http.put(
         Uri.parse(url),
         body: {
@@ -78,7 +78,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
 
   Future<void> deleteUserProfile() async {
     try {
-      final url = 'http://192.168.56.1:8080/user/delete-user';
+      final url = 'http://172.28.14.76:8080/user/delete-user';
       final response = await http.post(
         Uri.parse(url),
         body: {'email': emailController.text},
@@ -132,7 +132,6 @@ class _UserProfilePageState extends State<UserProfilePage> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        
         body: CustomScrollView(
           slivers: [
             SliverToBoxAdapter(
@@ -303,7 +302,6 @@ class _UserProfilePageState extends State<UserProfilePage> {
                         ),
                         prefixConstraints: BoxConstraints(maxHeight: 54),
                       ),
-                      
                       CustomElevatedButton(
                         onTap: updateUserProfile,
                         margin: EdgeInsets.fromLTRB(37, 79, 23, 5),

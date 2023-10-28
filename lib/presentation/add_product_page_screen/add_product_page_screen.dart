@@ -320,7 +320,7 @@ class _AddProductState extends State<AddProductPageScreen> {
                           right: 25.h,
                         ),
                         hintText: "Expiry Date",
-                       // Make the text field read-only
+                        // Make the text field read-only
                         onPressed: () {
                           selectDate();
                         },
@@ -362,6 +362,14 @@ class _AddProductState extends State<AddProductPageScreen> {
                               photo: photoController.text);
 
                           createProduct(product, context);
+                        },
+                      ),
+                      CustomElevatedButton(
+                        text: "Crop",
+                        margin: EdgeInsets.fromLTRB(37.h, 20.v, 23.h, 5.v),
+                        onTap: () {
+                          Navigator.of(context)
+                              .pushReplacementNamed('/add_crop_screen');
                         },
                       ),
                     ],
@@ -421,7 +429,7 @@ class _AddProductState extends State<AddProductPageScreen> {
 
       product.expiryDate = DateFormat('yyyy-MM-dd').parse(formattedExpiryDate);
       final response = await http.post(
-        Uri.parse('http://192.168.56.1:8080/product/add'),
+        Uri.parse('http://172.28.14.76:8080/product/add'),
         headers: {'Content-Type': 'application/json'},
         body: jsonEncode(product.toJson()),
       );

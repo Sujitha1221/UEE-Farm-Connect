@@ -89,17 +89,17 @@ class _RBScreenState extends State<RequestBiddingPage> {
     print("farmer name : " + farmerName);
     try {
       final response = await client.get(
-        Uri.parse('http://192.168.56.1:8080/user/get-email/$farmerName'),
+        Uri.parse('http://172.28.14.76:8080/user/get-email/$farmerName'),
         headers: {'Content-Type': 'application/json'},
       );
 
       if (response.body != null) {
         final Map<String, dynamic> data = json.decode(response.body);
         String email = data['email'];
-        
+
         setState(() {
-      farmerUserNameController.text = email ?? '';
-    });
+          farmerUserNameController.text = email ?? '';
+        });
       } else {
         print('Request failed with status: ${response.statusCode}');
         print('Response body: ${response.body}');
@@ -377,7 +377,7 @@ class _RBScreenState extends State<RequestBiddingPage> {
   Future requestBidding(Bidding bidding) async {
     try {
       final response = await http.post(
-        Uri.parse('http://192.168.56.1:8080/payment/new-payment'),
+        Uri.parse('http://172.28.14.76:8080/payment/new-payment'),
         headers: {'Content-Type': 'application/json'},
         body: jsonEncode({
           "userNameTo": bidding.farmerUserName,
@@ -404,7 +404,7 @@ class _RBScreenState extends State<RequestBiddingPage> {
   Future makePayment(Bidding bidding) async {
     try {
       final response = await http.post(
-        Uri.parse('http://192.168.56.1:8080/bidding/new-bidding'),
+        Uri.parse('http://172.28.14.76:8080/bidding/new-bidding'),
         headers: {'Content-Type': 'application/json'},
         body: jsonEncode(bidding.toJson()),
       );

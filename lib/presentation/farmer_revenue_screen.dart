@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
+import 'package:form_structure/core/app_export.dart';
 import 'package:form_structure/widgets/custom_bottom_bar.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -44,7 +45,16 @@ class _RevenuePageState extends State<RevenuePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Revenue Chart")),
+      appBar: AppBar(
+        title: Text("Revenue Chart"),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.of(context)
+                .pushReplacementNamed(AppRoutes.farmerDashboardScreen);
+          },
+        ),
+      ),
       body: FutureBuilder<List<Payment>>(
         future: payments,
         builder: (context, snapshot) {

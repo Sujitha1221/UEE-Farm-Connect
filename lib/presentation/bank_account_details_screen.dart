@@ -208,6 +208,16 @@ class _BankAccountPageScreenState extends State<BankAccountPageScreen> {
                         hintText: "Email Address",
                         textInputAction: TextInputAction.done,
                         textInputType: TextInputType.emailAddress,
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return 'Please enter your email';
+                          } else if (!RegExp(
+                                  r"^[a-zA-Z0-9.]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                              .hasMatch(value)) {
+                            return 'Please enter a valid email address';
+                          }
+                          return null;
+                        },
                         prefix: Container(
                           margin: EdgeInsets.fromLTRB(27.h, 15.v, 17.h, 15.v),
                           child: CustomImageView(
@@ -228,6 +238,12 @@ class _BankAccountPageScreenState extends State<BankAccountPageScreen> {
                         hintText: "Bank Name",
                         textInputAction: TextInputAction.done,
                         textInputType: TextInputType.text,
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return 'Please enter the bank name';
+                          }
+                          return null;
+                        },
                         prefix: Container(
                           margin: EdgeInsets.fromLTRB(27.h, 15.v, 17.h, 15.v),
                           child: CustomImageView(
@@ -248,6 +264,12 @@ class _BankAccountPageScreenState extends State<BankAccountPageScreen> {
                         hintText: "Branch Name",
                         textInputAction: TextInputAction.done,
                         textInputType: TextInputType.text,
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return 'Please enter the branch name';
+                          }
+                          return null;
+                        },
                         prefix: Container(
                           margin: EdgeInsets.fromLTRB(27.h, 15.v, 17.h, 15.v),
                           child: CustomImageView(
@@ -268,6 +290,14 @@ class _BankAccountPageScreenState extends State<BankAccountPageScreen> {
                         hintText: "Branch Number",
                         textInputAction: TextInputAction.done,
                         textInputType: TextInputType.number,
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return 'Please enter the branch number';
+                          } else if (!RegExp(r"^\d{4}$").hasMatch(value)) {
+                            return 'Branch number should be 4 digits';
+                          }
+                          return null;
+                        },
                         prefix: Container(
                           margin: EdgeInsets.fromLTRB(27.h, 15.v, 17.h, 15.v),
                           child: CustomImageView(
@@ -288,6 +318,14 @@ class _BankAccountPageScreenState extends State<BankAccountPageScreen> {
                         hintText: "Account number",
                         textInputAction: TextInputAction.done,
                         textInputType: TextInputType.number,
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return 'Please enter the account number';
+                          } else if (!RegExp(r"^\d{8,12}$").hasMatch(value)) {
+                            return 'Account number should be between 8-12 digits';
+                          }
+                          return null;
+                        },
                         prefix: Container(
                           margin: EdgeInsets.fromLTRB(27.h, 15.v, 17.h, 15.v),
                           child: CustomImageView(
@@ -302,21 +340,23 @@ class _BankAccountPageScreenState extends State<BankAccountPageScreen> {
                         text: "SUBMIT",
                         margin: EdgeInsets.fromLTRB(37.h, 79.v, 23.h, 5.v),
                         onTap: () {
-                          int branchNumber =
-                              int.tryParse(branchNumberController.text) ?? 0;
-                          int accountNumber =
-                              int.tryParse(accountNumberController.text) ?? 0;
-                          print(
-                              "Sending request for email: ${emailController.text}");
-                          final bank = Bank(
-                            email: emailController.text,
-                            bankName: bankNameController.text,
-                            branchName: branchNameController.text,
-                            branchNumber: branchNumber,
-                            accountNumber: accountNumber,
-                          );
+                          if (_formKey.currentState!.validate()) {
+                            int branchNumber =
+                                int.tryParse(branchNumberController.text) ?? 0;
+                            int accountNumber =
+                                int.tryParse(accountNumberController.text) ?? 0;
+                            print(
+                                "Sending request for email: ${emailController.text}");
+                            final bank = Bank(
+                              email: emailController.text,
+                              bankName: bankNameController.text,
+                              branchName: branchNameController.text,
+                              branchNumber: branchNumber,
+                              accountNumber: accountNumber,
+                            );
 
-                          createBankDetails(bank);
+                            createBankDetails(bank);
+                          }
                         },
                       ),
                     ],
